@@ -32,7 +32,7 @@ async function startServer() {
 startServer();
 
 app.use(cors({
-  origin: 'http://localhost:4200'
+  origin: ['http://localhost:4200', 'https://studio.apollographql.com']
 }));
 
 app.listen(9000, () => {
