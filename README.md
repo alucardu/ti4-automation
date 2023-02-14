@@ -5,9 +5,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Stack
 This project is using Apollo Client & Apollo server to run its GraphQL server on NodeJS. Prisma is used as an ORM to handle the database and Angular is used as the front-end framework.
 
-## Prisma 
-Run: `npx prisma studio` to see the data in the database.
-
 ## Docker
 The mySQL database is running in a docker container.
 
@@ -19,3 +16,9 @@ Run `npm run startClient` to start the development server.
 
 ## Development graphQL server
 Run `npm run startServer` to start the graphQL server.
+
+## Prisma studio
+Run: `npm run prismaStudio` to see the data in the database.
+
+## How to run .ts files on NodeJS
+Run `ts-node --esm ./my-script.ts` to run a TypeScript file on a NodeJS environment.
