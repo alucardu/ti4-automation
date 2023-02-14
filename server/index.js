@@ -1,20 +1,51 @@
 import { ApolloServer, gql } from 'apollo-server-express';
 import express from 'express'
 import cors from 'cors';
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 const app = express()
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
+  type Session {
+    id: ID
+  }
+
   type Query {
-    hello: String
+    sessions: [Session]
+  }
+
+  type Mutation {
+    newSession: Session
+  }
+
+  type Mutation {
+    removeSession(id: ID!): Session
   }
 `;
 
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => 'Hello world!',
+    sessions: async () => {
+      return await prisma.session.findMany()
+    },
+  },
+
+  Mutation: {
+    newSession: async () => {
+      return await prisma.session.create()
+    },
+
+    removeSession: async (_, args) => {
+      return await prisma.session.delete({
+        where: {
+          id: Number(args.id)
+        }
+      });
+    }
   },
 };
 
@@ -32,7 +63,7 @@ async function startServer() {
 startServer();
 
 app.use(cors({
-  origin: 'http://localhost:4200'
+  origin: ['http://localhost:4200', 'https://studio.apollographql.com']
 }));
 
 app.listen(9000, () => {
