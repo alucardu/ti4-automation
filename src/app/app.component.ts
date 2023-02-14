@@ -1,37 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Apollo, gql, QueryRef } from 'apollo-angular';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 
-const GET_SESSIONS = gql`
-  query GetSession {
-    sessions {
-      id
-    }
+const GET_HELLO = gql`
+  query ExampleQuery {
+    hello
   }
 `
 
-const NEW_SESSION = gql`
-  mutation NewSession {
-    newSession {
-      id
-    }
-  }
-`
-
-const REMOVE_SESSION = gql`
-  mutation RemoveSession($id: ID!) {
-    removeSession(id: $id) {
-      id
-    }
-  }
-`;
-
-type SessionArray = {
-  sessions: Array<Session>
-}
-
-type Session = {
-  id: number;
+type Hello = {
+  hello: string;
 }
 
 @Component({
@@ -40,53 +17,23 @@ type Session = {
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   public title = 'ti4-automation';
-
-  public loadingSessions = false;
-  public sessions: Array<Session> = [];
-
-  private sessionsQuery!: QueryRef<any>;
-  private getSessionsSubscription: Subscription = new Subscription;
+  public loading = false;
+  public something: string = "Old world..."
 
   constructor(private apollo: Apollo) {}
 
   public ngOnInit(): void {
-    this.getSessions();
-  }
-
-  private getSessions(): void {
-    this.sessionsQuery = this.apollo.watchQuery<SessionArray>({
-      query: GET_SESSIONS,
-    })
-
-    this.getSessionsSubscription = this.sessionsQuery.valueChanges.subscribe(({data}) => {
-      this.sessions = data.sessions
-    })
-  }
-
-  public newSession(): void {
-    this.apollo.mutate({
-        mutation: NEW_SESSION
-    }).subscribe({
-      next: () => this.sessionsQuery.refetch(),
-      error: (error) => console.log(error),
-    });
-  }
-
-  public removeSession(index: number): void {
-    this.apollo.mutate({
-      mutation: REMOVE_SESSION,
-      variables: {
-        id: index,
-      },
-    }).subscribe({
-      next: () => this.sessionsQuery.refetch(),
-      error: (error) => console.log(error),
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.getSessionsSubscription.unsubscribe();
+    this.apollo.query<Hello>({
+      query: GET_HELLO
+    }).subscribe((
+      { data, loading}) => {
+        this.loading = true;
+        setTimeout(() => {
+          this.something = data.hello;
+          this.loading = loading;
+        }, 2500)
+      })
   }
 }
