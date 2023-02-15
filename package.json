@@ -5,7 +5,7 @@
     "ng": "ng",
     "startClient": "ng serve",
     "startServer": "nodemon ./server/index.js",
-    "prismaStudio": "npx prisma studio",
+    "startPrisma": "npx prisma studio",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

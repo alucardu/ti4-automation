@@ -1,38 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 
-const GET_SESSIONS = gql`
-  query GetSession {
-    sessions {
-      id
-    }
-  }
-`
-
-const NEW_SESSION = gql`
-  mutation NewSession {
-    newSession {
-      id
-    }
-  }
-`
-
-const REMOVE_SESSION = gql`
-  mutation RemoveSession($id: ID!) {
-    removeSession(id: $id) {
-      id
-    }
-  }
-`;
-
-type SessionArray = {
-  sessions: Array<Session>
-}
-
-type Session = {
-  id: number;
-}
+import * as sessionType from '../types/sessionTypes';
+import sessionOperation from '../operations/sessionOperations'
 
 @Component({
   selector: 'app-root',
@@ -44,9 +15,9 @@ export class AppComponent implements OnInit, OnDestroy {
   public title = 'ti4-automation';
 
   public loadingSessions = false;
-  public sessions: Array<Session> = [];
+  public sessions: Array<sessionType.Session> = [];
 
-  private sessionsQuery!: QueryRef<any>;
+  private sessionsQuery!: QueryRef<sessionType.SessionArray>;
   private getSessionsSubscription: Subscription = new Subscription;
 
   constructor(private apollo: Apollo) {}
@@ -56,8 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private getSessions(): void {
-    this.sessionsQuery = this.apollo.watchQuery<SessionArray>({
-      query: GET_SESSIONS,
+    this.sessionsQuery = this.apollo.watchQuery<sessionType.SessionArray>({
+      query: sessionOperation.GET_SESSIONS,
     })
 
     this.getSessionsSubscription = this.sessionsQuery.valueChanges.subscribe(({data}) => {
@@ -67,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public newSession(): void {
     this.apollo.mutate({
-        mutation: NEW_SESSION
+        mutation: sessionOperation.NEW_SESSION
     }).subscribe({
       next: () => this.sessionsQuery.refetch(),
       error: (error) => console.log(error),
@@ -76,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public removeSession(index: number): void {
     this.apollo.mutate({
-      mutation: REMOVE_SESSION,
+      mutation: sessionOperation.REMOVE_SESSION,
       variables: {
         id: index,
       },
