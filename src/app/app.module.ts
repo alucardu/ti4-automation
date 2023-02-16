@@ -4,15 +4,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NewSessionComponent } from './session/new-session/new-session.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NewSessionComponent
   ],
   imports: [
     BrowserModule,
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

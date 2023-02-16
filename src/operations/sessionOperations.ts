@@ -4,14 +4,18 @@ const GET_SESSIONS = gql`
   query GetSessions {
     sessions {
       id
+      code
+      name
     }
   }
 `
 
 const NEW_SESSION = gql`
-  mutation NewSession {
-    newSession {
+  mutation NewSession($name: String!) {
+    newSession(name: $name) {
       id
+      code
+      name
     }
   }
 `

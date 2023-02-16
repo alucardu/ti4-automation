@@ -1,8 +1,8 @@
 Number of sessions {{sessions.length}}<br/>
 
-Create new session: <button (click)="newSession()">New session</button><br/>
-
 <div *ngFor="let session of sessions">
-  <span>{{session.id}}</span>
+  <span>{{session.id}}</span> -- <span>{{session.code}}</span> -- <span>{{session.name}}</span>
   <button (click)="removeSession(session.id)">x</button>
 </div>
+
+<app-new-session></app-new-session>

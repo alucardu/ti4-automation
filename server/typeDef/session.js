@@ -4,6 +4,8 @@ import { gql } from "apollo-server-express";
 export const sessionTypeDefs = gql`
   type Session {
     id: ID
+    code: String
+    name: String
   }
 
   type Query {
@@ -11,7 +13,7 @@ export const sessionTypeDefs = gql`
   }
 
   type Mutation {
-    newSession: Session
+    newSession(name: String!): Session
     removeSession(id: ID!): Session
   }
 `;
