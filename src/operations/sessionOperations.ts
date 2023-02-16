@@ -1,8 +1,18 @@
 import { gql } from 'apollo-angular';
 
+const GET_SESSION = gql`
+  query GetSession($code: String!) {
+    getSession(code: $code) {
+      id
+      code
+      name
+    }
+  }
+`
+
 const GET_SESSIONS = gql`
   query GetSessions {
-    sessions {
+    getSessions {
       id
       code
       name
@@ -10,9 +20,9 @@ const GET_SESSIONS = gql`
   }
 `
 
-const NEW_SESSION = gql`
-  mutation NewSession($name: String!) {
-    newSession(name: $name) {
+const CREATE_SESSION = gql`
+  mutation CreateSession($name: String!) {
+    createSession(name: $name) {
       id
       code
       name
@@ -20,16 +30,17 @@ const NEW_SESSION = gql`
   }
 `
 
-const REMOVE_SESSION = gql`
-  mutation RemoveSession($id: ID!) {
-    removeSession(id: $id) {
+const DELETE_SESSION = gql`
+  mutation DeleteSession($id: ID!) {
+    deleteSession(id: $id) {
       id
     }
   }
 `;
 
 export default {
+  GET_SESSION,
   GET_SESSIONS,
-  NEW_SESSION,
-  REMOVE_SESSION
+  CREATE_SESSION,
+  DELETE_SESSION
 }

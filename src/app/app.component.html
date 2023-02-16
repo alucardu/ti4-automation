@@ -2,7 +2,11 @@ Number of sessions {{sessions.length}}<br/>
 
 <div *ngFor="let session of sessions">
   <span>{{session.id}}</span> -- <span>{{session.code}}</span> -- <span>{{session.name}}</span>
-  <button (click)="removeSession(session.id)">x</button>
+  <button (click)="deleteSession(session.id)">x</button>
 </div>
 
-<app-new-session></app-new-session>
+<button (click)="setActionType(actionTypeEnum.JOIN)">Join a session</button>
+<button (click)="setActionType(actionTypeEnum.CREATE)">Create a session</button>
+
+<app-join-session *ngIf="actionType === actionTypeEnum.JOIN"></app-join-session>
+<app-new-session *ngIf="actionType === actionTypeEnum.CREATE"></app-new-session>

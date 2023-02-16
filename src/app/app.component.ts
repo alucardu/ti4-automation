@@ -5,6 +5,11 @@ import { Subscription } from 'rxjs';
 import * as sessionType from '../types/sessionTypes';
 import sessionOperation from '../operations/sessionOperations'
 
+enum actionType {
+  JOIN = 'join',
+  CREATE = 'create',
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,13 +17,14 @@ import sessionOperation from '../operations/sessionOperations'
 })
 
 export class AppComponent implements OnInit, OnDestroy {
-  public title = 'ti4-automation';
+  private sessionsQuery!: QueryRef<sessionType.GetSessions>;
+  private getSessionsSubscription: Subscription = new Subscription;
 
+  public title = 'ti4-automation';
   public loadingSessions = false;
   public sessions: Array<sessionType.Session> = [];
-
-  private sessionsQuery!: QueryRef<sessionType.SessionArray>;
-  private getSessionsSubscription: Subscription = new Subscription;
+  public actionTypeEnum = actionType;
+  public actionType!: actionType
 
   constructor(private apollo: Apollo) {}
 
@@ -27,18 +33,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private getSessions(): void {
-    this.sessionsQuery = this.apollo.watchQuery<sessionType.SessionArray>({
+    this.sessionsQuery = this.apollo.watchQuery<sessionType.GetSessions>({
       query: sessionOperation.GET_SESSIONS,
     })
 
     this.getSessionsSubscription = this.sessionsQuery.valueChanges.subscribe(({data}) => {
-      this.sessions = data.sessions
+      this.sessions = data.getSessions
     })
   }
 
-  public removeSession(index: number): void {
+  public setActionType(actionType: actionType): void {
+    this.actionType = actionType;
+  }
+
+  public deleteSession(index: number): void {
     this.apollo.mutate({
-      mutation: sessionOperation.REMOVE_SESSION,
+      mutation: sessionOperation.DELETE_SESSION,
       variables: {
         id: index,
       },
