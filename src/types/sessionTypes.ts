@@ -4,4 +4,6 @@ export type SessionArray = {
 
 export type Session = {
   id: number;
+  code: number;
+  name: string;
 }

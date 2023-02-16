@@ -1,0 +1,19 @@
+<label for="name">Name: </label>
+<input
+  id="name"
+  type="text"
+  placeholder="Session name"
+  [formControl]="name"
+><button [disabled]="name.invalid" (click)="newSession()">New session</button><br/>
+
+<div *ngIf="name.invalid && (name.dirty || name.touched)">
+  <div *ngIf="name.errors?.['required']">
+    Name is required.
+  </div>
+  <div *ngIf="name.errors?.['minlength']">
+    Name must be between 4 and 16 charachters long.
+  </div>
+  <div *ngIf="name.errors?.['maxlength']">
+    Name cannot be longer than 16 characters.
+  </div>
+</div>

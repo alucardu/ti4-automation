@@ -36,15 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
     })
   }
 
-  public newSession(): void {
-    this.apollo.mutate({
-        mutation: sessionOperation.NEW_SESSION
-    }).subscribe({
-      next: () => this.sessionsQuery.refetch(),
-      error: (error) => console.log(error),
-    });
-  }
-
   public removeSession(index: number): void {
     this.apollo.mutate({
       mutation: sessionOperation.REMOVE_SESSION,

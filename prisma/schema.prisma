@@ -11,5 +11,7 @@ datasource db {
 }
 
 model Session {
-  id            Int         @id   @default(autoincrement())
+  id            Int         @id       @default(autoincrement())
+  name          String
+  code          String      @unique
 }
