@@ -9,11 +9,12 @@ export const sessionTypeDefs = gql`
   }
 
   type Query {
-    sessions: [Session]
+    getSession(code: String!): Session
+    getSessions: [Session]
   }
 
   type Mutation {
-    newSession(name: String!): Session
-    removeSession(id: ID!): Session
+    createSession(name: String!): Session
+    deleteSession(id: ID!): Session
   }
 `;

@@ -1,9 +1,13 @@
-export type SessionArray = {
-  sessions: Array<Session>
+export type GetSessions = {
+  getSessions: Array<Session>
+}
+
+export type GetSession = {
+  getSession: Session;
 }
 
 export type Session = {
   id: number;
-  code: number;
+  code: string;
   name: string;
 }

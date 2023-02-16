@@ -6,11 +6,13 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewSessionComponent } from './session/new-session/new-session.component';
+import { JoinSessionComponent } from './session/join-session/join-session.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewSessionComponent
+    NewSessionComponent,
+    JoinSessionComponent
   ],
   imports: [
     BrowserModule,

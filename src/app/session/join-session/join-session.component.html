@@ -1,0 +1,28 @@
+<label for="code">Join session: </label>
+<input
+  id="code"
+  type="text"
+  placeholder="Session code"
+  [formControl]="code"
+  maxlength="6"
+><button
+  [disabled]="code.invalid"
+  (click)="joinSession(code)"
+>Enter</button>
+
+<div *ngIf="code.invalid && (code.dirty || code.touched)">
+  <div *ngIf="code.errors?.['minlength']">
+    Code must 6 charachters long.
+  </div>
+  <div *ngIf="code.errors?.['pattern']">
+    Code is a number
+  </div>
+</div>
+
+<div *ngIf="errorMessage">
+  Session not found
+</div>
+
+<div *ngIf="session">
+  name: {{session.name}}
+</div>

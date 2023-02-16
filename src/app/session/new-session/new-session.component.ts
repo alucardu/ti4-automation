@@ -11,7 +11,7 @@ import * as sessionType from '../../../types/sessionTypes';
 })
 
 export class NewSessionComponent implements OnInit {
-  private sessionsQuery!: QueryRef<sessionType.SessionArray>;
+  private sessionsQuery!: QueryRef<sessionType.GetSessions>;
 
   public name = new FormControl('', [
     Validators.required,
@@ -22,14 +22,14 @@ export class NewSessionComponent implements OnInit {
   constructor(private apollo: Apollo) {}
 
   public ngOnInit(): void {
-    this.sessionsQuery = this.apollo.watchQuery<sessionType.SessionArray>({
+    this.sessionsQuery = this.apollo.watchQuery<sessionType.GetSessions>({
       query: sessionOperations.GET_SESSIONS,
     })
   }
 
-  public newSession(): void {
+  public createSession(): void {
     this.apollo.mutate({
-        mutation: sessionOperations.NEW_SESSION,
+        mutation: sessionOperations.CREATE_SESSION,
         variables: {
           name: this.name.value
         }

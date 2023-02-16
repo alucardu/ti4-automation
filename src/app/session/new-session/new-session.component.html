@@ -4,7 +4,10 @@
   type="text"
   placeholder="Session name"
   [formControl]="name"
-><button [disabled]="name.invalid" (click)="newSession()">New session</button><br/>
+><button
+  [disabled]="name.invalid"
+  (click)="createSession()"
+>New session</button>
 
 <div *ngIf="name.invalid && (name.dirty || name.touched)">
   <div *ngIf="name.errors?.['required']">
