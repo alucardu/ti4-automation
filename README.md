@@ -22,3 +22,7 @@ Run: `npm run prismaStudio` to see the data in the database.
 
 ## How to run .ts files on NodeJS
 Run `ts-node --esm ./my-script.ts` to run a TypeScript file on a NodeJS environment.
+
+## How to migrate Prisma schema changes
+1. Update the `schema.prisma` file
+2. Create an migration `prisma migrate dev --name <name>`

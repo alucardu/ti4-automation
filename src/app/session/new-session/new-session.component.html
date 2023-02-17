@@ -3,20 +3,20 @@
   id="name"
   type="text"
   placeholder="Session name"
-  [formControl]="name"
+  [formControl]="sessionName"
 ><button
-  [disabled]="name.invalid"
+  [disabled]="sessionName.invalid"
   (click)="createSession()"
 >New session</button>
 
-<div *ngIf="name.invalid && (name.dirty || name.touched)">
-  <div *ngIf="name.errors?.['required']">
+<div *ngIf="sessionName.invalid && (sessionName.dirty || sessionName.touched)">
+  <div *ngIf="sessionName.errors?.['required']">
     Name is required.
   </div>
-  <div *ngIf="name.errors?.['minlength']">
+  <div *ngIf="sessionName.errors?.['minlength']">
     Name must be between 4 and 16 charachters long.
   </div>
-  <div *ngIf="name.errors?.['maxlength']">
+  <div *ngIf="sessionName.errors?.['maxlength']">
     Name cannot be longer than 16 characters.
   </div>
 </div>

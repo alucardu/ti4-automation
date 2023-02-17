@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 import * as sessionType from '../types/sessionTypes';
 import sessionOperation from '../operations/sessionOperations'
+import { SessionService } from './session/session.service';
 
 enum actionType {
   JOIN = 'join',
@@ -22,11 +23,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public title = 'ti4-automation';
   public loadingSessions = false;
-  public sessions: Array<sessionType.Session> = [];
+  public sessions: Array<sessionType.Session> = []
+  public session: sessionType.Session | undefined;
   public actionTypeEnum = actionType;
   public actionType!: actionType
 
-  constructor(private apollo: Apollo) {}
+  protected session$ = this.sessionService.session$;
+
+  private subscription!: Subscription;
+
+  constructor(
+    private apollo: Apollo,
+    private sessionService: SessionService
+  ) {}
 
   public ngOnInit(): void {
     this.getSessions();
@@ -55,10 +64,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }).subscribe({
       next: () => this.sessionsQuery.refetch(),
       error: (error) => console.log(error),
+      complete: () => console.log('complete')
     });
   }
 
   public ngOnDestroy(): void {
     this.getSessionsSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

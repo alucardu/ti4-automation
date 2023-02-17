@@ -7,12 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewSessionComponent } from './session/new-session/new-session.component';
 import { JoinSessionComponent } from './session/join-session/join-session.component';
+import { NewUserComponent } from './user/new-user/new-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewSessionComponent,
-    JoinSessionComponent
+    JoinSessionComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,

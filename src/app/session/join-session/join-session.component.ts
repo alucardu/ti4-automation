@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import * as sessionType from 'src/types/sessionTypes';
 import sessionOperations from 'src/operations/sessionOperations';
 import { stringIsSetAndFilled } from 'src/app/util/stringUtils';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-join-session',
@@ -26,7 +27,8 @@ export class JoinSessionComponent implements OnDestroy {
   public session!: sessionType.Session | null;
 
   constructor(
-    private apollo: Apollo
+    private apollo: Apollo,
+    private sessionService: SessionService,
   ) {}
 
   public joinSession(code: FormControl) {
@@ -42,6 +44,7 @@ export class JoinSessionComponent implements OnDestroy {
       if (stringIsSetAndFilled(data.getSession?.code)) {
         this.errorMessage = false;
         this.session = data.getSession
+        this.sessionService.setSession(data.getSession)
       } else {
         this.errorMessage = true;
         this.session = null
