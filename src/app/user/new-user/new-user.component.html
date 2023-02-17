@@ -1,0 +1,21 @@
+<input
+  id="userName"
+  type="text"
+  placeholder="Your username"
+  [formControl]="userName"
+><button
+  [disabled]="userName.invalid"
+  (click)="createUserName(userName)"
+>Start</button>
+
+<div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+  <div *ngIf="userName.errors?.['required']">
+    Username is required.
+  </div>
+  <div *ngIf="userName.errors?.['minlength']">
+    Username must be atleast 3 characters long.
+  </div>
+  <div *ngIf="userName.errors?.['maxlength']">
+    Username cannot be longer than 8 characters.
+  </div>
+</div>

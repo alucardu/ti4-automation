@@ -8,5 +8,15 @@ Number of sessions {{sessions.length}}<br/>
 <button (click)="setActionType(actionTypeEnum.JOIN)">Join a session</button>
 <button (click)="setActionType(actionTypeEnum.CREATE)">Create a session</button>
 
-<app-join-session *ngIf="actionType === actionTypeEnum.JOIN"></app-join-session>
-<app-new-session *ngIf="actionType === actionTypeEnum.CREATE"></app-new-session>
+<ng-container *ngIf="actionType === actionTypeEnum.JOIN">
+  <app-join-session></app-join-session>
+  <app-new-user
+    *ngIf="session$ | async as session"
+    [session]="session"
+  ></app-new-user>
+</ng-container>
+
+<ng-container *ngIf="actionType === actionTypeEnum.CREATE">
+  <app-new-session></app-new-session>
+</ng-container>
+

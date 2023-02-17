@@ -15,3 +15,8 @@ model Session {
   name          String
   code          String      @unique
 }
+
+model User {
+  id            Int         @id       @default(autoincrement())
+  name          String
+}

@@ -6,6 +6,9 @@ import cors from 'cors';
 import { sessionTypeDefs } from './typeDef/session.js'
 import { sessionResolvers } from './resolvers/session.js'
 
+import { userTypeDefs } from './typeDef/user.js'
+import { userResolvers } from './resolvers/user.js';
+
 const app = express()
 
 let apolloServer = {
@@ -14,8 +17,8 @@ let apolloServer = {
 
 async function startServer() {
   const apolloServer = new ApolloServer({
-    typeDefs: [sessionTypeDefs],
-    resolvers: [sessionResolvers]
+    typeDefs: [sessionTypeDefs, userTypeDefs],
+    resolvers: [sessionResolvers, userResolvers]
   })
   await apolloServer.start();
   apolloServer.applyMiddleware({app, path: "/graphQL"})

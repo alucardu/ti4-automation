@@ -13,7 +13,7 @@ import * as sessionType from '../../../types/sessionTypes';
 export class NewSessionComponent implements OnInit {
   private sessionsQuery!: QueryRef<sessionType.GetSessions>;
 
-  public name = new FormControl('', [
+  public sessionName = new FormControl('', [
     Validators.required,
     Validators.minLength(4),
     Validators.maxLength(16)
@@ -31,14 +31,14 @@ export class NewSessionComponent implements OnInit {
     this.apollo.mutate({
         mutation: sessionOperations.CREATE_SESSION,
         variables: {
-          name: this.name.value
+          name: this.sessionName.value
         }
     }).subscribe({
       next: () => {
         this.sessionsQuery.refetch()
-        this.name.reset()
+        this.sessionName.reset()
       },
-      error: (error) => console.log(error),
+      error: (e) => console.log(e),
     });
   }
 }
