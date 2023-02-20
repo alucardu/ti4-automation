@@ -10,8 +10,14 @@ const GET_USER = gql`
 `
 
 const CREATE_USER = gql`
-  mutation CreateUser($name: String!) {
-    createUser(name: $name) {
+  mutation CreateUser(
+    $name: String!
+    $sessionId: ID!
+  ) {
+    createUser(
+      name: $name
+      sessionId: $sessionId
+    ) {
       id
       name
     }

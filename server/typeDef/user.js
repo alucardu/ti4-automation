@@ -8,6 +8,9 @@ export const userTypeDefs = gql`
   }
 
   type Mutation {
-    createUser(name: String!): User
+    createUser(
+      name: String!
+      sessionId: ID!
+    ): User
   }
 `;

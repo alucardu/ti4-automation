@@ -23,12 +23,11 @@ export class NewUserComponent {
   ) {}
 
   public createUserName(userName: FormControl): void {
-    console.log(userName.value)
-
     this.apollo.mutate({
       mutation: userOperations.CREATE_USER,
       variables: {
-        name: userName.value
+        name: userName.value,
+        sessionId: this.session.id
       }
     }).subscribe({
       next: (user) => console.log(user),

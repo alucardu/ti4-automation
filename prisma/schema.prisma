@@ -10,13 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            Int         @id       @default(autoincrement())
+  name          String
+  session       Session?    @relation(fields: [sessionId], references: [id])
+  sessionId     Int?
+}
+
 model Session {
   id            Int         @id       @default(autoincrement())
   name          String
   code          String      @unique
-}
-
-model User {
-  id            Int         @id       @default(autoincrement())
-  name          String
+  players       User[]
 }

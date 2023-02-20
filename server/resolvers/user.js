@@ -9,6 +9,9 @@ export const userResolvers = {
       return await prisma.user.create({
         data: {
           name: args.name,
+          session: {
+            connect: { id: Number(args.sessionId) },
+          }
         }
       })
     },
