@@ -10,10 +10,10 @@ Number of sessions {{sessions.length}}<br/>
 
 <ng-container *ngIf="actionType === actionTypeEnum.JOIN">
   <app-join-session></app-join-session>
-  <app-new-user
-    *ngIf="session$ | async as session"
-    [session]="session"
-  ></app-new-user>
+  <ng-container *ngIf="session$ | async as session">
+    <app-current-players [session]="session"></app-current-players>
+    <app-new-user [session]="session"></app-new-user>
+  </ng-container>
 </ng-container>
 
 <ng-container *ngIf="actionType === actionTypeEnum.CREATE">

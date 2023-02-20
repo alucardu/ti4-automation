@@ -10,6 +10,9 @@ export const sessionResolvers = {
       return await prisma.session.findUnique({
         where: {
           code: args.code
+        },
+        include: {
+          players: true
         }
       })
     },
