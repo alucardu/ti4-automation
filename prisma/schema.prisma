@@ -11,16 +11,29 @@ datasource db {
 }
 
 model User {
-  id            Int         @id       @default(autoincrement())
-  name          String
-  session       Session?    @relation(fields: [sessionId], references: [id])
-  sessionId     Int?
+  id        Int       @id @default(autoincrement())
+  name      String
+  messages  Message[] @relation(name: "userMessage")
+  messageId Int?
+  session   Session?  @relation(fields: [sessionId], references: [id])
+  sessionId Int?
+
   @@unique([sessionId, name])
 }
 
 model Session {
-  id            Int         @id       @default(autoincrement())
-  name          String
-  code          String      @unique
-  players       User[]
+  id       Int       @id @default(autoincrement())
+  name     String
+  code     String    @unique
+  players  User[]
+  messages Message[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  message   String
+  user      User?    @relation(name: "userMessage", fields: [userId], references: [id])
+  userId    Int
+  session   Session? @relation(fields: [sessionId], references: [id])
+  sessionId Int?
 }

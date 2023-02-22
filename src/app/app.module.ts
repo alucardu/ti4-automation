@@ -9,6 +9,7 @@ import { NewSessionComponent } from './session/new-session/new-session.component
 import { JoinSessionComponent } from './session/join-session/join-session.component';
 import { NewUserComponent } from './user/new-user/new-user.component';
 import { CurrentPlayersComponent } from './session/current-players/current-players.component';
+import { NewMessageComponent } from './messages/new-message/new-message.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CurrentPlayersComponent } from './session/current-players/current-playe
     NewSessionComponent,
     JoinSessionComponent,
     NewUserComponent,
-    CurrentPlayersComponent
+    CurrentPlayersComponent,
+    NewMessageComponent
   ],
   imports: [
     BrowserModule,

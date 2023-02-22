@@ -9,6 +9,9 @@ import { sessionResolvers } from './resolvers/session.js'
 import { userTypeDefs } from './typeDef/user.js'
 import { userResolvers } from './resolvers/user.js';
 
+import { messageTypeDefs } from './typeDef/message.js'
+import { messageResolvers } from './resolvers/message.js'
+
 const app = express()
 
 let apolloServer = {
@@ -17,8 +20,8 @@ let apolloServer = {
 
 async function startServer() {
   const apolloServer = new ApolloServer({
-    typeDefs: [sessionTypeDefs, userTypeDefs],
-    resolvers: [sessionResolvers, userResolvers]
+    typeDefs: [sessionTypeDefs, userTypeDefs, messageTypeDefs],
+    resolvers: [sessionResolvers, userResolvers, messageResolvers]
   })
   await apolloServer.start();
   apolloServer.applyMiddleware({app, path: "/graphQL"})
