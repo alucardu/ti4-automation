@@ -6,14 +6,18 @@ const prisma = new PrismaClient()
 export const userResolvers = {
   Mutation: {
     createUser: async (_, args) => {
-      return await prisma.user.create({
-        data: {
-          name: args.name,
-          session: {
-            connect: { id: Number(args.sessionId) },
+      try {
+        return await prisma.user.create({
+          data: {
+            name: args.name,
+            session: {
+              connect: { id: Number(args.sessionId) },
+            }
           }
-        }
-      })
+        })
+      } catch (err) {
+        throw new Error('Username already exists');
+      }
     },
   },
 };
