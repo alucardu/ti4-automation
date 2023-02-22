@@ -1,0 +1,3 @@
+  <div *ngFor="let message of messages$ | async as messages" >
+    {{message.user.name}}: {{message.message}}
+  </div>

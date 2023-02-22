@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import { UserService } from 'src/app/user/new-user/user.service';
 import messageOperations from 'src/operations/messageOperations';
+import { CreateMessage } from 'src/types/messageTypes';
 import { Session } from 'src/types/sessionTypes';
 import { User } from 'src/types/userTypes';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-new-message',
@@ -22,11 +23,11 @@ export class NewMessageComponent {
 
   constructor(
     private apollo: Apollo,
-    private userService: UserService,
+    private messageService: MessageService
   ) {}
 
   public sendMessage(): void {
-    this.apollo.mutate({
+    this.apollo.mutate<CreateMessage>({
       mutation: messageOperations.CREATE_MESSAGE,
       variables: {
         sessionId: this.session.id,
@@ -34,7 +35,10 @@ export class NewMessageComponent {
         message: this.message.value
       }
     }).subscribe({
-      next: ({data}) => console.log(data),
+      next: ({data}) => {
+        console.log(data)
+        this.messageService.setMessage(data!.createMessage)
+      },
       error: (err) => console.log(err)
     })
   }

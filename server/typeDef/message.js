@@ -5,6 +5,13 @@ export const messageTypeDefs = gql`
   type Message {
     id: ID,
     message: String
+    user: User
+  }
+
+  type Query {
+    getMessages(
+      sessionId: ID!
+    ): [Message]
   }
 
   type Mutation {

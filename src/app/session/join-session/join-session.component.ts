@@ -3,10 +3,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 
-import * as sessionType from 'src/types/sessionTypes';
 import sessionOperations from 'src/operations/sessionOperations';
 import { stringIsSetAndFilled } from 'src/app/util/stringUtils';
 import { SessionService } from '../session.service';
+import { GetSession, Session } from 'src/types/sessionTypes';
 
 @Component({
   selector: 'app-join-session',
@@ -14,7 +14,7 @@ import { SessionService } from '../session.service';
   styleUrls: ['./join-session.component.scss']
 })
 export class JoinSessionComponent implements OnDestroy {
-  private sessionQuery!: QueryRef<sessionType.GetSession>;
+  private sessionQuery!: QueryRef<GetSession>;
   private getSessionSubscription: Subscription = new Subscription;
 
   public code = new FormControl('', [
@@ -24,7 +24,7 @@ export class JoinSessionComponent implements OnDestroy {
   ])
 
   public errorMessage: boolean = false;
-  public session!: sessionType.Session | null;
+  public session!: Session | null;
 
   constructor(
     private apollo: Apollo,
@@ -32,7 +32,7 @@ export class JoinSessionComponent implements OnDestroy {
   ) {}
 
   public joinSession(code: FormControl) {
-    this.sessionQuery = this.apollo.watchQuery<sessionType.GetSession>({
+    this.sessionQuery = this.apollo.watchQuery<GetSession>({
       fetchPolicy: 'cache-and-network',
       query: sessionOperations.GET_SESSION,
       variables: {
@@ -54,6 +54,5 @@ export class JoinSessionComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.getSessionSubscription.unsubscribe();
-
   }
 }

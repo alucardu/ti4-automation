@@ -1,5 +1,21 @@
 import { gql } from 'apollo-angular';
 
+const GET_MESSAGES = gql`
+  query GetMessages(
+    $sessionId: ID!
+  ) {
+    getMessages(
+      sessionId: $sessionId
+    ) {
+      message
+      user {
+        id
+        name
+      }
+    }
+  }
+`
+
 const CREATE_MESSAGE = gql`
   mutation CreateMessage(
     $sessionId: ID!
@@ -12,9 +28,14 @@ const CREATE_MESSAGE = gql`
       message: $message
     ) {
       message
+      user {
+        id
+        name
+      }
     }
   }
 `
 export default {
-  CREATE_MESSAGE
+  CREATE_MESSAGE,
+  GET_MESSAGES
 }
