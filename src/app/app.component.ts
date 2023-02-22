@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import * as sessionType from '../types/sessionTypes';
 import sessionOperation from '../operations/sessionOperations'
 import { SessionService } from './session/session.service';
+import { UserService } from './user/new-user/user.service';
 
 enum actionType {
   JOIN = 'join',
@@ -29,12 +30,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public actionType!: actionType
 
   protected session$ = this.sessionService.session$;
+  protected user$ = this.userService.user$;
 
   private subscription!: Subscription;
 
   constructor(
     private apollo: Apollo,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private userService: UserService,
   ) {}
 
   public ngOnInit(): void {

@@ -13,10 +13,15 @@ Number of sessions {{sessions.length}}<br/>
   <ng-container *ngIf="session$ | async as session">
     <app-current-players [session]="session"></app-current-players>
     <app-new-user [session]="session"></app-new-user>
+    <div *ngIf="user$ | async as user" class="messages">
+      <app-new-message
+        [session]="session"
+        [user]="user"
+      ></app-new-message>
+    </div>
   </ng-container>
 </ng-container>
 
 <ng-container *ngIf="actionType === actionTypeEnum.CREATE">
   <app-new-session></app-new-session>
 </ng-container>
-

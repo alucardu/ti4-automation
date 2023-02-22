@@ -6,6 +6,7 @@ import { SessionService } from 'src/app/session/session.service';
 import userOperations from 'src/operations/userOperations';
 import * as sessionType from 'src/types/sessionTypes';
 import { CreateUser, User } from 'src/types/userTypes';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-new-user',
@@ -26,6 +27,7 @@ export class NewUserComponent {
   constructor(
     private apollo: Apollo,
     private sessionService: SessionService,
+    private userService: UserService,
   ) {}
 
   public createUserName(userName: FormControl): void {
@@ -39,11 +41,11 @@ export class NewUserComponent {
     .subscribe({
       next: ({data}) => {
         this.sessionService.addUserToSession(this.session, data!.createUser)
+        this.userService.setUser(data!.createUser)
       },
       error: (e: GraphQLError) => {
         this.errorMessage = {...e}.message;
       }
     })
   }
-
 }
