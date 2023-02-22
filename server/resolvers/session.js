@@ -12,8 +12,12 @@ export const sessionResolvers = {
           code: args.code
         },
         include: {
-          players: true
-        }
+          players: {
+            orderBy: {
+              id: 'asc',
+            },
+          },
+        },
       })
     },
 
