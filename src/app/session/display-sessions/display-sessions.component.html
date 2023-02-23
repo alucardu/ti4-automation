@@ -1,0 +1,4 @@
+<div *ngFor="let session of sessions">
+  <span>{{session.id}}</span> -- <span>{{session.code}}</span> -- <span>{{session.name}}</span>
+  <button (click)="deleteSession(session.id)">x</button>
+</div>

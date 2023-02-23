@@ -12,6 +12,7 @@ import { CurrentPlayersComponent } from './session/current-players/current-playe
 import { NewMessageComponent } from './messages/new-message/new-message.component';
 import { DisplayMessagesComponent } from './messages/display-messages/display-messages.component';
 import { RefreshMessagesComponent } from './messages/refresh-messages/refresh-messages.component';
+import { DisplaySessionsComponent } from './session/display-sessions/display-sessions.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RefreshMessagesComponent } from './messages/refresh-messages/refresh-me
     CurrentPlayersComponent,
     NewMessageComponent,
     DisplayMessagesComponent,
-    RefreshMessagesComponent
+    RefreshMessagesComponent,
+    DisplaySessionsComponent
   ],
   imports: [
     BrowserModule,

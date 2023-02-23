@@ -1,21 +1,21 @@
-<label for="code">Join session: </label>
+<label for="sessionCode">Join session: </label>
 <input
-  id="code"
+  id="sessionCode"
   type="text"
   placeholder="Session code"
-  [formControl]="code"
+  [formControl]="sessionCode"
   maxlength="6"
 ><button
-  [disabled]="code.invalid"
-  (click)="joinSession(code)"
+  [disabled]="sessionCode.invalid"
+  (click)="joinSession(sessionCode)"
 >Enter</button>
 
-<div *ngIf="code.invalid && (code.dirty || code.touched)">
-  <div *ngIf="code.errors?.['minlength']">
-    Code must 6 charachters long.
+<div *ngIf="sessionCode.invalid && (sessionCode.dirty || sessionCode.touched)">
+  <div *ngIf="sessionCode.errors?.['minlength']">
+    Session code must 6 charachters long.
   </div>
-  <div *ngIf="code.errors?.['pattern']">
-    Code is a number
+  <div *ngIf="sessionCode.errors?.['pattern']">
+    Session code is a number
   </div>
 </div>
 
