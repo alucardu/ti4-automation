@@ -11,6 +11,7 @@ import { NewUserComponent } from './user/new-user/new-user.component';
 import { CurrentPlayersComponent } from './session/current-players/current-players.component';
 import { NewMessageComponent } from './messages/new-message/new-message.component';
 import { DisplayMessagesComponent } from './messages/display-messages/display-messages.component';
+import { RefreshMessagesComponent } from './messages/refresh-messages/refresh-messages.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DisplayMessagesComponent } from './messages/display-messages/display-me
     NewUserComponent,
     CurrentPlayersComponent,
     NewMessageComponent,
-    DisplayMessagesComponent
+    DisplayMessagesComponent,
+    RefreshMessagesComponent
   ],
   imports: [
     BrowserModule,
