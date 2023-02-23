@@ -15,7 +15,7 @@ model User {
   name      String
   messages  Message[] @relation(name: "userMessage")
   messageId Int?
-  session   Session?  @relation(fields: [sessionId], references: [id])
+  session   Session?  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   sessionId Int?
 
   @@unique([sessionId, name])
@@ -32,7 +32,7 @@ model Session {
 model Message {
   id        Int      @id @default(autoincrement())
   message   String
-  user      User?    @relation(name: "userMessage", fields: [userId], references: [id])
+  user      User?    @relation(name: "userMessage", fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   session   Session? @relation(fields: [sessionId], references: [id])
   sessionId Int?
