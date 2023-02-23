@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms'
 import { Apollo, QueryRef } from 'apollo-angular';
 import sessionOperations from 'src/operations/sessionOperations';
-import * as sessionType from '../../../types/sessionTypes';
+import { GetSessions } from 'src/types/sessionTypes';
 
 @Component({
   selector: 'app-new-session',
@@ -11,7 +11,7 @@ import * as sessionType from '../../../types/sessionTypes';
 })
 
 export class NewSessionComponent implements OnInit {
-  private sessionsQuery!: QueryRef<sessionType.GetSessions>;
+  private sessionsQuery!: QueryRef<GetSessions>;
 
   public sessionName = new FormControl('', [
     Validators.required,
@@ -22,7 +22,7 @@ export class NewSessionComponent implements OnInit {
   constructor(private apollo: Apollo) {}
 
   public ngOnInit(): void {
-    this.sessionsQuery = this.apollo.watchQuery<sessionType.GetSessions>({
+    this.sessionsQuery = this.apollo.watchQuery<GetSessions>({
       query: sessionOperations.GET_SESSIONS,
     })
   }

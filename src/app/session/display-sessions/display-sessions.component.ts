@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import sessionOperations from 'src/operations/sessionOperations';
-import { GetSession, GetSessions, Session } from 'src/types/sessionTypes';
+import { GetSessions, Session } from 'src/types/sessionTypes';
 
 @Component({
   selector: 'app-display-sessions',
   templateUrl: './display-sessions.component.html',
   styleUrls: ['./display-sessions.component.scss']
 })
-export class DisplaySessionsComponent implements OnInit {
+export class DisplaySessionsComponent implements OnInit, OnDestroy {
   private sessionsQuery!: QueryRef<GetSessions>;
   private getSessionsSubscription: Subscription = new Subscription;
   private subscription!: Subscription;

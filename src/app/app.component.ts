@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { SessionService } from './session/session.service';
 import { UserService } from './user/new-user/user.service';
 
-enum actionType {
+enum ActionType {
   JOIN = 'join',
   CREATE = 'create',
 }
@@ -16,8 +16,8 @@ enum actionType {
 
 export class AppComponent {
   public title = 'ti4-automation';
-  public actionTypeEnum = actionType;
-  public actionType!: actionType
+  public actionTypeEnum = ActionType;
+  public actionType!: ActionType
 
   protected session$ = this.sessionService.session$;
   protected user$ = this.userService.user$;
@@ -27,7 +27,7 @@ export class AppComponent {
     private userService: UserService,
   ) {}
 
-  public setActionType(actionType: actionType): void {
+  public setActionType(actionType: ActionType): void {
     this.actionType = actionType;
   }
 }

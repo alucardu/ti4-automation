@@ -35,10 +35,7 @@ export class NewMessageComponent {
         message: this.message.value
       }
     }).subscribe({
-      next: ({data}) => {
-        console.log(data)
-        this.messageService.setMessage(data!.createMessage)
-      },
+      next: ({data}) => data ? this.messageService.setMessage(data.createMessage) : null,
       error: (err) => console.log(err)
     })
   }

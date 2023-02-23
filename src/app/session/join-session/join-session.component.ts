@@ -21,7 +21,7 @@ export class JoinSessionComponent {
     Validators.minLength(6),
   ])
 
-  public errorMessage: boolean = false;
+  public errorMessage = false;
   public session!: Session | null;
 
   constructor(
@@ -29,7 +29,7 @@ export class JoinSessionComponent {
     private sessionService: SessionService,
   ) {}
 
-  public joinSession(sessionCode: FormControl) {
+  public joinSession(sessionCode: FormControl): void {
     this.sessionQuery = this.apollo.watchQuery<GetSession>({
       query: sessionOperations.GET_SESSION,
       variables: {

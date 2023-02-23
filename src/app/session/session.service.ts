@@ -10,7 +10,7 @@ export class SessionService {
   private subject = new ReplaySubject<Session>();
   public session$ = this.subject.asObservable();
 
-  public setSession(session: Session) {
+  public setSession(session: Session): void {
     this.subject.next(session)
   }
 

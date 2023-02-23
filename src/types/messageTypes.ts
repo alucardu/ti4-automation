@@ -2,7 +2,7 @@ import { User } from "./userTypes";
 
 export type Message = {
   id: number;
-  message: String
+  message: string
   user: User
 }
 

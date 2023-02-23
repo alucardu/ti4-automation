@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { User } from 'src/types/userTypes';
 
