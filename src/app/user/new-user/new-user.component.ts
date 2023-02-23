@@ -4,8 +4,8 @@ import { Apollo } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { SessionService } from 'src/app/session/session.service';
 import userOperations from 'src/operations/userOperations';
-import * as sessionType from 'src/types/sessionTypes';
-import { CreateUser, User } from 'src/types/userTypes';
+import { Session } from 'src/types/sessionTypes';
+import { CreateUser } from 'src/types/userTypes';
 import { UserService } from './user.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { UserService } from './user.service';
   styleUrls: ['./new-user.component.scss']
 })
 export class NewUserComponent {
-  @Input() session!: sessionType.Session;
+  @Input() session!: Session;
 
   public errorMessage!: string
 
@@ -40,8 +40,8 @@ export class NewUserComponent {
     })
     .subscribe({
       next: ({data}) => {
-        this.sessionService.addUserToSession(this.session, data!.createUser)
-        this.userService.setUser(data!.createUser)
+        data ? this.sessionService.addUserToSession(this.session, data.createUser) : null;
+        data ? this.userService.setUser(data.createUser) : null
       },
       error: (e: GraphQLError) => {
         this.errorMessage = {...e}.message;
