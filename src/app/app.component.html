@@ -1,25 +1,32 @@
-<app-display-sessions></app-display-sessions>
+<div class="callToAction">
+  <button mat-flat-button (click)="setActionType(actionTypeEnum.JOIN)">Join a session</button>
+  <button mat-flat-button color="primary" (click)="setActionType(actionTypeEnum.CREATE)">Create a session</button>
+</div>
 
-<button (click)="setActionType(actionTypeEnum.JOIN)">Join a session</button>
-<button (click)="setActionType(actionTypeEnum.CREATE)">Create a session</button>
+<app-display-sessions></app-display-sessions>
 
 <ng-container *ngIf="actionType === actionTypeEnum.JOIN">
   <app-join-session></app-join-session>
 
   <ng-container *ngIf="session$ | async as session">
-    <app-current-players [session]="session"></app-current-players>
     <app-new-user [session]="session"></app-new-user>
-    <div *ngIf="user$ | async as user" class="messages">
+    <div class="chatContainer">
+      <app-current-users [session]="session"></app-current-users>
       <app-refresh-messages
         [session]="session"
       ></app-refresh-messages>
-      <app-display-messages
-        [session]="session"
-      ></app-display-messages>
-      <app-new-message
-        [session]="session"
-        [user]="user"
-      ></app-new-message>
+      <ng-container>
+        <div class="messageContainer">
+          <app-display-messages
+            [session]="session"
+          ></app-display-messages>
+          <app-new-message *ngIf="user$ | async as user"
+            class="newMessage"
+            [session]="session"
+            [user]="user"
+          ></app-new-message>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
 </ng-container>

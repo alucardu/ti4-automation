@@ -1,0 +1,15 @@
+.sessionContainer {
+  display: flex;
+  flex-direction: column;
+}
+.session {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: transparent;
+  transition: background-color 100ms ease-in-out;
+  &:hover {
+    background: #505050;
+    transition: background-color 100ms ease-in-out;
+  }
+}

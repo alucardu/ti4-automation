@@ -1,0 +1,7 @@
+<mat-card *ngIf="session.players.length > 0">
+  <mat-card-content>
+    <div *ngFor="let player of session.players">
+      {{player.name}}
+    </div>
+  </mat-card-content>
+</mat-card>

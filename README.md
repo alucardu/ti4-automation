@@ -5,6 +5,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Stack
 This project is using Apollo Client & Apollo server to run its GraphQL server on NodeJS. Prisma is used as an ORM to handle the database and Angular is used as the front-end framework.
 
+## Angular
+Source for icons: https://fonts.google.com/icons?icon.set=Material+Icons
+
 ## Docker
 The mySQL database is running in a docker container.
 

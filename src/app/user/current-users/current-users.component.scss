@@ -1,9 +1,13 @@
-.messagesContainer {
+:host {
+  width: 25%;
+  margin-right: 2rem;
+}
+
+mat-card-content {
   display: flex;
   flex-direction: column;
-  min-height: 420px;
-  max-height: 420px;
-  overflow-y: auto;
+  max-height: 40vh;
+  overflow: auto;
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -20,15 +24,13 @@
     background: #555;
   }
   div {
+    cursor: default;
     padding: 0.25rem;
     background: transparent;
     transition: background-color 100ms ease-in-out;
     &:hover {
       background: #505050;
       transition: background-color 100ms ease-in-out;
-    }
-    .userName {
-      font-style: italic;
     }
   }
 }

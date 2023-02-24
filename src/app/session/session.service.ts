@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Session } from 'src/types/sessionTypes';
 import { User } from 'src/types/userTypes';
 
@@ -7,15 +7,22 @@ import { User } from 'src/types/userTypes';
   providedIn: 'root'
 })
 export class SessionService {
-  private subject = new ReplaySubject<Session>();
-  public session$ = this.subject.asObservable();
+  private session = new ReplaySubject<Session>();
+  public session$ = this.session.asObservable();
+
+  private sessionsSubject = new BehaviorSubject<Array<Session> | null>(null);
+  public sessions$ = this.sessionsSubject.asObservable();
 
   public setSession(session: Session): void {
-    this.subject.next(session)
+    this.session.next(session)
+  }
+
+  public setSessions(sessions: Array<Session>): void {
+    this.sessionsSubject.next(sessions)
   }
 
   public addUserToSession(session: Session, user: User): void {
-    this.subject.next({
+    this.session.next({
       ...session,
       players: [...session.players, user]
     })
