@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms'
 import { Apollo, QueryRef } from 'apollo-angular';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import sessionOperations from 'src/operations/sessionOperations';
-import { GetSessions } from 'src/types/sessionTypes';
-import { SessionService } from '../session.service';
+import { CreateSession, GetSessions } from 'src/types/sessionTypes';
 
 @Component({
   selector: 'app-new-session',
@@ -22,6 +22,7 @@ export class NewSessionComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
+    private notificationService: NotificationService
   ) {}
 
   public ngOnInit(): void {
@@ -47,13 +48,14 @@ export class NewSessionComponent implements OnInit {
   }
 
   public createSession(): void {
-    this.apollo.mutate({
+    this.apollo.mutate<CreateSession>({
         mutation: sessionOperations.CREATE_SESSION,
         variables: {
           name: this.sessionName.value
         }
     }).subscribe({
-      next: () => {
+      next: ({data}) => {
+        this.notificationService.openSnackBar(`Created session: ${data?.createSession.name}`, notificationType.SUCCESS)
         this.sessionsQuery.refetch()
         this.sessionName.reset()
       },

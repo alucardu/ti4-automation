@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import sessionOperations from 'src/operations/sessionOperations';
-import { GetSessions } from 'src/types/sessionTypes';
+import { DeleteSession, GetSessions } from 'src/types/sessionTypes';
 import { SessionService } from '../session.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class DisplaySessionsComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private notificationService: NotificationService
   ) {}
 
   private getSessions(): void {
@@ -34,14 +36,15 @@ export class DisplaySessionsComponent implements OnInit {
   }
 
   public deleteSession(index: number): void {
-    this.apollo.mutate({
+    this.apollo.mutate<DeleteSession>({
       mutation: sessionOperations.DELETE_SESSION,
       variables: {
         id: index,
       },
     }).subscribe({
-      next: () => this.sessionsQuery.refetch(),
-      error: (error) => console.log(error),
+      next: ({data}) => {
+        this.notificationService.openSnackBar(`Removed session: ${data?.deleteSession.name}`, notificationType.SUCCESS)
+        this.sessionsQuery.refetch()},
     });
   }
 }
