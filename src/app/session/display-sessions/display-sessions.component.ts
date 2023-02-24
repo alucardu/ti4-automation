@@ -1,20 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
-import { Subscription } from 'rxjs';
 import sessionOperations from 'src/operations/sessionOperations';
-import { GetSessions, Session } from 'src/types/sessionTypes';
+import { GetSessions } from 'src/types/sessionTypes';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-display-sessions',
   templateUrl: './display-sessions.component.html',
   styleUrls: ['./display-sessions.component.scss']
 })
-export class DisplaySessionsComponent implements OnInit, OnDestroy {
+export class DisplaySessionsComponent implements OnInit {
   private sessionsQuery!: QueryRef<GetSessions>;
-  private getSessionsSubscription: Subscription = new Subscription;
-  private subscription!: Subscription;
 
-  public sessions: Array<Session> = []
+  protected sessions$ = this.sessionService.sessions$
 
   public ngOnInit(): void {
     this.getSessions();
@@ -22,6 +20,7 @@ export class DisplaySessionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private apollo: Apollo,
+    private sessionService: SessionService
   ) {}
 
   private getSessions(): void {
@@ -29,8 +28,8 @@ export class DisplaySessionsComponent implements OnInit, OnDestroy {
       query: sessionOperations.GET_SESSIONS,
     })
 
-    this.getSessionsSubscription = this.sessionsQuery.valueChanges.subscribe(({data}) => {
-      this.sessions = data.getSessions
+    this.sessionsQuery.valueChanges.subscribe(({data}) => {
+      this.sessionService.setSessions(data.getSessions)
     })
   }
 
@@ -43,12 +42,6 @@ export class DisplaySessionsComponent implements OnInit, OnDestroy {
     }).subscribe({
       next: () => this.sessionsQuery.refetch(),
       error: (error) => console.log(error),
-      complete: () => console.log('complete')
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.getSessionsSubscription.unsubscribe();
-    this.subscription.unsubscribe();
   }
 }

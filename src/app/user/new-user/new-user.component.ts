@@ -30,6 +30,22 @@ export class NewUserComponent {
     private userService: UserService,
   ) {}
 
+  public getErrorMessage(): string {
+    if (this.userName.hasError('required')) {
+      return 'A username is required';
+    }
+
+    if (this.userName.hasError('minlength')) {
+      return 'User name must at least 3 charachters long';
+    }
+
+    if (this.userName.hasError('maxlength')) {
+      return 'User name cannot be longer than 8 characters';
+    }
+
+    return ''
+  }
+
   public createUserName(userName: FormControl): void {
     this.apollo.mutate<CreateUser>({
       mutation: userOperations.CREATE_USER,

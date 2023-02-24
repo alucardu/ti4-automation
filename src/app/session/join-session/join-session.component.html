@@ -1,28 +1,26 @@
-<label for="sessionCode">Join session: </label>
-<input
-  id="sessionCode"
-  type="text"
-  placeholder="Session code"
-  [formControl]="sessionCode"
-  maxlength="6"
-><button
-  [disabled]="sessionCode.invalid"
-  (click)="joinSession(sessionCode)"
->Enter</button>
-
-<div *ngIf="sessionCode.invalid && (sessionCode.dirty || sessionCode.touched)">
-  <div *ngIf="sessionCode.errors?.['minlength']">
-    Session code must 6 charachters long.
-  </div>
-  <div *ngIf="sessionCode.errors?.['pattern']">
-    Session code is a number
-  </div>
-</div>
-
-<div *ngIf="errorMessage">
-  Session not found
-</div>
-
-<div *ngIf="session">
-  name: {{session.name}}
-</div>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field
+      hintLabel="Session code is 6 numbers"
+      appearance="fill">
+      <mat-label>Session code</mat-label>
+      <input
+        matInput
+        #input
+        maxlength="6"
+        [formControl]="sessionCode">
+        <mat-hint align="end">{{input.value.length}}/6</mat-hint>
+        <mat-error *ngIf="sessionCode.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <button
+      mat-flat-button
+      [disabled]="sessionCode.invalid"
+      (click)="joinSession(sessionCode)"
+      color="primary">
+      Join session
+    </button>
+    <div *ngIf="errorMessage">
+      Session not found
+    </div>
+  </mat-card-content>
+</mat-card>

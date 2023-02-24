@@ -29,6 +29,22 @@ export class JoinSessionComponent {
     private sessionService: SessionService,
   ) {}
 
+  public getErrorMessage(): string {
+    if (this.sessionCode.hasError('required')) {
+      return 'A session code is required';
+    }
+
+    if (this.sessionCode.hasError('minlength')) {
+      return 'Session code must 6 charachters long';
+    }
+
+    if (this.sessionCode.hasError('pattern')) {
+      return 'Session code is a number';
+    }
+
+    return ''
+  }
+
   public joinSession(sessionCode: FormControl): void {
     this.sessionQuery = this.apollo.watchQuery<GetSession>({
       query: sessionOperations.GET_SESSION,

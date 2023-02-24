@@ -1,3 +1,8 @@
-  <div *ngFor="let message of messages$ | async as messages" >
-    {{message.user.name}}: {{message.message}}
-  </div>
+<mat-card>
+  <mat-card-content class="messagesContainer">
+    <div *ngFor="let message of messages$ | async as messages" >
+      <span class="userName">{{message.user.name}}:</span> {{message.message}}
+    </div>
+  </mat-card-content>
+</mat-card>
+

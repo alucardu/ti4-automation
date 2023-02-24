@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+app-root {
+  margin-top: 3rem;
+  width: 768px;
+}
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body {
+  .mat-mdc-card {
+    margin-bottom: 2rem;
+  }
+  .mat-mdc-card-content {
+    display: flex;
+    box-sizing: content-box;
+  }
+  .mat-mdc-form-field {
+    width: 100%;
+    margin-right: 1rem
+  }
+  .mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer) {
+    min-width: fit-content;
+    height: auto;
+  }
+}

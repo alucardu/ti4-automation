@@ -1,3 +1,23 @@
-.messages {
-  background: lightgray;
+.chatContainer {
+  display: flex;
+  flex-direction: row;
+  app-current-users {
+
+  }
+}
+
+.messageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+}
+
+.callToAction {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  button {
+    margin-right: 2rem;
+    padding: 3rem;
+  }
 }

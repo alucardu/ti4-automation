@@ -1,25 +1,28 @@
-<input
-  id="userName"
-  type="text"
-  placeholder="Your username"
-  [formControl]="userName"
-><button
-  [disabled]="userName.invalid"
-  (click)="createUserName(userName)"
->Start</button>
-
-<div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
-  <div *ngIf="userName.errors?.['required']">
-    Username is required.
-  </div>
-  <div *ngIf="userName.errors?.['minlength']">
-    Username must be atleast 3 characters long.
-  </div>
-  <div *ngIf="userName.errors?.['maxlength']">
-    Username cannot be longer than 8 characters.
-  </div>
-</div>
-
-<div *ngIf="errorMessage">
-  {{errorMessage}}
-</div>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field
+      hintLabel="Name must be between 3 and 8 characters"
+      appearance="fill">
+      <mat-label>Name</mat-label>
+      <input
+        matInput
+        #input
+        maxlength="8"
+        type="text"
+        [formControl]="userName"
+      >
+      <mat-hint align="end">{{input.value.length}}/8</mat-hint>
+      <mat-error *ngIf="userName.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="userName.invalid"
+      (click)="createUserName(userName)">
+      Start session
+    </button>
+    <div *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+  </mat-card-content>
+</mat-card>

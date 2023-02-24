@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CurrentPlayersComponent } from './current-players.component';
+import { CurrentusersComponent } from './current-users.component';
 
 describe('CurrentPlayersComponent', () => {
-  let component: CurrentPlayersComponent;
-  let fixture: ComponentFixture<CurrentPlayersComponent>;
+  let component: CurrentusersComponent;
+  let fixture: ComponentFixture<CurrentusersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CurrentPlayersComponent ]
+      declarations: [ CurrentusersComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CurrentPlayersComponent);
+    fixture = TestBed.createComponent(CurrentusersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
