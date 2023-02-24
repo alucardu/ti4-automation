@@ -1,14 +1,15 @@
-<mat-card>
+<mat-card *ngIf="!user">
   <mat-card-content>
     <mat-form-field
-      hintLabel="Name must be between 3 and 8 characters"
+      hintLabel="User name must be between 3 and 8 characters"
       appearance="fill">
-      <mat-label>Name</mat-label>
+      <mat-label>User name</mat-label>
       <input
         matInput
         #input
         maxlength="8"
         type="text"
+        (keyup.enter)="createUserName(userName)"
         [formControl]="userName"
       >
       <mat-hint align="end">{{input.value.length}}/8</mat-hint>

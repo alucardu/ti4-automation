@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { SessionService } from './session/session.service';
-import { UserService } from './user/new-user/user.service';
+import { UserService } from './user/create-user/user.service';
 
 enum ActionType {
   JOIN = 'join',
@@ -25,7 +25,11 @@ export class AppComponent {
   constructor(
     private sessionService: SessionService,
     private userService: UserService,
-  ) {}
+  ) {
+    this.session$.subscribe(() => {
+      this.actionType = ActionType.JOIN
+});
+  }
 
   public setActionType(actionType: ActionType): void {
     this.actionType = actionType;

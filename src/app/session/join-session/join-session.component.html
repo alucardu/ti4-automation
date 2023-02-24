@@ -8,6 +8,7 @@
         matInput
         #input
         maxlength="6"
+        (keyup.enter)="joinSession(sessionCode)"
         [formControl]="sessionCode">
         <mat-hint align="end">{{input.value.length}}/6</mat-hint>
         <mat-error *ngIf="sessionCode.invalid">{{getErrorMessage()}}</mat-error>
