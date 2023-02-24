@@ -31,3 +31,16 @@ body {
     height: auto;
   }
 }
+
+.mat-mdc-snack-bar-container {
+  --mat-mdc-snack-bar-button-color: #ffffff;
+  --mdc-snackbar-supporting-text-color: #ffffff;
+
+  &.warning {
+    --mdc-snackbar-container-color: #f23a2f;
+  }
+
+  &.success {
+    --mdc-snackbar-container-color: #43a446;
+  }
+}

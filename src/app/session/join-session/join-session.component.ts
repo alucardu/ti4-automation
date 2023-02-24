@@ -6,6 +6,7 @@ import sessionOperations from 'src/operations/sessionOperations';
 import { stringIsSetAndFilled } from 'src/app/util/stringUtils';
 import { SessionService } from '../session.service';
 import { GetSession, Session } from 'src/types/sessionTypes';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 
 @Component({
   selector: 'app-join-session',
@@ -21,12 +22,12 @@ export class JoinSessionComponent {
     Validators.minLength(6),
   ])
 
-  public errorMessage = false;
   public session!: Session | null;
 
   constructor(
     private apollo: Apollo,
     private sessionService: SessionService,
+    private notificationService: NotificationService
   ) {}
 
   public getErrorMessage(): string {
@@ -56,11 +57,11 @@ export class JoinSessionComponent {
     this.sessionQuery.valueChanges.subscribe({
       next: ({data}) => {
         if (stringIsSetAndFilled(data.getSession?.code)) {
-          this.errorMessage = false;
+          this.notificationService.openSnackBar(`Created session: ${data?.getSession.name}`, notificationType.SUCCESS)
           this.session = data.getSession
           this.sessionService.setSession(data.getSession)
         } else {
-          this.errorMessage = true;
+          this.notificationService.openSnackBar('Session not found', notificationType.WARNING)
           this.session = null
         }
       },

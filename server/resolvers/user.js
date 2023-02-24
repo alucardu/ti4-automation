@@ -16,7 +16,7 @@ export const userResolvers = {
           }
         })
       } catch (err) {
-        throw new Error('Username already exists');
+        throw new Error(`Username ${args.name} already exists`);
       }
     },
   },

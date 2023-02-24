@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import { SessionService } from 'src/app/session/session.service';
 import userOperations from 'src/operations/userOperations';
 import { Session } from 'src/types/sessionTypes';
@@ -28,6 +29,7 @@ export class NewUserComponent {
     private apollo: Apollo,
     private sessionService: SessionService,
     private userService: UserService,
+    private notificationService: NotificationService
   ) {}
 
   public getErrorMessage(): string {
@@ -58,9 +60,11 @@ export class NewUserComponent {
       next: ({data}) => {
         data ? this.sessionService.addUserToSession(this.session, data.createUser) : null;
         data ? this.userService.setUser(data.createUser) : null
+        this.notificationService.openSnackBar(`Created ${data?.createUser.name}`, notificationType.SUCCESS)
       },
       error: (e: GraphQLError) => {
-        this.errorMessage = {...e}.message;
+        console.log({...e})
+        this.notificationService.openSnackBar({...e}.message, notificationType.WARNING)
       }
     })
   }

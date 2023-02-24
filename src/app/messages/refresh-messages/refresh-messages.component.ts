@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Session } from '@prisma/client';
 import { Apollo, QueryRef } from 'apollo-angular';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import messageOperations from 'src/operations/messageOperations';
 import { GetMessages } from 'src/types/messageTypes';
 import { MessageService } from '../message.service';
@@ -18,8 +19,9 @@ export class RefreshMessagesComponent {
   private messagesQuery!: QueryRef<GetMessages>;
 
   constructor(
+    private apollo: Apollo,
     private messageService: MessageService,
-    private apollo: Apollo
+    private notificationService: NotificationService
   ) {}
 
   public refreshMessages(): void {
@@ -33,6 +35,7 @@ export class RefreshMessagesComponent {
 
    this.messagesQuery.valueChanges.subscribe(({data}) => {
     this.messageService.setMessages(data.getMessages)
+    this.notificationService.openSnackBar('Messages have been refreshed', notificationType.SUCCESS)
   })
   }
 }
