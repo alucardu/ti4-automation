@@ -4,14 +4,15 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import sessionOperations from 'src/operations/sessionOperations';
 import { CreateSession, GetSessions } from 'src/types/sessionTypes';
+import { SessionService } from '../session.service';
 
 @Component({
-  selector: 'app-new-session',
-  templateUrl: './new-session.component.html',
-  styleUrls: ['./new-session.component.scss']
+  selector: 'app-create-session',
+  templateUrl: './create-session.component.html',
+  styleUrls: ['./create-session.component.scss']
 })
 
-export class NewSessionComponent implements OnInit {
+export class CreateSessionComponent implements OnInit {
   private sessionsQuery!: QueryRef<GetSessions>;
 
   public sessionName = new FormControl('', [
@@ -22,7 +23,8 @@ export class NewSessionComponent implements OnInit {
 
   constructor(
     private apollo: Apollo,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private sessionService: SessionService,
   ) {}
 
   public ngOnInit(): void {
@@ -31,7 +33,7 @@ export class NewSessionComponent implements OnInit {
     })
   }
 
-  public getErrorMessage(): string {
+  public getErrorMessage(): string | null {
     if (this.sessionName.hasError('required')) {
       return 'A session name is required';
     }
@@ -44,7 +46,7 @@ export class NewSessionComponent implements OnInit {
       return 'Session name cannot be longer than 16 characters';
     }
 
-    return ''
+    return null
   }
 
   public createSession(): void {
@@ -56,6 +58,7 @@ export class NewSessionComponent implements OnInit {
     }).subscribe({
       next: ({data}) => {
         this.notificationService.openSnackBar(`Created session: ${data?.createSession.name}`, notificationType.SUCCESS)
+        this.sessionService.setSession(data!.createSession)
         this.sessionsQuery.refetch()
         this.sessionName.reset()
       },

@@ -8,11 +8,11 @@ import { User } from 'src/types/userTypes';
 import { MessageService } from '../message.service';
 
 @Component({
-  selector: 'app-new-message',
-  templateUrl: './new-message.component.html',
-  styleUrls: ['./new-message.component.scss']
+  selector: 'app-create-message',
+  templateUrl: './create-message.component.html',
+  styleUrls: ['./create-message.component.scss']
 })
-export class NewMessageComponent {
+export class CreateMessageComponent {
   @Input() session!: Session;
   @Input() user!: User;
 
@@ -35,7 +35,10 @@ export class NewMessageComponent {
         message: this.message.value
       }
     }).subscribe({
-      next: ({data}) => data ? this.messageService.setMessage(data.createMessage) : null,
+      next: ({data}) => {
+        data ? this.messageService.setMessage(data.createMessage) : null
+        this.message.reset();
+      },
       error: (err) => console.log(err)
     })
   }

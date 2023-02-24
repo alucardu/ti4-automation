@@ -6,18 +6,19 @@ import { NotificationService, notificationType } from 'src/app/material/notifica
 import { SessionService } from 'src/app/session/session.service';
 import userOperations from 'src/operations/userOperations';
 import { Session } from 'src/types/sessionTypes';
-import { CreateUser } from 'src/types/userTypes';
+import { CreateUser, User } from 'src/types/userTypes';
 import { UserService } from './user.service';
 
 @Component({
-  selector: 'app-new-user',
-  templateUrl: './new-user.component.html',
-  styleUrls: ['./new-user.component.scss']
+  selector: 'app-create-user',
+  templateUrl: './create-user.component.html',
+  styleUrls: ['./create-user.component.scss']
 })
-export class NewUserComponent {
+export class CreateUserComponent {
   @Input() session!: Session;
 
   public errorMessage!: string
+  public user!: User;
 
   public userName = new FormControl('', [
     Validators.required,
@@ -32,7 +33,7 @@ export class NewUserComponent {
     private notificationService: NotificationService
   ) {}
 
-  public getErrorMessage(): string {
+  public getErrorMessage(): string | null {
     if (this.userName.hasError('required')) {
       return 'A username is required';
     }
@@ -45,7 +46,7 @@ export class NewUserComponent {
       return 'User name cannot be longer than 8 characters';
     }
 
-    return ''
+    return null
   }
 
   public createUserName(userName: FormControl): void {
@@ -60,10 +61,10 @@ export class NewUserComponent {
       next: ({data}) => {
         data ? this.sessionService.addUserToSession(this.session, data.createUser) : null;
         data ? this.userService.setUser(data.createUser) : null
-        this.notificationService.openSnackBar(`Created ${data?.createUser.name}`, notificationType.SUCCESS)
+        data ? this.user = data.createUser : null
+        this.notificationService.openSnackBar(`Created user name: ${data?.createUser.name}`, notificationType.SUCCESS)
       },
       error: (e: GraphQLError) => {
-        console.log({...e})
         this.notificationService.openSnackBar({...e}.message, notificationType.WARNING)
       }
     })

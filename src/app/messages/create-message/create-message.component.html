@@ -7,6 +7,7 @@
         matInput
         #input
         maxlength="164"
+        (keyup.enter)="sendMessage()"
         [formControl]="message"/>
       <mat-hint align="end">{{input.value.length}}/164</mat-hint>
     </mat-form-field>

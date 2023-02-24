@@ -30,7 +30,7 @@ export class JoinSessionComponent {
     private notificationService: NotificationService
   ) {}
 
-  public getErrorMessage(): string {
+  public getErrorMessage(): string | null {
     if (this.sessionCode.hasError('required')) {
       return 'A session code is required';
     }
@@ -43,7 +43,7 @@ export class JoinSessionComponent {
       return 'Session code is a number';
     }
 
-    return ''
+    return null
   }
 
   public joinSession(sessionCode: FormControl): void {

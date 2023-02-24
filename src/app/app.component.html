@@ -5,13 +5,15 @@
 
 <app-display-sessions></app-display-sessions>
 
-<ng-container *ngIf="actionType === actionTypeEnum.JOIN">
-  <app-join-session></app-join-session>
+<app-join-session *ngIf="actionType === actionTypeEnum.JOIN && (session$ | async) === null"></app-join-session>
 
+<ng-container *ngIf="actionType === actionTypeEnum.JOIN">
   <ng-container *ngIf="session$ | async as session">
-    <app-new-user [session]="session"></app-new-user>
+    <app-create-user [session]="session"></app-create-user>
     <div class="chatContainer">
-      <app-current-users [session]="session"></app-current-users>
+      <app-current-users
+        [session]="session"
+      ></app-current-users>
       <app-refresh-messages
         [session]="session"
       ></app-refresh-messages>
@@ -20,11 +22,11 @@
           <app-display-messages
             [session]="session"
           ></app-display-messages>
-          <app-new-message *ngIf="user$ | async as user"
+          <app-create-message *ngIf="user$ | async as user"
             class="newMessage"
             [session]="session"
             [user]="user"
-          ></app-new-message>
+          ></app-create-message>
         </div>
       </ng-container>
     </div>
@@ -32,5 +34,5 @@
 </ng-container>
 
 <ng-container *ngIf="actionType === actionTypeEnum.CREATE">
-  <app-new-session></app-new-session>
+  <app-create-session></app-create-session>
 </ng-container>

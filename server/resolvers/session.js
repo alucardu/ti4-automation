@@ -33,6 +33,9 @@ export const sessionResolvers = {
         data: {
           name: args.name,
           code: code
+        },
+        include: {
+          players: {}
         }
       })
     },

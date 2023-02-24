@@ -30,6 +30,10 @@ const CREATE_SESSION = gql`
       id
       code
       name
+      players {
+        id
+        name
+      }
     }
   }
 `
