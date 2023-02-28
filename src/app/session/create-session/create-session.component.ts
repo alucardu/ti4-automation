@@ -27,6 +27,7 @@ export class CreateSessionComponent implements OnInit {
     private sessionService: SessionService,
   ) {}
 
+
   public ngOnInit(): void {
     this.sessionsQuery = this.apollo.watchQuery<GetSessions>({
       query: sessionOperations.GET_SESSIONS,

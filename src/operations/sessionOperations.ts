@@ -47,9 +47,24 @@ const DELETE_SESSION = gql`
   }
 `;
 
+const CREATE_SESSION_SUBSCRIPTION = gql`
+  subscription sessionCreated {
+    sessionCreated {
+      id
+      name
+      code
+      players {
+        id
+        name
+      }
+    }
+  }
+`;
+
 export default {
   GET_SESSION,
   GET_SESSIONS,
   CREATE_SESSION,
-  DELETE_SESSION
+  DELETE_SESSION,
+  CREATE_SESSION_SUBSCRIPTION
 }

@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import cryptoRandomString from 'crypto-random-string';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubsub = new PubSub()
 
 const prisma = new PrismaClient()
 
@@ -29,7 +32,7 @@ export const sessionResolvers = {
   Mutation: {
     createSession: async (_, args) => {
       const code = cryptoRandomString({length: 6, type: 'numeric'});
-      return await prisma.session.create({
+      const session = await prisma.session.create({
         data: {
           name: args.name,
           code: code
@@ -38,6 +41,10 @@ export const sessionResolvers = {
           players: {}
         }
       })
+
+      pubsub.publish('SESSION_CREATED', { sessionCreated: session })
+
+      return session;
     },
 
     deleteSession: async (_, args) => {
@@ -48,4 +55,12 @@ export const sessionResolvers = {
       });
     }
   },
+
+  Subscription: {
+    sessionCreated: {
+      subscribe: () => {
+        console.log('2: subscription created session')
+        return pubsub.asyncIterator(['SESSION_CREATED'])},
+    },
+  }
 };

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { Session } from 'src/types/sessionTypes';
+import { Apollo } from 'apollo-angular';
+import { BehaviorSubject, ReplaySubject, take } from 'rxjs';
+import { Session, SessionCreated } from 'src/types/sessionTypes';
+import sessionOperations from 'src/operations/sessionOperations';
 import { User } from 'src/types/userTypes';
 
 @Injectable({
@@ -12,6 +14,25 @@ export class SessionService {
 
   private sessionsSubject = new BehaviorSubject<Array<Session> | null>(null);
   public sessions$ = this.sessionsSubject.asObservable();
+
+  constructor(
+    private apollo: Apollo
+  ) {
+    this.subscribeToSessions();
+  }
+
+  public subscribeToSessions(): void {
+    this.apollo.subscribe<SessionCreated>({
+      query: sessionOperations.CREATE_SESSION_SUBSCRIPTION
+    }).subscribe(async ({data}) => {
+      this.sessions$
+      .pipe(
+        take(1),
+      ).subscribe({
+        next: (sessions) => this.setSessions([...sessions??[], data!.sessionCreated]),
+      })
+    })
+  }
 
   public setSession(session: Session): void {
     this.session.next(session)
