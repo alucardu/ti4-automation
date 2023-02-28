@@ -2,20 +2,18 @@ import { NgModule } from '@angular/core';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache, split } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
-import { WebSocketLink } from '@apollo/client/link/ws';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { createClient } from 'graphql-ws';
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   const http = httpLink.create({
     uri: 'http://localhost:9000/graphql',
   });
 
-  const ws = new WebSocketLink({
-    uri: 'ws://localhost:9000/graphql',
-    options: {
-      reconnect: true,
-    },
-  });
+  const ws = new GraphQLWsLink(createClient({
+    url: 'ws://localhost:9000/graphql',
+  }));
 
   const link = split(
     ({ query }) => {
@@ -27,7 +25,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   );
 
   return {
-    link: http,
+    link: link,
     cache: new InMemoryCache(),
   };
 }

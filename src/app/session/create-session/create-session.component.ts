@@ -5,7 +5,6 @@ import { NotificationService, notificationType } from 'src/app/material/notifica
 import sessionOperations from 'src/operations/sessionOperations';
 import { CreateSession, GetSessions } from 'src/types/sessionTypes';
 import { SessionService } from '../session.service';
-import { webSocket } from 'rxjs/webSocket';
 
 @Component({
   selector: 'app-create-session',
@@ -26,15 +25,8 @@ export class CreateSessionComponent implements OnInit {
     private apollo: Apollo,
     private notificationService: NotificationService,
     private sessionService: SessionService,
-  ) {
-    const subject = webSocket('ws://localhost:9000/graphql');
+  ) {}
 
-    subject.subscribe({
-      next: msg => console.log('message received: ' + msg), // Called whenever there is a message from the server.
-      error: err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
-      complete: () => console.log('complete') // Called when connection is closed (for whatever reason).
-     });
-  }
 
   public ngOnInit(): void {
     this.sessionsQuery = this.apollo.watchQuery<GetSessions>({

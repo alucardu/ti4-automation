@@ -32,8 +32,7 @@ export const sessionResolvers = {
   Mutation: {
     createSession: async (_, args) => {
       const code = cryptoRandomString({length: 6, type: 'numeric'});
-      pubsub.publish('SESSION_CREATED', { sessionCreated: {id: 1, code: 'asd', name: 'zxc', players: []} })
-      return await prisma.session.create({
+      const session = await prisma.session.create({
         data: {
           name: args.name,
           code: code
@@ -42,6 +41,10 @@ export const sessionResolvers = {
           players: {}
         }
       })
+
+      pubsub.publish('SESSION_CREATED', { sessionCreated: session })
+
+      return session;
     },
 
     deleteSession: async (_, args) => {
