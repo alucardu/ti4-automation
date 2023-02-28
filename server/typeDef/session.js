@@ -23,4 +23,8 @@ export const sessionTypeDefs = gql`
     createSession(name: String!): Session
     deleteSession(id: ID!): Session
   }
+
+  type Subscription {
+    sessionCreated: Session
+  }
 `;
