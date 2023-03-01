@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
-import messageOperations from 'src/operations/messageOperations';
+import { GET_MESSAGES } from 'src/operations/messageOperations/queries';
 import { Session } from 'src/types/sessionTypes';
 import { MessageService } from '../message.service';
 import { GetMessages } from 'src/types/messageTypes';
@@ -28,7 +28,7 @@ export class DisplayMessagesComponent implements OnInit {
 
   public getMessages(session: Session): void {
     this.messagesQuery = this.apollo.watchQuery<GetMessages>({
-      query: messageOperations.GET_MESSAGES,
+      query: GET_MESSAGES,
       variables: {
         sessionId: session.id
       }

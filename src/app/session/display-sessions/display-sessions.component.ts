@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
-import sessionOperations from 'src/operations/sessionOperations';
+import { GET_SESSIONS } from 'src/operations/sessionOperations/queries';
+import { DELETE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { DeleteSession, GetSessions } from 'src/types/sessionTypes';
 import { SessionService } from '../session.service';
 
@@ -27,7 +28,7 @@ export class DisplaySessionsComponent implements OnInit {
 
   private getSessions(): void {
     this.sessionsQuery = this.apollo.watchQuery<GetSessions>({
-      query: sessionOperations.GET_SESSIONS,
+      query: GET_SESSIONS,
     })
 
     this.sessionsQuery.valueChanges.subscribe(({data}) => {
@@ -37,7 +38,7 @@ export class DisplaySessionsComponent implements OnInit {
 
   public deleteSession(index: number): void {
     this.apollo.mutate<DeleteSession>({
-      mutation: sessionOperations.DELETE_SESSION,
+      mutation: DELETE_SESSION,
       variables: {
         id: index,
       },

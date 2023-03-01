@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms'
 import { Apollo, QueryRef } from 'apollo-angular';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
-import sessionOperations from 'src/operations/sessionOperations';
+import { GET_SESSIONS } from 'src/operations/sessionOperations/queries';
+import { CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { CreateSession, GetSessions } from 'src/types/sessionTypes';
 import { SessionService } from '../session.service';
 
@@ -30,7 +31,7 @@ export class CreateSessionComponent implements OnInit {
 
   public ngOnInit(): void {
     this.sessionsQuery = this.apollo.watchQuery<GetSessions>({
-      query: sessionOperations.GET_SESSIONS,
+      query: GET_SESSIONS,
     })
   }
 
@@ -52,7 +53,7 @@ export class CreateSessionComponent implements OnInit {
 
   public createSession(): void {
     this.apollo.mutate<CreateSession>({
-        mutation: sessionOperations.CREATE_SESSION,
+        mutation: CREATE_SESSION,
         variables: {
           name: this.sessionName.value
         }

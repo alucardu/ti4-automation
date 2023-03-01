@@ -4,7 +4,7 @@ import { Apollo } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import { SessionService } from 'src/app/session/session.service';
-import userOperations from 'src/operations/userOperations';
+import { CREATE_USER } from 'src/operations/userOperations/mutations';
 import { Session } from 'src/types/sessionTypes';
 import { CreateUser, User } from 'src/types/userTypes';
 import { UserService } from './user.service';
@@ -51,7 +51,7 @@ export class CreateUserComponent {
 
   public createUserName(userName: FormControl): void {
     this.apollo.mutate<CreateUser>({
-      mutation: userOperations.CREATE_USER,
+      mutation: CREATE_USER,
       variables: {
         name: userName.value,
         sessionId: this.session.id,

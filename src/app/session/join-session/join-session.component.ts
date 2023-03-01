@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Apollo, QueryRef } from 'apollo-angular';
 
-import sessionOperations from 'src/operations/sessionOperations';
+import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { stringIsSetAndFilled } from 'src/app/util/stringUtils';
 import { SessionService } from '../session.service';
 import { GetSession, Session } from 'src/types/sessionTypes';
@@ -48,7 +48,7 @@ export class JoinSessionComponent {
 
   public joinSession(sessionCode: FormControl): void {
     this.sessionQuery = this.apollo.watchQuery<GetSession>({
-      query: sessionOperations.GET_SESSION,
+      query: GET_SESSION,
       variables: {
         code: sessionCode.value
       }
