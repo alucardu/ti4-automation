@@ -2,11 +2,9 @@
   <mat-card-content *ngIf="sessions.length > 0" class="sessionContainer">
     <div *ngFor="let session of sessions" class="session">
       <p>Code: <span>{{session.code}}</span> -- Session name: <span>{{session.name}}</span></p>
-      <button
-        mat-icon-button color="warn"
-        (click)="deleteSession(session.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <app-delete-session
+        [session]="session"
+      ></app-delete-session>
     </div>
   </mat-card-content>
 </mat-card>

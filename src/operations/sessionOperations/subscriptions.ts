@@ -14,6 +14,28 @@ const CREATE_SESSION_SUBSCRIPTION = gql`
   }
 `;
 
+const DELETE_SESSION_SUBSCRIPTION = gql`
+  subscription sessionDeleted {
+    sessionDeleted {
+      session {
+        name
+      }
+      sessions {
+        id
+        name
+        code
+        players {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+
+
 export {
-  CREATE_SESSION_SUBSCRIPTION
+  CREATE_SESSION_SUBSCRIPTION,
+  DELETE_SESSION_SUBSCRIPTION
 }

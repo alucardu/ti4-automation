@@ -23,10 +23,20 @@ export type CreateSession = {
 }
 
 export type DeleteSession = {
-  deleteSession: Session;
+  deleteSession: {
+    session: Session
+    sessions: Array<Session>
+  }
 }
 
 // SUBSCRIPTIONS
 export type SessionCreated = {
   sessionCreated: Session;
+}
+
+export type SessionDeleted = {
+  sessionDeleted: {
+    session: Session
+    sessions: Array<Session>
+  };
 }
