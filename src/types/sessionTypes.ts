@@ -6,6 +6,7 @@ export type Session = {
   code: string;
   name: string;
   players: Array<User>;
+  userId: number;
 }
 
 // QUERIES

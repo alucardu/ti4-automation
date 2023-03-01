@@ -12,6 +12,7 @@ export const sessionTypeDefs = gql`
     code: String
     name: String
     players: [User]
+    sessionId: ID
   }
 
   type sessionDeleted {

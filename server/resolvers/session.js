@@ -34,7 +34,12 @@ export const sessionResolvers = {
       const session = await prisma.session.create({
         data: {
           name: args.name,
-          code: code
+          code: code,
+          host: {
+            connect: {
+              id: 1
+            }
+          }
         },
         include: {
           players: {}
