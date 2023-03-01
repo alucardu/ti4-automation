@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Session } from '@prisma/client';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
-import messageOperations from 'src/operations/messageOperations';
+import { GET_MESSAGES } from 'src/operations/messageOperations/queries';
 import { GetMessages } from 'src/types/messageTypes';
 import { MessageService } from '../message.service';
 
@@ -27,7 +27,7 @@ export class RefreshMessagesComponent {
   public refreshMessages(): void {
    this.messagesQuery = this.apollo.watchQuery<GetMessages>({
     fetchPolicy: 'cache-and-network',
-    query: messageOperations.GET_MESSAGES,
+    query: GET_MESSAGES,
     variables: {
       sessionId: this.session.id
     }

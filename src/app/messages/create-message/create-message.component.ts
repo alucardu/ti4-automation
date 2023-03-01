@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
-import messageOperations from 'src/operations/messageOperations';
+import { CREATE_MESSAGE } from 'src/operations/messageOperations/mutations';
 import { CreateMessage } from 'src/types/messageTypes';
 import { Session } from 'src/types/sessionTypes';
 import { User } from 'src/types/userTypes';
@@ -28,7 +28,7 @@ export class CreateMessageComponent {
 
   public sendMessage(): void {
     this.apollo.mutate<CreateMessage>({
-      mutation: messageOperations.CREATE_MESSAGE,
+      mutation: CREATE_MESSAGE,
       variables: {
         sessionId: this.session.id,
         userId: this.user.id,

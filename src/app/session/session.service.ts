@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, ReplaySubject, take } from 'rxjs';
 import { Session, SessionCreated } from 'src/types/sessionTypes';
-import sessionOperations from 'src/operations/sessionOperations';
+import { CREATE_SESSION_SUBSCRIPTION } from 'src/operations/sessionOperations/subscriptions';
 import { User } from 'src/types/userTypes';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class SessionService {
 
   public subscribeToSessions(): void {
     this.apollo.subscribe<SessionCreated>({
-      query: sessionOperations.CREATE_SESSION_SUBSCRIPTION
+      query: CREATE_SESSION_SUBSCRIPTION
     }).subscribe(async ({data}) => {
       this.sessions$
       .pipe(
