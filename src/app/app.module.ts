@@ -15,6 +15,7 @@ import { DisplayMessagesComponent } from './messages/display-messages/display-me
 import { RefreshMessagesComponent } from './messages/refresh-messages/refresh-messages.component';
 import { DisplaySessionsComponent } from './session/display-sessions/display-sessions.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeleteSessionComponent } from './session/delete-session/delete-session.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CreateMessageComponent,
     DisplayMessagesComponent,
     RefreshMessagesComponent,
-    DisplaySessionsComponent
+    DisplaySessionsComponent,
+    DeleteSessionComponent
   ],
   imports: [
     BrowserModule,

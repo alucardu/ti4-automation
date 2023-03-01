@@ -17,8 +17,14 @@ const CREATE_SESSION = gql`
 const DELETE_SESSION = gql`
   mutation DeleteSession($id: ID!) {
     deleteSession(id: $id) {
-      id
-      name
+      session {
+        id
+        name
+      }
+      sessions {
+        id
+        name
+      }
     }
   }
 `;

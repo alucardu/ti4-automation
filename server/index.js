@@ -36,10 +36,10 @@ const serverCleanup = useServer(
   {
     schema,
     onConnect: async () => {
-      console.log('1: Connected')
+      console.log('User connected')
     },
     onDisconnect() {
-      console.log('2: Disconnected!');
+      console.log('User disconnected');
     },
   },
   wsServer,

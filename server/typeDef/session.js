@@ -14,6 +14,11 @@ export const sessionTypeDefs = gql`
     players: [User]
   }
 
+  type sessionDeleted {
+    session: Session
+    sessions: [Session]
+  }
+
   type Query {
     getSession(code: String!): Session
     getSessions: [Session]
@@ -21,10 +26,11 @@ export const sessionTypeDefs = gql`
 
   type Mutation {
     createSession(name: String!): Session
-    deleteSession(id: ID!): Session
+    deleteSession(id: ID!): sessionDeleted
   }
 
   type Subscription {
     sessionCreated: Session
+    sessionDeleted: sessionDeleted
   }
 `;
