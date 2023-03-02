@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms'
-import { Apollo, QueryRef } from 'apollo-angular';
-import { NotificationService, notificationType } from 'src/app/material/notification.service';
-import { GET_SESSIONS } from 'src/operations/sessionOperations/queries';
-import { CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
-import { CreateSession, GetSessions } from 'src/types/sessionTypes';
-import { SessionService } from '../session.service';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { filter, take, zip } from 'rxjs';
+import { UserService } from 'src/app/user/create-user/user.service';
+  import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-create-session',
@@ -13,58 +10,48 @@ import { SessionService } from '../session.service';
   styleUrls: ['./create-session.component.scss']
 })
 
-export class CreateSessionComponent implements OnInit {
-  private sessionsQuery!: QueryRef<GetSessions>;
-
-  public sessionName = new FormControl('', [
-    Validators.required,
-    Validators.minLength(4),
-    Validators.maxLength(24)
-  ])
+export class CreateSessionComponent {
+  public form: FormGroup = new FormGroup({
+    sessionName: new FormControl('', [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(24)
+    ])
+  });
 
   constructor(
-    private apollo: Apollo,
-    private notificationService: NotificationService,
+    private userService: UserService,
     private sessionService: SessionService,
-  ) {}
+  ) {
+    this.sessionService.setSession(null)
+    this.userService.setUser(null)
 
-
-  public ngOnInit(): void {
-    this.sessionsQuery = this.apollo.watchQuery<GetSessions>({
-      query: GET_SESSIONS,
+    zip(this.userService.user$, this.sessionService.session$).pipe(
+      filter(([user, session]) => !!user && !!session),
+      take(1),
+    ).subscribe({
+      next: ([user, session]) => this.sessionService.connectHostToSession(user!, session!),
     })
   }
 
   public getErrorMessage(): string | null {
-    if (this.sessionName.hasError('required')) {
+    if (this.form.get('sessionName')?.hasError('required')) {
       return 'A session name is required';
     }
 
-    if (this.sessionName.hasError('minlength')) {
+    if (this.form.get('sessionName')?.hasError('minlength')) {
       return 'Session name must be between 4 and 16 charachters long';
     }
 
-    if (this.sessionName.hasError('maxlength')) {
+    if (this.form.get('sessionName')?.hasError('maxlength')) {
       return 'Session name cannot be longer than 16 characters';
     }
 
     return null
   }
 
-  public createSession(): void {
-    this.apollo.mutate<CreateSession>({
-        mutation: CREATE_SESSION,
-        variables: {
-          name: this.sessionName.value
-        }
-    }).subscribe({
-      next: ({data}) => {
-        this.notificationService.openSnackBar(`Created session: ${data?.createSession.name}`, notificationType.SUCCESS)
-        this.sessionService.setSession(data!.createSession)
-        this.sessionsQuery.refetch()
-        this.sessionName.reset()
-      },
-      error: (e) => console.log(e),
-    });
+  public createUserAndSession(): void {
+    this.userService.createUser(this.form)
+    this.sessionService.createSession(this.form)
   }
 }

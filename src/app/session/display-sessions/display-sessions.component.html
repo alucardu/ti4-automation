@@ -2,9 +2,12 @@
   <mat-card-content *ngIf="sessions.length > 0" class="sessionContainer">
     <div *ngFor="let session of sessions" class="session">
       <p>Code: <span>{{session.code}}</span> -- Session name: <span>{{session.name}}</span></p>
-      <app-delete-session
-        [session]="session"
-      ></app-delete-session>
+      <ng-container *ngIf="user$ | async as user">
+        <app-delete-session
+          *ngIf="session.host?.id === user.id"
+          [session]="session"
+        ></app-delete-session>
+      </ng-container>
     </div>
   </mat-card-content>
 </mat-card>

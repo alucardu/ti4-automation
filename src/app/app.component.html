@@ -9,7 +9,6 @@
 
 <ng-container *ngIf="actionType === actionTypeEnum.JOIN">
   <ng-container *ngIf="session$ | async as session">
-    <app-create-user [session]="session"></app-create-user>
     <div class="chatContainer">
       <app-current-users
         [session]="session"

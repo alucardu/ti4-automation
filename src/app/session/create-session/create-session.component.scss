@@ -1,3 +1,11 @@
 :host {
   display: block
 }
+
+.inputContainerWithButton {
+  display: flex;
+  width: 100%;
+  button {
+    height: 3.5rem;
+  }
+}
