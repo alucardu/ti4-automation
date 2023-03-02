@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, take } from 'rxjs';
-import { ConnectHostToSession, CreateSession, Session, SessionCreated, SessionDeleted } from 'src/types/sessionTypes';
+import { ConnectHostToSession, CreateSession, GetSession, Session, SessionCreated, SessionDeleted } from 'src/types/sessionTypes';
 import { CREATE_SESSION_SUBSCRIPTION, DELETE_SESSION_SUBSCRIPTION } from 'src/operations/sessionOperations/subscriptions';
 import { User } from 'src/types/userTypes';
 import { NotificationService, notificationType } from '../material/notification.service';
 import { FormGroup } from '@angular/forms';
 import { CONNECT_SESSION_HOST, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
+import { GET_SESSION } from 'src/operations/sessionOperations/queries';
+import { stringIsSetAndFilled } from '../util/stringUtils';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,9 @@ export class SessionService {
 
   private sessionsSubject = new BehaviorSubject<Array<Session> | null>(null);
   public sessions$ = this.sessionsSubject.asObservable();
+
+  private sessionQuery!: QueryRef<GetSession>;
+  public session!: Session | null;
 
   constructor(
     private apollo: Apollo,
@@ -39,6 +44,29 @@ export class SessionService {
     });
   }
 
+  public joinSession(sessionCode: string): void {
+    this.sessionQuery = this.apollo.watchQuery<GetSession>({
+      query: GET_SESSION,
+      variables: {
+        code: sessionCode
+      }
+    })
+
+    this.sessionQuery.valueChanges.subscribe({
+      next: ({data}) => {
+        if (stringIsSetAndFilled(data.getSession?.code)) {
+          this.notificationService.openSnackBar(`Created session: ${data?.getSession.name}`, notificationType.SUCCESS)
+          this.session = data.getSession
+          this.setSession(data.getSession)
+        } else {
+          this.notificationService.openSnackBar('Session not found', notificationType.WARNING)
+          this.session = null
+        }
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
   public connectHostToSession(user: User, session: Session): void {
     this.apollo.mutate<ConnectHostToSession>({
       mutation: CONNECT_SESSION_HOST,
@@ -49,14 +77,10 @@ export class SessionService {
     }).subscribe({
       next: ({data}) => {
         const sessions = this.sessionsSubject.getValue()!.map((session) => {
-          if (session.id === data!.connectHostToSession.id) {
-            return {
-              ...session,
-              host: data!.connectHostToSession.host
-            }
+          return {
+            ...session,
+            host: session.id === data!.connectHostToSession.id ? data!.connectHostToSession.host : session.host
           }
-          return session
-
         })
         this.setSessions(sessions)
       },
@@ -64,7 +88,22 @@ export class SessionService {
     })
   }
 
-  public subscribeToSessions(): void {
+  public setSession(session: Session | null): void {
+    this.sessionSubject.next(session)
+  }
+
+  public setSessions(sessions: Array<Session>): void {
+    this.sessionsSubject.next(sessions)
+  }
+
+  public addUserToSession(session: Session, user: User): void {
+    this.sessionSubject.next({
+      ...session,
+      players: [...session.players, user]
+    })
+  }
+
+  private subscribeToSessions(): void {
     this.apollo.subscribe<SessionDeleted>({
       query: DELETE_SESSION_SUBSCRIPTION
     }).subscribe({
@@ -83,21 +122,6 @@ export class SessionService {
       ).subscribe({
         next: (sessions) => this.setSessions([...sessions??[], data!.sessionCreated]),
       })
-    })
-  }
-
-  public setSession(session: Session | null): void {
-    this.sessionSubject.next(session)
-  }
-
-  public setSessions(sessions: Array<Session>): void {
-    this.sessionsSubject.next(sessions)
-  }
-
-  public addUserToSession(session: Session, user: User): void {
-    this.sessionSubject.next({
-      ...session,
-      players: [...session.players, user]
     })
   }
 }

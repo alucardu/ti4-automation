@@ -46,3 +46,11 @@ body {
     --mdc-snackbar-container-color: #43a446;
   }
 }
+
+.inputContainerWithButton {
+  display: flex;
+  width: 100%;
+  .mat-mdc-unelevated-button {
+    height: 3.5rem;
+  }
+}
