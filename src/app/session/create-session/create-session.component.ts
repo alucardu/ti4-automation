@@ -30,7 +30,10 @@ export class CreateSessionComponent {
       filter(([user, session]) => !!user && !!session),
       take(1),
     ).subscribe({
-      next: ([user, session]) => this.sessionService.connectHostToSession(user!, session!),
+      next: ([user, session]) => {
+        this.sessionService.connectHostToSession(user!, session!)
+        this.sessionService.addUserToSession(session!, user!)
+      },
     })
   }
 

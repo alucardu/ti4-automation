@@ -17,7 +17,7 @@
       <div class="inputContainerWithButton">
         <app-create-user></app-create-user>
         <button
-          [disabled]="!form.valid"
+          [disabled]="form.invalid"
           (click)="createUserAndSession()"
           mat-flat-button
           color="primary"

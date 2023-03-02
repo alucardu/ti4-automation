@@ -1,21 +1,23 @@
 <mat-card>
   <mat-card-content>
-    <mat-form-field
-      appearance="fill">
-      <mat-label>Your message: </mat-label>
-      <input
-        matInput
-        #input
-        maxlength="164"
-        (keyup.enter)="sendMessage()"
-        [formControl]="message"/>
-      <mat-hint align="end">{{input.value.length}}/164</mat-hint>
-    </mat-form-field>
-    <button
-      mat-flat-button
-      [disabled]="message.invalid"
-      (click)="sendMessage()"
-      color="primary">
-      Send message</button>
+    <div class="inputContainerWithButton">
+      <mat-form-field
+        appearance="fill">
+        <mat-label>Your message: </mat-label>
+        <input
+          matInput
+          #input
+          maxlength="164"
+          (keyup.enter)="sendMessage()"
+          [formControl]="message"/>
+        <mat-hint align="end">{{input.value.length}}/164</mat-hint>
+      </mat-form-field>
+      <button
+        mat-flat-button
+        [disabled]="message.invalid"
+        (click)="sendMessage()"
+        color="primary">
+        Send message</button>
+    </div>
   </mat-card-content>
 </mat-card>
