@@ -13,6 +13,7 @@ export const sessionTypeDefs = gql`
     name: String
     players: [User]
     sessionId: ID
+    host: User
   }
 
   type sessionDeleted {
@@ -27,6 +28,7 @@ export const sessionTypeDefs = gql`
 
   type Mutation {
     createSession(name: String!): Session
+    connectHostToSession(sessionId: ID!, userId: ID!): Session
     deleteSession(id: ID!): sessionDeleted
   }
 

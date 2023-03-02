@@ -26,9 +26,9 @@ export class AppComponent {
     private sessionService: SessionService,
     private userService: UserService,
   ) {
-    this.session$.subscribe(() => {
-      this.actionType = ActionType.JOIN
-});
+    this.session$.subscribe((data) => {
+      data ? this.actionType = ActionType.JOIN : null
+    });
   }
 
   public setActionType(actionType: ActionType): void {

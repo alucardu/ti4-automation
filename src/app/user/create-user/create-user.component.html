@@ -1,29 +1,17 @@
-<mat-card *ngIf="!user">
-  <mat-card-content>
-    <mat-form-field
-      hintLabel="User name must be between 3 and 8 characters"
-      appearance="fill">
-      <mat-label>User name</mat-label>
-      <input
-        matInput
-        #input
-        maxlength="8"
-        type="text"
-        (keyup.enter)="createUserName(userName)"
-        [formControl]="userName"
-      >
-      <mat-hint align="end">{{input.value.length}}/8</mat-hint>
-      <mat-error *ngIf="userName.invalid">{{getErrorMessage()}}</mat-error>
-    </mat-form-field>
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="userName.invalid"
-      (click)="createUserName(userName)">
-      Start session
-    </button>
-    <div *ngIf="errorMessage">
-      {{errorMessage}}
-    </div>
-  </mat-card-content>
-</mat-card>
+<ng-container
+  formGroupName="user">
+  <mat-form-field
+    hintLabel="User name must be between 3 and 8 characters"
+    appearance="fill">
+    <mat-label>User name</mat-label>
+    <input
+      matInput
+      #input
+      maxlength="8"
+      type="text"
+      formControlName="userName"
+    >
+    <mat-hint align="end">{{input.value.length}}/8</mat-hint>
+    <mat-error *ngIf="parentForm.get('user')?.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+</ng-container>

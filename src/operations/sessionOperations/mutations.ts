@@ -6,9 +6,31 @@ const CREATE_SESSION = gql`
       id
       code
       name
+      host {
+        id
+        name
+      }
       players {
         id
         name
+      }
+    }
+  }
+`
+
+const CONNECT_SESSION_HOST = gql`
+  mutation connectHostToSession($sessionId: ID!, $userId: ID!) {
+    connectHostToSession(sessionId: $sessionId, userId: $userId) {
+      id
+      code
+      name
+      players {
+        id
+        name
+      }
+      host {
+        name
+        id
       }
     }
   }
@@ -31,5 +53,6 @@ const DELETE_SESSION = gql`
 
 export {
   CREATE_SESSION,
+  CONNECT_SESSION_HOST,
   DELETE_SESSION
 }

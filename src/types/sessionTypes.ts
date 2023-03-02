@@ -7,6 +7,7 @@ export type Session = {
   name: string;
   players: Array<User>;
   userId: number;
+  host?: User;
 }
 
 // QUERIES
@@ -21,6 +22,10 @@ export type GetSession = {
 // MUTATIONS
 export type CreateSession = {
   createSession: Session;
+}
+
+export type ConnectHostToSession = {
+  connectHostToSession: Session
 }
 
 export type DeleteSession = {

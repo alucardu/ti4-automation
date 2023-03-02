@@ -3,7 +3,7 @@ import { gql } from 'apollo-angular';
 const CREATE_USER = gql`
   mutation CreateUser(
     $name: String!
-    $sessionId: ID!
+    $sessionId: ID
   ) {
     createUser(
       name: $name

@@ -10,7 +10,7 @@ export const userTypeDefs = gql`
   type Mutation {
     createUser(
       name: String!
-      sessionId: ID!
+      sessionId: ID
     ): User
   }
 `;

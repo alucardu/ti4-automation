@@ -14,6 +14,7 @@ export const sessionResolvers = {
           code: args.code
         },
         include: {
+          host: true,
           players: {
             orderBy: {
               id: 'asc',
@@ -24,7 +25,12 @@ export const sessionResolvers = {
     },
 
     getSessions: async () => {
-      return await prisma.session.findMany()
+      return await prisma.session.findMany({
+        include: {
+          host: true,
+          players: true
+        }
+      })
     },
   },
 
@@ -35,20 +41,37 @@ export const sessionResolvers = {
         data: {
           name: args.name,
           code: code,
-          host: {
-            connect: {
-              id: 1
-            }
-          }
         },
         include: {
-          players: {}
+          host: true,
+          players: true
         }
       })
 
       pubsub.publish('SESSION_CREATED', { sessionCreated: session })
 
       return session;
+    },
+
+    connectHostToSession: async (_, args) => {
+      const session = await prisma.session.update({
+        where: {
+          id: Number(args.sessionId)
+        },
+        data: {
+          host: {
+            connect: {
+              id: Number(args.userId)
+            }
+          }
+        },
+        include: {
+          players: true,
+          host: true
+        }
+      })
+
+      return session
     },
 
     deleteSession: async (_, args) => {

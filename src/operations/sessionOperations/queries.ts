@@ -6,6 +6,10 @@ const GET_SESSION = gql`
       id
       code
       name
+      host {
+        id
+        name
+      }
       players {
         id
         name
@@ -20,6 +24,14 @@ const GET_SESSIONS = gql`
       id
       code
       name
+      host {
+        id
+        name
+      }
+      players {
+        id
+        name
+      }
     }
   }
 `
