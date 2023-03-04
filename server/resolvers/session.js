@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { PubSub } from 'graphql-subscriptions';
+import { PubSub, withFilter } from 'graphql-subscriptions';
 import cryptoRandomString from 'crypto-random-string';
 
 const pubsub = new PubSub()
@@ -74,6 +74,40 @@ export const sessionResolvers = {
       return session
     },
 
+    connectUserToSession: async (_, args) => {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: Number(args.userId)
+        }
+      })
+
+      const session = await prisma.session.update({
+        where: {
+          id: Number(args.sessionId)
+        },
+        data: {
+          players: {
+            connect: {
+              id: Number(args.userId)
+            }
+          }
+        },
+        include: {
+          players: true,
+          host: true
+        }
+      })
+
+      pubsub.publish('USER_JOINED_SESSION', {
+        userJoinedSession: {
+          session: session,
+          user: user,
+        }
+      })
+
+      return session
+    },
+
     deleteSession: async (_, args) => {
       const session = await prisma.session.delete({
         where: {
@@ -98,7 +132,16 @@ export const sessionResolvers = {
 
     sessionCreated: {
       subscribe: () => {
-        return pubsub.asyncIterator(['SESSION_CREATED'])},
+        return pubsub.asyncIterator(['SESSION_CREATED'])
+      },
+    },
+
+    userJoinedSession: {
+      subscribe: withFilter(() => pubsub.asyncIterator('USER_JOINED_SESSION'),
+        (payload, session) => {
+          return payload.userJoinedSession.session.id === +session.id
+        },
+      ),
     },
   }
 };
