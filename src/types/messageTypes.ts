@@ -1,3 +1,4 @@
+import { Session } from "./sessionTypes";
 import { User } from "./userTypes";
 
 // TYPES
@@ -15,4 +16,12 @@ export type GetMessages = {
 // MUTATIONS
 export type CreateMessage = {
   createMessage: Message
+}
+
+// SUBSCRIPTIONS
+export type UserSendMessage = {
+  userSendMessage: {
+    message: Message
+    session: Session
+  }
 }
