@@ -87,6 +87,9 @@ export class SessionService {
       }
     }).subscribe({
       next: ({data}) => {
+        if (!this.sessionsSubject.getValue()) {
+          return;
+        }
         const sessions = this.sessionsSubject.getValue()!.map((session) => {
           return {
             ...session,
