@@ -23,15 +23,6 @@ export const sessionResolvers = {
         },
       })
     },
-
-    getSessions: async () => {
-      return await prisma.session.findMany({
-        include: {
-          host: true,
-          players: true
-        }
-      })
-    },
   },
 
   Mutation: {

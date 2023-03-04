@@ -18,25 +18,6 @@ const GET_SESSION = gql`
   }
 `
 
-const GET_SESSIONS = gql`
-  query GetSessions {
-    getSessions {
-      id
-      code
-      name
-      host {
-        id
-        name
-      }
-      players {
-        id
-        name
-      }
-    }
-  }
-`
-
 export {
   GET_SESSION,
-  GET_SESSIONS,
 }

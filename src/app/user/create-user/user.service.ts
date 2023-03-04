@@ -11,8 +11,8 @@ import { CreateUser, User } from 'src/types/userTypes';
   providedIn: 'root'
 })
 export class UserService {
-  private subject = new BehaviorSubject<User | null>(null);
-  public user$ = this.subject.asObservable();
+  public userSubject = new BehaviorSubject<User | null>(null);
+  public user$ = this.userSubject.asObservable();
 
   constructor(
     private apollo: Apollo,
@@ -37,6 +37,6 @@ export class UserService {
   }
 
   public setUser(user: User | null): void {
-    this.subject.next(user);
+    this.userSubject.next(user);
   }
 }
