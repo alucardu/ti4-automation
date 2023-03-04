@@ -8,12 +8,13 @@ import { NotificationService, notificationType } from '../material/notification.
 import { FormGroup } from '@angular/forms';
 import { CONNECT_SESSION_HOST, CONNECT_SESSION_USER, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
+import { MessageService } from '../messages/message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private sessionSubject = new BehaviorSubject<Session | null>(null);
+  public sessionSubject = new BehaviorSubject<Session | null>(null);
   public session$ = this.sessionSubject.asObservable();
 
   private sessionsSubject = new BehaviorSubject<Array<Session> | null>(null);
@@ -21,7 +22,8 @@ export class SessionService {
 
   constructor(
     private apollo: Apollo,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private messageService: MessageService
   ) {
     this.subscribeToSessions();
   }
@@ -42,10 +44,6 @@ export class SessionService {
   }
 
   public joinSession(sessionCode: string): void {
-    this.session$.pipe().subscribe({
-      next: (data) => console.log(data)
-    })
-
     this.apollo.query<GetSession>({
       query: GET_SESSION,
       variables: {
@@ -55,7 +53,6 @@ export class SessionService {
       next: ({data}) => {
         this.setSession(data.getSession)
         this.notificationService.openSnackBar(`Joined session: ${data?.getSession.name}`, notificationType.SUCCESS)
-        console.log(data)
       }
     })
   }
@@ -99,6 +96,7 @@ export class SessionService {
         this.setSessions(sessions)
         this.addUserToSession(session!, user!)
         this.subscribeToSession();
+        this.messageService.subscribeToMessages(session!);
       },
       error: (err) => console.log(err)
     })

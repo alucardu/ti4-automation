@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
+import { PubSub, withFilter } from 'graphql-subscriptions';
 
+const pubsub = new PubSub()
 const prisma = new PrismaClient()
 
 // Provide resolver functions for your schema fields
@@ -19,7 +21,13 @@ export const messageResolvers = {
 
   Mutation: {
     createMessage: async (_, args) => {
-      return await prisma.message.create({
+      const session = await prisma.session.findUnique({
+        where: {
+          id: Number(args.sessionId)
+        }
+      });
+
+      const message = await prisma.message.create({
         data: {
           message: args.message,
           user: {
@@ -37,6 +45,24 @@ export const messageResolvers = {
           user: true
         }
       })
+
+      pubsub.publish('USER_SEND_MESSAGE', {
+        userSendMessage: {
+          session: session,
+          message: message
+        }
+      })
+
+      return message
     },
   },
+
+  Subscription: {
+    userSendMessage: {
+      subscribe: withFilter(() => pubsub.asyncIterator('USER_SEND_MESSAGE'),
+      (payload, session) => {
+        return payload.userSendMessage.session.id === +session.id
+      })
+    }
+  }
 };
