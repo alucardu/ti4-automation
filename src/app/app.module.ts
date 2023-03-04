@@ -15,6 +15,7 @@ import { DisplayMessagesComponent } from './messages/display-messages/display-me
 import { DisplaySessionsComponent } from './session/display-sessions/display-sessions.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteSessionComponent } from './session/delete-session/delete-session.component';
+import { SessionInformationComponent } from './session/session-information/session-information.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DeleteSessionComponent } from './session/delete-session/delete-session.
     CreateMessageComponent,
     DisplayMessagesComponent,
     DisplaySessionsComponent,
-    DeleteSessionComponent
+    DeleteSessionComponent,
+    SessionInformationComponent
   ],
   imports: [
     BrowserModule,
