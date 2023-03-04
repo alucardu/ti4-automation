@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { BehaviorSubject, take } from 'rxjs';
-import { ConnectHostToSession, CreateSession, GetSession, Session, SessionCreated, SessionDeleted } from 'src/types/sessionTypes';
-import { CREATE_SESSION_SUBSCRIPTION, DELETE_SESSION_SUBSCRIPTION } from 'src/operations/sessionOperations/subscriptions';
+import { ConnectHostToSession, ConnectUserToSession, CreateSession, GetSession, Session, SessionCreated, SessionDeleted, UserJoinedSession } from 'src/types/sessionTypes';
+import { CREATE_SESSION_SUBSCRIPTION, DELETE_SESSION_SUBSCRIPTION, USER_JOINED_SESSION } from 'src/operations/sessionOperations/subscriptions';
 import { User } from 'src/types/userTypes';
 import { NotificationService, notificationType } from '../material/notification.service';
 import { FormGroup } from '@angular/forms';
-import { CONNECT_SESSION_HOST, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
+import { CONNECT_SESSION_HOST, CONNECT_SESSION_USER, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { stringIsSetAndFilled } from '../util/stringUtils';
 
@@ -55,7 +55,7 @@ export class SessionService {
     this.sessionQuery.valueChanges.subscribe({
       next: ({data}) => {
         if (stringIsSetAndFilled(data.getSession?.code)) {
-          this.notificationService.openSnackBar(`Created session: ${data?.getSession.name}`, notificationType.SUCCESS)
+          this.notificationService.openSnackBar(`Joined session: ${data?.getSession.name}`, notificationType.SUCCESS)
           this.session = data.getSession
           this.setSession(data.getSession)
         } else {
@@ -88,8 +88,31 @@ export class SessionService {
     })
   }
 
+  public connectUserToSession(user: User, session: Session): void {
+    this.apollo.mutate<ConnectUserToSession>({
+      mutation: CONNECT_SESSION_USER,
+      variables: {
+        sessionId: session.id,
+        userId: user?.id
+      }
+    }).subscribe({
+      next: ({data}) => {
+        const sessions = this.sessionsSubject.getValue()!.map((session) => {
+          return {
+            ...session,
+            host: session.id === data!.connectUserToSession.id ? data!.connectUserToSession.host : session.host
+          }
+        })
+        this.setSessions(sessions)
+      },
+      error: (err) => console.log(err)
+    })
+  }
+
   public setSession(session: Session | null): void {
     this.sessionSubject.next(session)
+
+    this.subscribeToSession();
   }
 
   public setSessions(sessions: Array<Session>): void {
@@ -122,6 +145,19 @@ export class SessionService {
       ).subscribe({
         next: (sessions) => this.setSessions([...sessions??[], data!.sessionCreated]),
       })
+    })
+  }
+
+  private subscribeToSession(): void {
+    this.apollo.subscribe<UserJoinedSession>({
+      query: USER_JOINED_SESSION,
+      variables: {
+        ...this.sessionSubject.getValue()
+      },
+    }).subscribe({
+      next: ({data}) => {
+        this.notificationService.openSnackBar(`${data?.userJoinedSession.user.name} has joined your session`, notificationType.SUCCESS)
+      },
     })
   }
 }

@@ -29,7 +29,10 @@ export class JoinSessionComponent {
       filter(([user, session]) => !!user && !!session),
       take(1)
     ).subscribe({
-      next: ([user, session]) => this.sessionService.addUserToSession(session!, user!)
+      next: ([user, session]) => {
+        this.sessionService.connectUserToSession(user!, session!)
+        this.sessionService.addUserToSession(session!, user!)
+      }
     })
   }
 

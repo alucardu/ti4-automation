@@ -28,6 +28,10 @@ export type ConnectHostToSession = {
   connectHostToSession: Session
 }
 
+export type ConnectUserToSession = {
+  connectUserToSession: Session
+}
+
 export type DeleteSession = {
   deleteSession: {
     session: Session
@@ -45,4 +49,11 @@ export type SessionDeleted = {
     session: Session
     sessions: Array<Session>
   };
+}
+
+export type UserJoinedSession = {
+  userJoinedSession: {
+    user: User
+    session: Session
+  }
 }
