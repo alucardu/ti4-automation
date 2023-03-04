@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Apollo, QueryRef } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { GET_MESSAGES } from 'src/operations/messageOperations/queries';
 import { Session } from 'src/types/sessionTypes';
 import { MessageService } from '../message.service';
@@ -15,8 +15,6 @@ export class DisplayMessagesComponent implements OnInit {
 
   protected messages$ = this.messageService.messages$;
 
-  private messagesQuery!: QueryRef<GetMessages>
-
   constructor(
     private apollo: Apollo,
     private messageService: MessageService,
@@ -27,15 +25,13 @@ export class DisplayMessagesComponent implements OnInit {
   }
 
   public getMessages(session: Session): void {
-    this.messagesQuery = this.apollo.watchQuery<GetMessages>({
+    this.apollo.query<GetMessages>({
       query: GET_MESSAGES,
       variables: {
         sessionId: session.id
       }
-    })
-
-    this.messagesQuery.valueChanges.subscribe(({data}) => {
-      this.messageService.setMessages(data.getMessages)
+    }).subscribe({
+      next: ({data}) => this.messageService.setMessages(data.getMessages)
     })
   }
 }
