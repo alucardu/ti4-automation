@@ -28,7 +28,6 @@ export const sessionTypeDefs = gql`
 
   type Query {
     getSession(code: String!): Session
-    getSessions: [Session]
   }
 
   type Mutation {

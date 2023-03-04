@@ -11,10 +11,6 @@ export type Session = {
 }
 
 // QUERIES
-export type GetSessions = {
-  getSessions: Array<Session>
-}
-
 export type GetSession = {
   getSession: Session;
 }
