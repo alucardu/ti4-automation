@@ -54,6 +54,12 @@ export const sessionResolvers = {
     },
 
     connectHostToSession: async (_, args) => {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: Number(args.userId)
+        }
+      })
+
       const session = await prisma.session.update({
         where: {
           id: Number(args.sessionId)
@@ -68,6 +74,13 @@ export const sessionResolvers = {
         include: {
           players: true,
           host: true
+        }
+      })
+
+      pubsub.publish('USER_JOINED_SESSION', {
+        userJoinedSession: {
+          session: session,
+          user: user,
         }
       })
 

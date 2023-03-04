@@ -31,8 +31,8 @@ export class CreateSessionComponent {
       take(1),
     ).subscribe({
       next: ([user, session]) => {
+        this.sessionService.connectUserToSession(user!, session!)
         this.sessionService.connectHostToSession(user!, session!)
-        this.sessionService.addUserToSession(session!, user!)
       },
     })
   }

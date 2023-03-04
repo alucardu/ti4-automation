@@ -29,7 +29,6 @@ export class UserService {
     .subscribe({
       next: ({data}) => {
         data ? this.setUser(data.createUser) : null
-        this.notificationService.openSnackBar(`Created user name: ${data?.createUser.name}`, notificationType.SUCCESS)
       },
       error: (e: GraphQLError) => {
         this.notificationService.openSnackBar({...e}.message, notificationType.WARNING)
