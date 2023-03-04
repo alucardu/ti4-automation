@@ -17,7 +17,6 @@ const CREATE_SESSION = gql`
     }
   }
 `
-
 const CONNECT_SESSION_HOST = gql`
   mutation connectHostToSession($sessionId: ID!, $userId: ID!) {
     connectHostToSession(sessionId: $sessionId, userId: $userId) {

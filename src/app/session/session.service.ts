@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Apollo, QueryRef } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, take } from 'rxjs';
 import { ConnectHostToSession, ConnectUserToSession, CreateSession, GetSession, Session, SessionCreated, SessionDeleted, UserJoinedSession } from 'src/types/sessionTypes';
 import { CREATE_SESSION_SUBSCRIPTION, DELETE_SESSION_SUBSCRIPTION, USER_JOINED_SESSION } from 'src/operations/sessionOperations/subscriptions';
@@ -8,7 +8,6 @@ import { NotificationService, notificationType } from '../material/notification.
 import { FormGroup } from '@angular/forms';
 import { CONNECT_SESSION_HOST, CONNECT_SESSION_USER, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
-import { stringIsSetAndFilled } from '../util/stringUtils';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +18,6 @@ export class SessionService {
 
   private sessionsSubject = new BehaviorSubject<Array<Session> | null>(null);
   public sessions$ = this.sessionsSubject.asObservable();
-
-  private sessionQuery!: QueryRef<GetSession>;
-  public session!: Session | null;
 
   constructor(
     private apollo: Apollo,
@@ -39,31 +35,28 @@ export class SessionService {
     }).subscribe({
       next: ({data}) => {
         this.setSession(data!.createSession)
+        this.notificationService.openSnackBar(`Created session: ${data?.createSession.name}`, notificationType.SUCCESS)
       },
       error: (e) => console.log(e),
     });
   }
 
   public joinSession(sessionCode: string): void {
-    this.sessionQuery = this.apollo.watchQuery<GetSession>({
+    this.session$.pipe().subscribe({
+      next: (data) => console.log(data)
+    })
+
+    this.apollo.query<GetSession>({
       query: GET_SESSION,
       variables: {
         code: sessionCode
       }
-    })
-
-    this.sessionQuery.valueChanges.subscribe({
+    }).subscribe({
       next: ({data}) => {
-        if (stringIsSetAndFilled(data.getSession?.code)) {
-          this.notificationService.openSnackBar(`Joined session: ${data?.getSession.name}`, notificationType.SUCCESS)
-          this.session = data.getSession
-          this.setSession(data.getSession)
-        } else {
-          this.notificationService.openSnackBar('Session not found', notificationType.WARNING)
-          this.session = null
-        }
-      },
-      error: (err) => console.log(err)
+        this.setSession(data.getSession)
+        this.notificationService.openSnackBar(`Joined session: ${data?.getSession.name}`, notificationType.SUCCESS)
+        console.log(data)
+      }
     })
   }
 
@@ -104,6 +97,8 @@ export class SessionService {
           }
         })
         this.setSessions(sessions)
+        this.addUserToSession(session!, user!)
+        this.subscribeToSession();
       },
       error: (err) => console.log(err)
     })
@@ -111,8 +106,6 @@ export class SessionService {
 
   public setSession(session: Session | null): void {
     this.sessionSubject.next(session)
-
-    this.subscribeToSession();
   }
 
   public setSessions(sessions: Array<Session>): void {
@@ -123,6 +116,13 @@ export class SessionService {
     this.sessionSubject.next({
       ...session,
       players: [...session.players, user]
+    })
+  }
+
+  private updateSessionUsers(session: Session): void {
+    this.sessionSubject.next({
+      ...session,
+      players: session.players
     })
   }
 
@@ -156,7 +156,10 @@ export class SessionService {
       },
     }).subscribe({
       next: ({data}) => {
-        this.notificationService.openSnackBar(`${data?.userJoinedSession.user.name} has joined your session`, notificationType.SUCCESS)
+        if (data?.userJoinedSession.session.host!.id !== data!.userJoinedSession.user.id) {
+          this.notificationService.openSnackBar(`${data?.userJoinedSession.user.name} has joined your session`, notificationType.SUCCESS)
+          this.updateSessionUsers(data!.userJoinedSession.session);
+        }
       },
     })
   }
