@@ -1,14 +1,8 @@
 import { gql } from 'apollo-angular';
 
 const USER_SEND_MESSAGE = gql`
-  subscription UserSendMEssage(
-    $id: ID
-    $name: String
-  ) {
-    userSendMessage(
-      id: $id
-      name: $name
-    ) {
+  subscription UserSendMEssage($id: ID, $name: String) {
+    userSendMessage(id: $id, name: $name) {
       session {
         id
         name
@@ -33,7 +27,4 @@ const USER_SEND_MESSAGE = gql`
   }
 `;
 
-
-export {
-  USER_SEND_MESSAGE
-}
+export { USER_SEND_MESSAGE };

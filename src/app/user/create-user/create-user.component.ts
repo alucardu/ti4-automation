@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import {
+  ControlContainer,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
-  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }]
+  viewProviders: [
+    { provide: ControlContainer, useExisting: FormGroupDirective },
+  ],
 })
-
 export class CreateUserComponent implements OnInit {
   public parentForm!: FormGroup;
 
-  constructor(
-    private parent: FormGroupDirective,
-    private fb: FormBuilder,
-  ) {}
+  constructor(private parent: FormGroupDirective, private fb: FormBuilder) {}
 
   public ngOnInit(): void {
     this.parentForm = this.parent.form;
@@ -24,8 +29,8 @@ export class CreateUserComponent implements OnInit {
         userName: new FormControl('', [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(8)
-        ])
+          Validators.maxLength(8),
+        ]),
       })
     );
   }
@@ -43,7 +48,6 @@ export class CreateUserComponent implements OnInit {
       return 'User name cannot be longer than 8 characters';
     }
 
-    return null
+    return null;
   }
-
 }

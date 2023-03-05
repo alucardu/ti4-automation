@@ -1,9 +1,9 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 // Construct a schema, using GraphQL schema language
 export const sessionTypeDefs = gql`
   type User {
-    id: ID,
+    id: ID
     name: String
   }
 
@@ -32,7 +32,11 @@ export const sessionTypeDefs = gql`
 
   type Mutation {
     createSession(name: String!): Session
-    connectUserToSession(sessionId: ID!, userId: ID!, userType: String!): Session
+    connectUserToSession(
+      sessionId: ID!
+      userId: ID!
+      userType: String!
+    ): Session
     deleteSession(id: ID!): sessionDeleted
   }
 

@@ -1,12 +1,8 @@
 import { gql } from 'apollo-angular';
 
 const GET_MESSAGES = gql`
-  query GetMessages(
-    $sessionId: ID!
-  ) {
-    getMessages(
-      sessionId: $sessionId
-    ) {
+  query GetMessages($sessionId: ID!) {
+    getMessages(sessionId: $sessionId) {
       message
       user {
         id
@@ -14,8 +10,6 @@ const GET_MESSAGES = gql`
       }
     }
   }
-`
+`;
 
-export {
-  GET_MESSAGES
-}
+export { GET_MESSAGES };

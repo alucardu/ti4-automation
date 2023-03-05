@@ -1,27 +1,27 @@
-import { Session } from "./sessionTypes";
-import { User } from "./userTypes";
+import { Session } from './sessionTypes';
+import { User } from './userTypes';
 
 // TYPES
 export type Message = {
   id: number;
-  message: string
-  user: User
-}
+  message: string;
+  user: User;
+};
 
 // QUERIES
 export type GetMessages = {
-  getMessages: Array<Message>
-}
+  getMessages: Array<Message>;
+};
 
 // MUTATIONS
 export type CreateMessage = {
-  createMessage: Message
-}
+  createMessage: Message;
+};
 
 // SUBSCRIPTIONS
 export type UserSendMessage = {
   userSendMessage: {
-    message: Message
-    session: Session
-  }
-}
+    message: Message;
+    session: Session;
+  };
+};

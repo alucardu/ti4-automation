@@ -1,4 +1,6 @@
-export const stringIsSetAndFilled = function (value: string | undefined): boolean {
+export const stringIsSetAndFilled = function (
+  value: string | undefined
+): boolean {
   if (typeof value !== 'string') {
     return false;
   }
@@ -12,4 +14,4 @@ export const stringIsSetAndFilled = function (value: string | undefined): boolea
     return false;
   }
   return true;
-}
+};

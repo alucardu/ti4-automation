@@ -26,7 +26,7 @@ import { SessionInformationComponent } from './session/session-information/sessi
     CreateMessageComponent,
     DisplayMessagesComponent,
     DeleteSessionComponent,
-    SessionInformationComponent
+    SessionInformationComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,9 +34,9 @@ import { SessionInformationComponent } from './session/session-information/sessi
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

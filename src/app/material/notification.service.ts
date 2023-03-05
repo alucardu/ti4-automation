@@ -3,23 +3,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export enum notificationType {
   WARNING = 'warning',
-  SUCCESS = 'success'
+  SUCCESS = 'success',
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class NotificationService {
+  constructor(private matSnackBar: MatSnackBar) {}
 
-  constructor(
-    private matSnackBar: MatSnackBar
-  ) {}
-
-  public openSnackBar(message: string, type: notificationType, action?: string): void {
+  public openSnackBar(
+    message: string,
+    type: notificationType,
+    action?: string
+  ): void {
     this.matSnackBar.open(message, action, {
       duration: 3000,
-      panelClass: [type]
-    })
+      panelClass: [type],
+    });
   }
 }

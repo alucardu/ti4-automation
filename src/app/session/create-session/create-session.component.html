@@ -10,9 +10,11 @@
           maxlength="24"
           matInput
           (keyup.enter)="createUserAndSession()"
-          formControlName="sessionName">
-          <mat-hint align="end">{{input.value.length}}/24</mat-hint>
-          <mat-error *ngIf="form.get('sessionName')?.invalid">{{getErrorMessage()}}</mat-error>
+          formControlName="sessionName" />
+        <mat-hint align="end">{{ input.value.length }}/24</mat-hint>
+        <mat-error *ngIf="form.get('sessionName')?.invalid">{{
+          getErrorMessage()
+        }}</mat-error>
       </mat-form-field>
       <div class="inputContainerWithButton">
         <app-create-user></app-create-user>
@@ -20,8 +22,7 @@
           [disabled]="form.invalid"
           (click)="createUserAndSession()"
           mat-flat-button
-          color="primary"
-        >
+          color="primary">
           New session
         </button>
       </div>

@@ -16,16 +16,16 @@ const CREATE_SESSION = gql`
       }
     }
   }
-`
+`;
 
 const CONNECT_SESSION_USER = gql`
   mutation connectUserToSession(
-    $sessionId: ID!,
+    $sessionId: ID!
     $userId: ID!
     $userType: String!
   ) {
     connectUserToSession(
-      sessionId: $sessionId,
+      sessionId: $sessionId
       userId: $userId
       userType: $userType
     ) {
@@ -42,7 +42,7 @@ const CONNECT_SESSION_USER = gql`
       }
     }
   }
-`
+`;
 
 const DELETE_SESSION = gql`
   mutation DeleteSession($id: ID!) {
@@ -59,8 +59,4 @@ const DELETE_SESSION = gql`
   }
 `;
 
-export {
-  CREATE_SESSION,
-  CONNECT_SESSION_USER,
-  DELETE_SESSION
-}
+export { CREATE_SESSION, CONNECT_SESSION_USER, DELETE_SESSION };

@@ -11,17 +11,22 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
     uri: 'http://localhost:9000/graphql',
   });
 
-  const ws = new GraphQLWsLink(createClient({
-    url: 'ws://localhost:9000/graphql',
-  }));
+  const ws = new GraphQLWsLink(
+    createClient({
+      url: 'ws://localhost:9000/graphql',
+    })
+  );
 
   const link = split(
     ({ query }) => {
       const definition = getMainDefinition(query);
-      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
     },
     ws,
-    http,
+    http
   );
 
   return {

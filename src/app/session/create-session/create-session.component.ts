@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { filter, take, zip } from 'rxjs';
 import { UserService } from 'src/app/user/create-user/user.service';
 import { SessionService, UserType } from '../session.service';
@@ -7,33 +7,38 @@ import { SessionService, UserType } from '../session.service';
 @Component({
   selector: 'app-create-session',
   templateUrl: './create-session.component.html',
-  styleUrls: ['./create-session.component.scss']
+  styleUrls: ['./create-session.component.scss'],
 })
-
 export class CreateSessionComponent {
   public form: FormGroup = new FormGroup({
     sessionName: new FormControl('', [
       Validators.required,
       Validators.minLength(4),
-      Validators.maxLength(24)
-    ])
+      Validators.maxLength(24),
+    ]),
   });
 
   constructor(
     private userService: UserService,
-    private sessionService: SessionService,
+    private sessionService: SessionService
   ) {
-    this.sessionService.setSession(null)
-    this.userService.setUser(null)
+    this.sessionService.setSession(null);
+    this.userService.setUser(null);
 
-    zip(this.userService.user$, this.sessionService.session$).pipe(
-      filter(([user, session]) => !!user && !!session),
-      take(1),
-    ).subscribe({
-      next: ([user, session]) => {
-        this.sessionService.connectUserToSession(user!, session!, UserType.HOST);
-      },
-    })
+    zip(this.userService.user$, this.sessionService.session$)
+      .pipe(
+        filter(([user, session]) => !!user && !!session),
+        take(1)
+      )
+      .subscribe({
+        next: ([user, session]) => {
+          this.sessionService.connectUserToSession(
+            user!,
+            session!,
+            UserType.HOST
+          );
+        },
+      });
   }
 
   public getErrorMessage(): string | null {
@@ -49,11 +54,11 @@ export class CreateSessionComponent {
       return 'Session name cannot be longer than 16 characters';
     }
 
-    return null
+    return null;
   }
 
   public createUserAndSession(): void {
-    this.userService.createUser(this.form)
-    this.sessionService.createSession(this.form)
+    this.userService.createUser(this.form);
+    this.sessionService.createSession(this.form);
   }
 }

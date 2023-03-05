@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 // Provide resolver functions for your schema fields
 export const userResolvers = {
@@ -9,8 +9,8 @@ export const userResolvers = {
       return await prisma.user.create({
         data: {
           name: args.name,
-        }
-      })
+        },
+      });
     },
   },
 };

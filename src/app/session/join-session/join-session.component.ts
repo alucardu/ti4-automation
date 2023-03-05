@@ -11,26 +11,25 @@ import { User } from 'src/types/userTypes';
 @Component({
   selector: 'app-join-session',
   templateUrl: './join-session.component.html',
-  styleUrls: ['./join-session.component.scss']
+  styleUrls: ['./join-session.component.scss'],
 })
 export class JoinSessionComponent {
-
   public form: FormGroup = new FormGroup({
     sessionCode: new FormControl('', [
       Validators.required,
-      Validators.pattern("^[0-9]*$"),
+      Validators.pattern('^[0-9]*$'),
       Validators.minLength(6),
-    ])
-  })
+    ]),
+  });
 
   constructor(
     private apollo: Apollo,
     private sessionService: SessionService,
-    private userService: UserService,
+    private userService: UserService
   ) {
     this.userService.user$.subscribe({
-      next: (data) => this.getSession(data!, this.form.get('sessionCode')!.value)
-    })
+      next: data => this.getSession(data!, this.form.get('sessionCode')!.value),
+    });
   }
 
   public getErrorMessage(): string | null {
@@ -46,26 +45,30 @@ export class JoinSessionComponent {
       return 'Session code is a number';
     }
 
-    return null
+    return null;
   }
 
   public createUserJoinSession(): void {
-    this.userService.createUser(this.form)
+    this.userService.createUser(this.form);
   }
 
   private getSession(user: User, sessionCode: string): void {
-    this.apollo.query<GetSession>({
-      query: GET_SESSION,
-      variables: {
-        code: sessionCode
-      }
-    }).pipe(
-      filter(({data}) => !!data.getSession),
-    )
-    .subscribe({
-      next: ({data}) => {
-        this.sessionService.connectUserToSession(user!, data.getSession!, UserType.USER)
-      }
-    })
+    this.apollo
+      .query<GetSession>({
+        query: GET_SESSION,
+        variables: {
+          code: sessionCode,
+        },
+      })
+      .pipe(filter(({ data }) => !!data.getSession))
+      .subscribe({
+        next: ({ data }) => {
+          this.sessionService.connectUserToSession(
+            user!,
+            data.getSession!,
+            UserType.USER
+          );
+        },
+      });
   }
 }
