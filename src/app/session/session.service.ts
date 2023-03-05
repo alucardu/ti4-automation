@@ -66,13 +66,7 @@ export class SessionService {
       }
     }).subscribe({
       next: ({data}) => {
-        const sessions = this.sessionsSubject.getValue()!.map((session) => {
-          return {
-            ...session,
-            host: session.id === data!.connectHostToSession.id ? data!.connectHostToSession.host : session.host
-          }
-        })
-        this.setSessions(sessions)
+        this.sessionSubject.next(data!.connectHostToSession)
       },
       error: (err) => console.log(err)
     })
@@ -86,7 +80,9 @@ export class SessionService {
         userId: user?.id
       }
     }).subscribe({
-      next: () => {
+      next: ({data}) => {
+        this.setSession(data!.connectUserToSession)
+        this.connectHostToSession(user!, session!);
         this.addUserToSession(session!, user!)
         this.subscribeToSession();
         this.messageService.subscribeToMessages(session!);

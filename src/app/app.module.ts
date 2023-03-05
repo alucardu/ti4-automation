@@ -12,7 +12,6 @@ import { CreateUserComponent } from './user/create-user/create-user.component';
 import { CurrentusersComponent } from './user/current-users/current-users.component';
 import { CreateMessageComponent } from './messages/create-message/create-message.component';
 import { DisplayMessagesComponent } from './messages/display-messages/display-messages.component';
-import { DisplaySessionsComponent } from './session/display-sessions/display-sessions.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteSessionComponent } from './session/delete-session/delete-session.component';
 import { SessionInformationComponent } from './session/session-information/session-information.component';
@@ -26,7 +25,6 @@ import { SessionInformationComponent } from './session/session-information/sessi
     CurrentusersComponent,
     CreateMessageComponent,
     DisplayMessagesComponent,
-    DisplaySessionsComponent,
     DeleteSessionComponent,
     SessionInformationComponent
   ],
