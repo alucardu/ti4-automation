@@ -35,9 +35,7 @@ export class CreateMessageComponent {
         message: this.message.value
       }
     }).subscribe({
-      next: ({data}) => {
-        this.message.reset();
-      },
+      next: () => this.message.reset(),
       error: (err) => console.log(err)
     })
   }

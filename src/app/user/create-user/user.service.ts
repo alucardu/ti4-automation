@@ -27,12 +27,8 @@ export class UserService {
       }
     })
     .subscribe({
-      next: ({data}) => {
-        data ? this.setUser(data.createUser) : null
-      },
-      error: (e: GraphQLError) => {
-        this.notificationService.openSnackBar({...e}.message, notificationType.WARNING)
-      },
+      next: ({data}) => this.setUser(data!.createUser),
+      error: (e: GraphQLError) => this.notificationService.openSnackBar({...e}.message, notificationType.WARNING),
     })
   }
 
