@@ -52,7 +52,7 @@ export class SessionService {
     }).subscribe({
       next: ({data}) => {
         this.setSession(data.getSession)
-        this.notificationService.openSnackBar(`Joined session: ${data?.getSession.name}`, notificationType.SUCCESS)
+        this.notificationService.openSnackBar(`Joined session: ${data.getSession.name}`, notificationType.SUCCESS)
       }
     })
   }
@@ -86,17 +86,7 @@ export class SessionService {
         userId: user?.id
       }
     }).subscribe({
-      next: ({data}) => {
-        if (!this.sessionsSubject.getValue()) {
-          return;
-        }
-        const sessions = this.sessionsSubject.getValue()!.map((session) => {
-          return {
-            ...session,
-            host: session.id === data!.connectUserToSession.id ? data!.connectUserToSession.host : session.host
-          }
-        })
-        this.setSessions(sessions)
+      next: () => {
         this.addUserToSession(session!, user!)
         this.subscribeToSession();
         this.messageService.subscribeToMessages(session!);
