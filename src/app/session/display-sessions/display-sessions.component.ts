@@ -15,6 +15,4 @@ export class DisplaySessionsComponent {
     private sessionService: SessionService,
     private userService: UserService
   ) {}
-
-
 }
