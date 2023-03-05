@@ -3,8 +3,6 @@
   <button mat-flat-button color="primary" (click)="setActionType(actionTypeEnum.CREATE)">Create a session</button>
 </div>
 
-<app-display-sessions></app-display-sessions>
-
 <app-join-session *ngIf="actionType === actionTypeEnum.JOIN && (session$ | async) === null"></app-join-session>
 
 <ng-container *ngIf="actionType === actionTypeEnum.JOIN">
