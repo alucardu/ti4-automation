@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { SessionService, UserType } from '../session.service';
 import { UserService } from 'src/app/user/create-user/user.service';
-import { combineLatest, filter, take } from 'rxjs';
+import { filter } from 'rxjs';
+import { GetSession } from 'src/types/sessionTypes';
+import { GET_SESSION } from 'src/operations/sessionOperations/queries';
+import { Apollo } from 'apollo-angular';
+import { User } from 'src/types/userTypes';
 
 @Component({
   selector: 'app-join-session',
@@ -20,18 +23,13 @@ export class JoinSessionComponent {
     ])
   })
 
-
   constructor(
+    private apollo: Apollo,
     private sessionService: SessionService,
     private userService: UserService,
   ) {
-    combineLatest([this.userService.user$, this.sessionService.session$]).pipe(
-      filter(([user, session]) => !!user && !!session),
-      take(1)
-    ).subscribe({
-      next: ([user, session]) => {
-        this.sessionService.connectUserToSession(user!, session!, UserType.USER)
-      }
+    this.userService.user$.subscribe({
+      next: (data) => this.getSession(data!, this.form.get('sessionCode')!.value)
     })
   }
 
@@ -52,7 +50,22 @@ export class JoinSessionComponent {
   }
 
   public createUserJoinSession(): void {
-    this.sessionService.joinSession(this.form.get('sessionCode')?.value)
     this.userService.createUser(this.form)
+  }
+
+  private getSession(user: User, sessionCode: string): void {
+    this.apollo.query<GetSession>({
+      query: GET_SESSION,
+      variables: {
+        code: sessionCode
+      }
+    }).pipe(
+      filter(({data}) => !!data.getSession),
+    )
+    .subscribe({
+      next: ({data}) => {
+        this.sessionService.connectUserToSession(user!, data.getSession!, UserType.USER)
+      }
+    })
   }
 }

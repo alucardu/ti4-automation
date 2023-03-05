@@ -47,26 +47,12 @@ export class SessionService {
     });
   }
 
-  public joinSession(sessionCode: string): void {
-    this.apollo.query<GetSession>({
-      query: GET_SESSION,
-      variables: {
-        code: sessionCode
-      }
-    }).subscribe({
-      next: ({data}) => {
-        this.setSession(data.getSession)
-        this.notificationService.openSnackBar(`Joined session: ${data.getSession.name}`, notificationType.SUCCESS)
-      }
-    })
-  }
-
   public connectUserToSession(user: User, session: Session, userType: UserType): void {
     this.apollo.mutate<ConnectUserToSession>({
       mutation: CONNECT_SESSION_USER,
       variables: {
         sessionId: session.id,
-        userId: user?.id,
+        userId: user.id,
         userType: userType
       }
     }).subscribe({
@@ -75,7 +61,9 @@ export class SessionService {
         this.subscribeToSession();
         this.messageService.subscribeToMessages(session!);
       },
-      error: (err) => console.log(err)
+      error: () => {
+        this.notificationService.openSnackBar(`Username ${user.name} is already in use`, notificationType.WARNING)
+      }
     })
   }
 

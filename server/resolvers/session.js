@@ -52,38 +52,41 @@ export const sessionResolvers = {
         }
       })
 
-      const session = await prisma.session.update({
-        where: {
-          id: Number(args.sessionId)
-        },
-        data: {
-          host: userIsHost
-          ? {
+      try {
+        const session = await prisma.session.update({
+          where: {
+            id: Number(args.sessionId)
+          },
+          data: {
+            host: userIsHost
+            ? {
+                connect: {
+                  id: Number(args.userId)
+                },
+              }
+            : undefined,
+            players: {
               connect: {
                 id: Number(args.userId)
-              },
+              }
             }
-          : undefined,
-          players: {
-            connect: {
-              id: Number(args.userId)
-            }
+          },
+          include: {
+            players: true,
+            host: true
           }
-        },
-        include: {
-          players: true,
-          host: true
-        }
-      })
+        })
 
-      pubsub.publish('USER_JOINED_SESSION', {
-        userJoinedSession: {
-          session: session,
-          user: user,
-        }
-      })
-
-      return session
+        pubsub.publish('USER_JOINED_SESSION', {
+          userJoinedSession: {
+            session: session,
+            user: user,
+          }
+        })
+        return session
+      } catch {
+        throw new Error(`Username ${args.name} already exists`);
+      }
     },
 
     deleteSession: async (_, args) => {
