@@ -10,7 +10,7 @@ import { MessageService } from '../message.service';
 @Component({
   selector: 'app-create-message',
   templateUrl: './create-message.component.html',
-  styleUrls: ['./create-message.component.scss']
+  styleUrls: ['./create-message.component.scss'],
 })
 export class CreateMessageComponent {
   @Input() session!: Session;
@@ -18,25 +18,24 @@ export class CreateMessageComponent {
 
   public message = new FormControl('', [
     Validators.required,
-    Validators.maxLength(164)
-  ])
+    Validators.maxLength(164),
+  ]);
 
-  constructor(
-    private apollo: Apollo,
-    private messageService: MessageService
-  ) {}
+  constructor(private apollo: Apollo, private messageService: MessageService) {}
 
   public sendMessage(): void {
-    this.apollo.mutate<CreateMessage>({
-      mutation: CREATE_MESSAGE,
-      variables: {
-        sessionId: this.session.id,
-        userId: this.user.id,
-        message: this.message.value
-      }
-    }).subscribe({
-      next: () => this.message.reset(),
-      error: (err) => console.log(err)
-    })
+    this.apollo
+      .mutate<CreateMessage>({
+        mutation: CREATE_MESSAGE,
+        variables: {
+          sessionId: this.session.id,
+          userId: this.user.id,
+          message: this.message.value,
+        },
+      })
+      .subscribe({
+        next: () => this.message.reset(),
+        error: err => console.log(err),
+      });
   }
 }

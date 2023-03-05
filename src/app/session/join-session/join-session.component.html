@@ -1,18 +1,18 @@
 <mat-card>
   <mat-card-content>
     <form [formGroup]="form">
-      <mat-form-field
-        hintLabel="Session code is 6 numbers"
-        appearance="fill">
+      <mat-form-field hintLabel="Session code is 6 numbers" appearance="fill">
         <mat-label>Session code</mat-label>
         <input
           matInput
           #input
           maxlength="6"
           (keyup.enter)="createUserJoinSession()"
-          formControlName="sessionCode">
-          <mat-hint align="end">{{input.value.length}}/6</mat-hint>
-          <mat-error *ngIf="form.get('sessionCode')?.invalid">{{getErrorMessage()}}</mat-error>
+          formControlName="sessionCode" />
+        <mat-hint align="end">{{ input.value.length }}/6</mat-hint>
+        <mat-error *ngIf="form.get('sessionCode')?.invalid">{{
+          getErrorMessage()
+        }}</mat-error>
       </mat-form-field>
       <div class="inputContainerWithButton">
         <app-create-user></app-create-user>

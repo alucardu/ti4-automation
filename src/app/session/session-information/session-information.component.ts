@@ -5,9 +5,9 @@ import { User } from 'src/types/userTypes';
 @Component({
   selector: 'app-session-information',
   templateUrl: './session-information.component.html',
-  styleUrls: ['./session-information.component.scss']
+  styleUrls: ['./session-information.component.scss'],
 })
 export class SessionInformationComponent {
-  @Input() session!: Session
-  @Input() user!: User
+  @Input() session!: Session;
+  @Input() user!: User;
 }

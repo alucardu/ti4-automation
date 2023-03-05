@@ -7,8 +7,6 @@ const GET_USER = gql`
       name
     }
   }
-`
+`;
 
-export {
-  GET_USER,
-}
+export { GET_USER };

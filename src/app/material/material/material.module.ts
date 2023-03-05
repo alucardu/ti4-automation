@@ -15,8 +15,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatSnackBarModule
-  ]
+    MatSnackBarModule,
+  ],
 })
-
-export class MaterialModule { }
+export class MaterialModule {}

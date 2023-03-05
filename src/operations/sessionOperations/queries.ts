@@ -16,8 +16,6 @@ const GET_SESSION = gql`
       }
     }
   }
-`
+`;
 
-export {
-  GET_SESSION,
-}
+export { GET_SESSION };

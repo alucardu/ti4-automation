@@ -8,9 +8,8 @@ describe('DeleteSessionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteSessionComponent ]
-    })
-    .compileComponents();
+      declarations: [DeleteSessionComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DeleteSessionComponent);
     component = fixture.componentInstance;

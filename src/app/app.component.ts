@@ -8,30 +8,29 @@ enum ActionType {
   JOIN = 'join',
   CREATE = 'create',
   NONE = 'none',
-  ACTIVE = 'active'
+  ACTIVE = 'active',
 }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-
 export class AppComponent {
   public title = 'ti4-automation';
   public actionTypeEnum = ActionType;
-  public actionType: ActionType = ActionType.NONE
+  public actionType: ActionType = ActionType.NONE;
 
   protected session$ = this.sessionService.session$;
   protected user$ = this.userService.user$;
 
   constructor(
     private sessionService: SessionService,
-    private userService: UserService,
+    private userService: UserService
   ) {
-    this.session$.subscribe((data) => {
+    this.session$.subscribe(data => {
       if (stringIsSetAndFilled(data?.code)) {
-        this.actionType = ActionType.ACTIVE
+        this.actionType = ActionType.ACTIVE;
       }
     });
   }

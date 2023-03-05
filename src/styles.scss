@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
+html,
+body {
   height: 100%;
   display: flex;
   justify-content: center;
@@ -12,7 +13,10 @@ app-root {
   width: 768px;
 }
 
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
 
 body {
   .mat-mdc-card {
@@ -28,7 +32,7 @@ body {
     margin-right: 1rem;
     margin-bottom: 1rem;
   }
-  .mat-mdc-card-content>:last-child:not(.mat-mdc-card-footer) {
+  .mat-mdc-card-content > :last-child:not(.mat-mdc-card-footer) {
     min-width: fit-content;
     height: auto;
   }

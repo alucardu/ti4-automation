@@ -15,12 +15,8 @@ const CREATE_SESSION_SUBSCRIPTION = gql`
 `;
 
 const DELETE_SESSION_SUBSCRIPTION = gql`
-  subscription sessionDeleted(
-    $id: ID!
-  ) {
-    sessionDeleted(
-      id: $id
-    ) {
+  subscription sessionDeleted($id: ID!) {
+    sessionDeleted(id: $id) {
       session {
         name
       }
@@ -38,14 +34,8 @@ const DELETE_SESSION_SUBSCRIPTION = gql`
 `;
 
 const USER_JOINED_SESSION = gql`
-  subscription UserJoinedSession(
-    $id: ID
-    $name: String
-  ) {
-    userJoinedSession(
-      id: $id
-      name: $name
-    ) {
+  subscription UserJoinedSession($id: ID, $name: String) {
+    userJoinedSession(id: $id, name: $name) {
       session {
         id
         name
@@ -67,9 +57,8 @@ const USER_JOINED_SESSION = gql`
   }
 `;
 
-
 export {
   CREATE_SESSION_SUBSCRIPTION,
   DELETE_SESSION_SUBSCRIPTION,
-  USER_JOINED_SESSION
-}
+  USER_JOINED_SESSION,
+};

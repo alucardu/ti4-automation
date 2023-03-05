@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 // Construct a schema, using GraphQL schema language
 export const messageTypeDefs = gql`
@@ -23,17 +23,11 @@ export const messageTypeDefs = gql`
   }
 
   type Query {
-    getMessages(
-      sessionId: ID!
-    ): [Message]
+    getMessages(sessionId: ID!): [Message]
   }
 
   type Mutation {
-    createMessage(
-      sessionId: ID!
-      userId: ID!
-      message: String!
-    ): Message
+    createMessage(sessionId: ID!, userId: ID!, message: String!): Message
   }
 
   type Subscription {

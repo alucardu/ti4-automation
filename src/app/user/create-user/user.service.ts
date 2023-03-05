@@ -3,12 +3,15 @@ import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { BehaviorSubject } from 'rxjs';
-import { NotificationService, notificationType } from 'src/app/material/notification.service';
+import {
+  NotificationService,
+  notificationType,
+} from 'src/app/material/notification.service';
 import { CREATE_USER } from 'src/operations/userOperations/mutations';
 import { CreateUser, User } from 'src/types/userTypes';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   public userSubject = new BehaviorSubject<User | null>(null);
@@ -20,16 +23,21 @@ export class UserService {
   ) {}
 
   public createUser(form: FormGroup): void {
-    this.apollo.mutate<CreateUser>({
-      mutation: CREATE_USER,
-      variables: {
-        name: form.controls['user'].get('userName')?.value,
-      }
-    })
-    .subscribe({
-      next: ({data}) => this.setUser(data!.createUser),
-      error: (e: GraphQLError) => this.notificationService.openSnackBar({...e}.message, notificationType.WARNING),
-    })
+    this.apollo
+      .mutate<CreateUser>({
+        mutation: CREATE_USER,
+        variables: {
+          name: form.controls['user'].get('userName')?.value,
+        },
+      })
+      .subscribe({
+        next: ({ data }) => this.setUser(data!.createUser),
+        error: (e: GraphQLError) =>
+          this.notificationService.openSnackBar(
+            { ...e }.message,
+            notificationType.WARNING
+          ),
+      });
   }
 
   public setUser(user: User | null): void {
