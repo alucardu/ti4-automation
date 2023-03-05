@@ -2,3 +2,6 @@
 build
 coverage
 
+# We use ESLint for formatting
+*.ts
+*.js

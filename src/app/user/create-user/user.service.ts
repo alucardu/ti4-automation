@@ -3,10 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { GraphQLError } from 'graphql';
 import { BehaviorSubject } from 'rxjs';
-import {
-  NotificationService,
-  notificationType,
-} from 'src/app/material/notification.service';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import { CREATE_USER } from 'src/operations/userOperations/mutations';
 import { CreateUser, User } from 'src/types/userTypes';
 

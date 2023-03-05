@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from 'apollo-server-express'
 
 // Construct a schema, using GraphQL schema language
 export const messageTypeDefs = gql`
@@ -33,4 +33,4 @@ export const messageTypeDefs = gql`
   type Subscription {
     userSendMessage(id: ID, name: String): sessionMessage
   }
-`;
+`

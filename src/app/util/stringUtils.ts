@@ -13,5 +13,6 @@ export const stringIsSetAndFilled = function (
   if (value.length === 0) {
     return false;
   }
+
   return true;
 };

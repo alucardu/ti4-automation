@@ -1,6 +1,10 @@
 {
   "root": true,
   "ignorePatterns": ["projects/**/*"],
+  "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2020
+  },
   "overrides": [
     {
       "files": ["*.ts"],
@@ -11,6 +15,7 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "semi": ["error", "always"],
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/naming-convention": [
           "error",
@@ -35,6 +40,20 @@
             "prefix": "app",
             "style": "kebab-case"
           }
+        ],
+        "indent": ["error", 2],
+        "padding-line-between-statements": [
+          "error",
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "return"
+          }
+        ],
+        "lines-between-class-members": [
+          "error",
+          "always",
+          { "exceptAfterSingleLine": true }
         ]
       }
     },

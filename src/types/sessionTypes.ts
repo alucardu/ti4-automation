@@ -2,50 +2,50 @@ import { User } from './userTypes';
 
 // TYPES
 export type Session = {
-  id: number;
-  code: string;
-  name: string;
-  players: Array<User>;
-  userId: number;
-  host?: User;
-};
+  id: number
+  code: string
+  name: string
+  players: Array<User>
+  userId: number
+  host?: User
+}
 
 // QUERIES
 export type GetSession = {
-  getSession: Session;
-};
+  getSession: Session
+}
 
 // MUTATIONS
 export type CreateSession = {
-  createSession: Session;
-};
+  createSession: Session
+}
 
 export type ConnectUserToSession = {
-  connectUserToSession: Session;
-};
+  connectUserToSession: Session
+}
 
 export type DeleteSession = {
   deleteSession: {
-    session: Session;
-    sessions: Array<Session>;
-  };
-};
+    session: Session
+    sessions: Array<Session>
+  }
+}
 
 // SUBSCRIPTIONS
 export type SessionCreated = {
-  sessionCreated: Session;
-};
+  sessionCreated: Session
+}
 
 export type SessionDeleted = {
   sessionDeleted: {
-    session: Session;
-    sessions: Array<Session>;
-  };
-};
+    session: Session
+    sessions: Array<Session>
+  }
+}
 
 export type UserJoinedSession = {
   userJoinedSession: {
-    user: User;
-    session: Session;
-  };
-};
+    user: User
+    session: Session
+  }
+}

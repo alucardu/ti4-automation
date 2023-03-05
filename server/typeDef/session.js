@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from 'apollo-server-express'
 
 // Construct a schema, using GraphQL schema language
 export const sessionTypeDefs = gql`
@@ -45,4 +45,4 @@ export const sessionTypeDefs = gql`
     sessionDeleted(id: ID!): sessionDeleted
     userJoinedSession(id: ID, name: String): subscribeToSession
   }
-`;
+`

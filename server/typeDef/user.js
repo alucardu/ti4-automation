@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from 'apollo-server-express'
 
 // Construct a schema, using GraphQL schema language
 export const userTypeDefs = gql`
@@ -10,4 +10,4 @@ export const userTypeDefs = gql`
   type Mutation {
     createUser(name: String!, sessionId: ID): User
   }
-`;
+`

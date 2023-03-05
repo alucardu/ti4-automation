@@ -2,8 +2,8 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function main() {
-  const session = await prisma.session.create({});
+async function main(): Promise<void> {
+  //
 }
 
 main()
