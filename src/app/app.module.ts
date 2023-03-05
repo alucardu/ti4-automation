@@ -1,20 +1,20 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { MaterialModule } from './material/material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CreateSessionComponent } from './session/create-session/create-session.component';
-import { JoinSessionComponent } from './session/join-session/join-session.component';
-import { CreateUserComponent } from './user/create-user/create-user.component';
-import { CurrentusersComponent } from './user/current-users/current-users.component';
+import { MaterialModule } from './material/material/material.module';
 import { CreateMessageComponent } from './messages/create-message/create-message.component';
 import { DisplayMessagesComponent } from './messages/display-messages/display-messages.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CreateSessionComponent } from './session/create-session/create-session.component';
 import { DeleteSessionComponent } from './session/delete-session/delete-session.component';
+import { JoinSessionComponent } from './session/join-session/join-session.component';
 import { SessionInformationComponent } from './session/session-information/session-information.component';
+import { CreateUserComponent } from './user/create-user/create-user.component';
+import { CurrentusersComponent } from './user/current-users/current-users.component';
 
 @NgModule({
   declarations: [

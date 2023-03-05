@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, take } from 'rxjs';
 import {
-  ConnectUserToSession,
-  CreateSession,
-  GetSession,
-  Session,
-  SessionCreated,
-  SessionDeleted,
-  UserJoinedSession,
-} from 'src/types/sessionTypes';
+  CONNECT_SESSION_USER,
+  CREATE_SESSION,
+} from 'src/operations/sessionOperations/mutations';
 import {
   CREATE_SESSION_SUBSCRIPTION,
   DELETE_SESSION_SUBSCRIPTION,
   USER_JOINED_SESSION,
 } from 'src/operations/sessionOperations/subscriptions';
+import {
+  ConnectUserToSession,
+  CreateSession,
+  Session,
+  SessionCreated,
+  SessionDeleted,
+  UserJoinedSession,
+} from 'src/types/sessionTypes';
 import { User } from 'src/types/userTypes';
+
 import {
   NotificationService,
   notificationType,
 } from '../material/notification.service';
-import { FormGroup } from '@angular/forms';
-import {
-  CONNECT_SESSION_USER,
-  CREATE_SESSION,
-} from 'src/operations/sessionOperations/mutations';
-import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { MessageService } from '../messages/message.service';
 
 export enum UserType {
