@@ -29,6 +29,7 @@ export class DeleteSessionComponent {
       next: ({data}) => {
         this.notificationService.openSnackBar(`Removed session: ${data?.deleteSession.session.name}`, notificationType.SUCCESS)
         this.sessionService.setSessions(data!.deleteSession.sessions)
+        this.sessionService.setSession(null)
       },
     });
   }

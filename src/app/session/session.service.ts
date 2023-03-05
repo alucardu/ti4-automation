@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { BehaviorSubject, take } from 'rxjs';
-import { ConnectHostToSession, ConnectUserToSession, CreateSession, GetSession, Session, SessionCreated, SessionDeleted, UserJoinedSession } from 'src/types/sessionTypes';
+import { ConnectUserToSession, CreateSession, GetSession, Session, SessionCreated, SessionDeleted, UserJoinedSession } from 'src/types/sessionTypes';
 import { CREATE_SESSION_SUBSCRIPTION, DELETE_SESSION_SUBSCRIPTION, USER_JOINED_SESSION } from 'src/operations/sessionOperations/subscriptions';
 import { User } from 'src/types/userTypes';
 import { NotificationService, notificationType } from '../material/notification.service';
 import { FormGroup } from '@angular/forms';
-import { CONNECT_SESSION_HOST, CONNECT_SESSION_USER, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
+import { CONNECT_SESSION_USER, CREATE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { MessageService } from '../messages/message.service';
 
+export enum UserType {
+  HOST = 'host',
+  USER = 'user'
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -57,33 +61,17 @@ export class SessionService {
     })
   }
 
-  public connectHostToSession(user: User, session: Session): void {
-    this.apollo.mutate<ConnectHostToSession>({
-      mutation: CONNECT_SESSION_HOST,
-      variables: {
-        sessionId: session.id,
-        userId: user?.id
-      }
-    }).subscribe({
-      next: ({data}) => {
-        this.sessionSubject.next(data!.connectHostToSession)
-      },
-      error: (err) => console.log(err)
-    })
-  }
-
-  public connectUserToSession(user: User, session: Session): void {
+  public connectUserToSession(user: User, session: Session, userType: UserType): void {
     this.apollo.mutate<ConnectUserToSession>({
       mutation: CONNECT_SESSION_USER,
       variables: {
         sessionId: session.id,
-        userId: user?.id
+        userId: user?.id,
+        userType: userType
       }
     }).subscribe({
       next: ({data}) => {
         this.setSession(data!.connectUserToSession)
-        this.connectHostToSession(user!, session!);
-        this.addUserToSession(session!, user!)
         this.subscribeToSession();
         this.messageService.subscribeToMessages(session!);
       },
@@ -99,32 +87,13 @@ export class SessionService {
     this.sessionsSubject.next(sessions)
   }
 
-  public addUserToSession(session: Session, user: User): void {
-    this.sessionSubject.next({
-      ...session,
-      players: [...session.players, user]
-    })
-  }
-
   private updateSessionUsers(session: Session): void {
-    this.sessionSubject.next({
-      ...session,
-      players: session.players
-    })
+    this.sessionSubject.next(session)
   }
 
   private subscribeToSessions(): void {
-    this.apollo.subscribe<SessionDeleted>({
-      query: DELETE_SESSION_SUBSCRIPTION
-    }).subscribe({
-      next: ({data}) => {
-        this.setSessions(data!.sessionDeleted.sessions)
-        this.notificationService.openSnackBar(`Session: ${data?.sessionDeleted.session.name} was removed`, notificationType.SUCCESS)
-      }
-    })
-
     this.apollo.subscribe<SessionCreated>({
-      query: CREATE_SESSION_SUBSCRIPTION
+      query: CREATE_SESSION_SUBSCRIPTION,
     }).subscribe(({data}) => {
       this.sessions$
       .pipe(
@@ -136,6 +105,19 @@ export class SessionService {
   }
 
   private subscribeToSession(): void {
+    this.apollo.subscribe<SessionDeleted>({
+      query: DELETE_SESSION_SUBSCRIPTION,
+      variables: {
+        ...this.sessionSubject.getValue()
+      }
+    }).subscribe({
+      next: ({data}) => {
+        this.setSessions(data!.sessionDeleted.sessions)
+        this.setSession(null)
+        this.notificationService.openSnackBar(`Session: ${data?.sessionDeleted.session.name} was removed`, notificationType.SUCCESS)
+      }
+    })
+
     this.apollo.subscribe<UserJoinedSession>({
       query: USER_JOINED_SESSION,
       variables: {

@@ -17,27 +17,18 @@ const CREATE_SESSION = gql`
     }
   }
 `
-const CONNECT_SESSION_HOST = gql`
-  mutation connectHostToSession($sessionId: ID!, $userId: ID!) {
-    connectHostToSession(sessionId: $sessionId, userId: $userId) {
-      id
-      code
-      name
-      players {
-        id
-        name
-      }
-      host {
-        name
-        id
-      }
-    }
-  }
-`
 
 const CONNECT_SESSION_USER = gql`
-  mutation connectUserToSession($sessionId: ID!, $userId: ID!) {
-    connectUserToSession(sessionId: $sessionId, userId: $userId) {
+  mutation connectUserToSession(
+    $sessionId: ID!,
+    $userId: ID!
+    $userType: String!
+  ) {
+    connectUserToSession(
+      sessionId: $sessionId,
+      userId: $userId
+      userType: $userType
+    ) {
       id
       code
       name
@@ -70,7 +61,6 @@ const DELETE_SESSION = gql`
 
 export {
   CREATE_SESSION,
-  CONNECT_SESSION_HOST,
   CONNECT_SESSION_USER,
   DELETE_SESSION
 }

@@ -44,41 +44,8 @@ export const sessionResolvers = {
       return session;
     },
 
-    connectHostToSession: async (_, args) => {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: Number(args.userId)
-        }
-      })
-
-      const session = await prisma.session.update({
-        where: {
-          id: Number(args.sessionId)
-        },
-        data: {
-          host: {
-            connect: {
-              id: Number(args.userId)
-            }
-          }
-        },
-        include: {
-          players: true,
-          host: true
-        }
-      })
-
-      pubsub.publish('USER_JOINED_SESSION', {
-        userJoinedSession: {
-          session: session,
-          user: user,
-        }
-      })
-
-      return session
-    },
-
     connectUserToSession: async (_, args) => {
+      const userIsHost = args.userType === 'host'
       const user = await prisma.user.findUnique({
         where: {
           id: Number(args.userId)
@@ -90,6 +57,13 @@ export const sessionResolvers = {
           id: Number(args.sessionId)
         },
         data: {
+          host: userIsHost
+          ? {
+              connect: {
+                id: Number(args.userId)
+              },
+            }
+          : undefined,
           players: {
             connect: {
               id: Number(args.userId)
@@ -129,9 +103,11 @@ export const sessionResolvers = {
 
   Subscription: {
     sessionDeleted: {
-      subscribe: () => {
-        return pubsub.asyncIterator(['SESSION_DELETED'])
-      }
+      subscribe: withFilter(() => pubsub.asyncIterator('SESSION_DELETED'),
+        (payload, session) => {
+          return payload.sessionDeleted.session.id === +session.id
+        }
+      )
     },
 
     sessionCreated: {

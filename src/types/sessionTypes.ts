@@ -20,10 +20,6 @@ export type CreateSession = {
   createSession: Session;
 }
 
-export type ConnectHostToSession = {
-  connectHostToSession: Session
-}
-
 export type ConnectUserToSession = {
   connectUserToSession: Session
 }

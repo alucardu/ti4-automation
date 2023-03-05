@@ -15,8 +15,12 @@ const CREATE_SESSION_SUBSCRIPTION = gql`
 `;
 
 const DELETE_SESSION_SUBSCRIPTION = gql`
-  subscription sessionDeleted {
-    sessionDeleted {
+  subscription sessionDeleted(
+    $id: ID!
+  ) {
+    sessionDeleted(
+      id: $id
+    ) {
       session {
         name
       }
@@ -45,6 +49,7 @@ const USER_JOINED_SESSION = gql`
       session {
         id
         name
+        code
         host {
           id
           name

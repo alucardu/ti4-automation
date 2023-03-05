@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Session } from 'src/types/sessionTypes';
+import { User } from 'src/types/userTypes';
 
 @Component({
   selector: 'app-session-information',
@@ -8,4 +9,5 @@ import { Session } from 'src/types/sessionTypes';
 })
 export class SessionInformationComponent {
   @Input() session!: Session
+  @Input() user!: User
 }
