@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { SessionService } from '../session.service';
+import { SessionService, UserType } from '../session.service';
 import { UserService } from 'src/app/user/create-user/user.service';
 import { combineLatest, filter, take } from 'rxjs';
 
@@ -30,8 +30,7 @@ export class JoinSessionComponent {
       take(1)
     ).subscribe({
       next: ([user, session]) => {
-        this.sessionService.connectUserToSession(user!, session!)
-        this.sessionService.addUserToSession(session!, user!)
+        this.sessionService.connectUserToSession(user!, session!, UserType.USER)
       }
     })
   }

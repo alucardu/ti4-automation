@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { filter, take, zip } from 'rxjs';
 import { UserService } from 'src/app/user/create-user/user.service';
-  import { SessionService } from '../session.service';
+import { SessionService, UserType } from '../session.service';
 
 @Component({
   selector: 'app-create-session',
@@ -31,7 +31,7 @@ export class CreateSessionComponent {
       take(1),
     ).subscribe({
       next: ([user, session]) => {
-        this.sessionService.connectUserToSession(user!, session!)
+        this.sessionService.connectUserToSession(user!, session!, UserType.HOST);
       },
     })
   }

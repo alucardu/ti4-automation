@@ -32,14 +32,13 @@ export const sessionTypeDefs = gql`
 
   type Mutation {
     createSession(name: String!): Session
-    connectHostToSession(sessionId: ID!, userId: ID!): Session
-    connectUserToSession(sessionId: ID!, userId: ID!): Session
+    connectUserToSession(sessionId: ID!, userId: ID!, userType: String!): Session
     deleteSession(id: ID!): sessionDeleted
   }
 
   type Subscription {
     sessionCreated: Session
-    sessionDeleted: sessionDeleted
+    sessionDeleted(id: ID!): sessionDeleted
     userJoinedSession(id: ID, name: String): subscribeToSession
   }
 `;

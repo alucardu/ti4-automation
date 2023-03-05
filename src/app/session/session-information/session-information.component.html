@@ -4,6 +4,7 @@
     <span>Code: {{session.code}}</span>
     <span>Host: {{session.host?.name}}</span>
     <app-delete-session
+      *ngIf="session.host?.id === user.id"
       [session]="session"
     ></app-delete-session>
   </mat-card-content>
