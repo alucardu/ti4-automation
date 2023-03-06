@@ -13,6 +13,9 @@ Source for icons: https://fonts.google.com/icons?icon.set=Material+Icons
 ## Docker
 
 The mySQL database is running in a docker container.
+Run `docker compose up` to build the docker container.
+Run `npx migrate prisma deploy` to apply the migrations. (production)
+Also create a `.env` file for the database configuration.
 
 ## ApolloGraphQL.Studio
 
