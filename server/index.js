@@ -104,6 +104,6 @@ app.use(
 
 httpServer.listen(9000, () => {
   console.log('🚀 Server ready at', `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}/graphql`);
-  console.log(`🚀 Subscription endpoint ready at ws://${config.hostname}:${config.port}/graphql`)
+  console.log(`🚀 Subscription endpoint ready at ws${config.ssl ? 's' : ''}://${config.hostname}:${config.port}/graphql`)
 })
 
