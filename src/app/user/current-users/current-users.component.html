@@ -1,7 +1,16 @@
-<mat-card *ngIf="session.players">
+<mat-card *ngIf="session.players && showPlayers" class="containerPlayers">
   <mat-card-content *ngIf="session.players.length > 0">
     <div *ngFor="let player of session.players">
       {{ player.name }}
     </div>
   </mat-card-content>
 </mat-card>
+
+<button
+  mat-fab
+  color="accent"
+  class="togglePlayersBtn"
+  (click)="togglePlayers()"
+  *ngIf="showPlayerToggleBtn">
+  <mat-icon>face</mat-icon>
+</button>
