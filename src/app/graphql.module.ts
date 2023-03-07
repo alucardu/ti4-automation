@@ -8,7 +8,7 @@ import { createClient } from 'graphql-ws';
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   const http = httpLink.create({
-    uri: 'http://localhost:9000/graphql',
+    uri: 'http://ti4companion.com:9000/graphql',
   });
 
   const ws = new GraphQLWsLink(
