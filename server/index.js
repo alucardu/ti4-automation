@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server-express'
 import { createServer } from 'http'
+import https from 'https';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { WebSocketServer } from 'ws'
@@ -19,7 +20,17 @@ import { messageTypeDefs } from './typeDef/message.js'
 import { messageResolvers } from './resolvers/message.js'
 
 const app = express()
-const httpServer = createServer(app)
+let httpServer;
+
+if (process.env.ENVIRONMENT === 'development') {
+  httpServer = createServer(app)
+} else {
+  httpServer = https.createServer({
+    key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
+  })
+}
+
 const PORT = 9000
 
 const schema = makeExecutableSchema({
