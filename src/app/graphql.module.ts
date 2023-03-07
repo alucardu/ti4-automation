@@ -9,12 +9,12 @@ import { createClient } from 'graphql-ws';
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   const http = httpLink.create({
-    uri: `${environment.graphQLserverUri}:9000/graphql`,
+    uri: `${environment.graphQLserverUri}`,
   });
 
   const ws = new GraphQLWsLink(
     createClient({
-      url: `${environment.websocketServerUri}:9000/graphql`,
+      url: `${environment.websocketServerUri}`,
     })
   );
 
