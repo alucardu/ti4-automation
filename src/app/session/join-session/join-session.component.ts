@@ -37,12 +37,12 @@ export class JoinSessionComponent {
       return 'A session code is required';
     }
 
-    if (this.form.get('sessionCode')?.hasError('minlength')) {
-      return 'Session code must 6 charachters long';
-    }
-
     if (this.form.get('sessionCode')?.hasError('pattern')) {
       return 'Session code is a number';
+    }
+
+    if (this.form.get('sessionCode')?.hasError('minlength')) {
+      return 'Session code must 6 charachters long';
     }
 
     return null;

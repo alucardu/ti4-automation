@@ -1,4 +1,4 @@
-<div class="callToAction">
+<div class="callToAction" *ngIf="(session$ | async) === null">
   <button mat-flat-button (click)="setActionType(actionTypeEnum.JOIN)">
     Join a session
   </button>
