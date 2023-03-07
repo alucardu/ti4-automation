@@ -1,7 +1,7 @@
 import { ApolloServer } from 'apollo-server-express'
 import { createServer } from 'http'
-import https from 'https';
-import fs from 'fs';
+import { createServer as createHttpsServer } from 'https'
+import { fs as fs} from 'fs';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { WebSocketServer } from 'ws'
@@ -31,7 +31,7 @@ const configurations = {
 const config = configurations[process.env.ENVIRONMENT];
 
 if (config.ssl) {
-  httpServer = https.createServer({
+  httpServer = createHttpsServer({
     key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
   }, app)
@@ -89,8 +89,8 @@ app.use(
   '/graphql',
   cors({
     origin: [
-      // 'https://ti4companion.com',
-      // 'wss://ti4companion.com',
+      'https://ti4companion.com',
+      'wss://ti4companion.com',
 
       'http://localhost:4200',
       'ws://localhost:9000',
