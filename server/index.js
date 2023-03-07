@@ -89,8 +89,8 @@ app.use(
   '/graphql',
   cors({
     origin: [
-      'https://ti4companion.com',
-      'wss://ti4companion.com',
+      // 'https://ti4companion.com',
+      // 'wss://ti4companion.com',
 
       'http://localhost:4200',
       'ws://localhost:9000',
