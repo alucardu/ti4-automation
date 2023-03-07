@@ -22,14 +22,14 @@ import { messageResolvers } from './resolvers/message.js'
 const app = express()
 let httpServer;
 
-httpServer = createServer(app)
-// if (process.env.ENVIRONMENT === 'development') {
-// } else {
-//   httpServer = https.createServer({
-//     key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
-//     cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
-//   })
-// }
+if (process.env.ENVIRONMENT === 'development') {
+  httpServer = createServer(app)
+} else {
+  httpServer = https.createServer({
+    key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
+  })
+}
 
 const PORT = 9000
 
