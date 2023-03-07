@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SessionService, UserType } from '../session.service';
 import { UserService } from 'src/app/user/create-user/user.service';
-import { filter } from 'rxjs';
+import { filter, take, zip } from 'rxjs';
 import { GetSession } from 'src/types/sessionTypes';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { Apollo } from 'apollo-angular';
 import { User } from 'src/types/userTypes';
+import { NotificationService, notificationType } from 'src/app/material/notification.service';
 
 @Component({
   selector: 'app-join-session',
@@ -25,11 +26,23 @@ export class JoinSessionComponent {
   constructor(
     private apollo: Apollo,
     private sessionService: SessionService,
-    private userService: UserService
+    private userService: UserService,
+    private notificationService: NotificationService,
   ) {
-    this.userService.user$.subscribe({
-      next: data => this.getSession(data!, this.form.get('sessionCode')!.value),
-    });
+    zip(this.userService.user$, this.sessionService.session$)
+      .pipe(
+        filter(([user, session]) => !!user && !!session),
+        take(1)
+      )
+      .subscribe({
+        next: ([user, session]) => {
+          this.sessionService.connectUserToSession(
+            user!,
+            session!,
+            UserType.HOST
+          );
+        },
+      });
   }
 
   public getErrorMessage(): string | null {
@@ -49,10 +62,10 @@ export class JoinSessionComponent {
   }
 
   public createUserJoinSession(): void {
-    this.userService.createUser(this.form);
+    this.getSession(this.form.get('sessionCode')!.value);
   }
 
-  private getSession(user: User, sessionCode: string): void {
+  private getSession(sessionCode: string, user?: User): void {
     this.apollo
       .query<GetSession>({
         query: GET_SESSION,
@@ -60,15 +73,18 @@ export class JoinSessionComponent {
           code: sessionCode,
         },
       })
-      .pipe(filter(({ data }) => !!data.getSession))
       .subscribe({
         next: ({ data }) => {
-          this.sessionService.connectUserToSession(
-            user!,
-            data.getSession!,
-            UserType.USER
-          );
-        },
+          if(data.getSession !== null) {
+            this.userService.createUser(this.form);
+            this.sessionService.sessionSubject.next(data.getSession);
+          } else {
+            this.notificationService.openSnackBar(
+              `Session could not be found`,
+              notificationType.WARNING
+            );
+          }
+        }
       });
   }
 }
