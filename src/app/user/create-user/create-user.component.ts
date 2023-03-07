@@ -36,16 +36,16 @@ export class CreateUserComponent implements OnInit {
   }
 
   public getErrorMessage(): string | null {
-    if (this.parentForm.get('userName')?.hasError('required')) {
-      return 'A username is required';
+    if (this.parentForm.get('user')?.get('userName')?.hasError('required')) {
+      return 'Name is required';
     }
 
-    if (this.parentForm.get('userName')?.hasError('minlength')) {
-      return 'User name must at least 3 charachters long';
+    if (this.parentForm.get('user')?.get('userName')?.hasError('minlength')) {
+      return 'Name must be at least 3 charachters long';
     }
 
-    if (this.parentForm.get('userName')?.hasError('maxlength')) {
-      return 'User name cannot be longer than 8 characters';
+    if (this.parentForm.get('user')?.get('userName')?.hasError('maxlength')) {
+      return 'Name cannot be longer than 8 characters';
     }
 
     return null;

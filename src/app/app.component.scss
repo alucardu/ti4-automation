@@ -1,7 +1,13 @@
+$phone: 600px;
+
 .chatContainer {
   display: flex;
   flex-direction: row;
+  flex: 1;
   app-current-users {
+    @media screen and (max-width: $phone) {
+      display: none;
+    }
   }
 }
 
@@ -9,14 +15,27 @@
   display: flex;
   flex-direction: column;
   width: 75%;
+  @media screen and (max-width: $phone) {
+    width: 100%;
+  }
 }
 
 .callToAction {
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
+  gap: 1rem;
+  @media screen and (max-width: $phone) {
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  &.sessionStarted {
+    display: none;
+  }
   button {
-    margin-right: 2rem;
     padding: 3rem;
+    @media screen and (max-width: $phone) {
+      width: 100%;
+    }
   }
 }

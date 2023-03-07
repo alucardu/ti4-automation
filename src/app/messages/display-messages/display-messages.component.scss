@@ -1,9 +1,18 @@
+$phone: 600px;
+
+:host {
+  display: flex;
+  flex: 1;
+  .mdc-card {
+    flex: 1;
+  }
+}
+
 .messagesContainer {
   display: flex;
   flex-direction: column;
-  min-height: 420px;
-  max-height: 420px;
   overflow-y: auto;
+  flex: 1;
   &::-webkit-scrollbar {
     width: 8px;
   }

@@ -1,6 +1,19 @@
+$phone: 600px;
+
 .containerInfo {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
+
+  @media screen and (max-width: $phone) {
+    span:first-child {
+      width: 100%;
+    }
+
+    span:not(:first-child) {
+      flex: 1;
+    }
+  }
 }

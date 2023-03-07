@@ -47,7 +47,7 @@ export class CreateSessionComponent {
     }
 
     if (this.form.get('sessionName')?.hasError('minlength')) {
-      return 'Session name must be between 4 and 16 charachters long';
+      return 'Session name must be at least 4 charachters';
     }
 
     if (this.form.get('sessionName')?.hasError('maxlength')) {
