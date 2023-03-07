@@ -73,6 +73,7 @@ app.use(
   cors({
     origin: [
       'http://ti4companion.com',
+      'https://ti4companion.com',
       'wss://ti4companion.com',
       'http://localhost:4200',
       'wss://localhost:9000',
