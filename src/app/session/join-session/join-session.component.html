@@ -7,6 +7,7 @@
           matInput
           #input
           maxlength="6"
+          type="tel"
           (keyup.enter)="createUserJoinSession()"
           formControlName="sessionCode" />
         <mat-hint align="end">{{ input.value.length }}/6</mat-hint>
