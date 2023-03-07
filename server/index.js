@@ -34,10 +34,9 @@ if (config.ssl) {
   httpServer = https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
-  })
+  }, app)
 } else {
   httpServer = createServer(app)
-
 }
 
 const schema = makeExecutableSchema({
