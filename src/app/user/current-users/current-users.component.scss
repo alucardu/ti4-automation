@@ -1,12 +1,34 @@
+$phone: 600px;
+
 :host {
   width: 25%;
   margin-right: 2rem;
+  @media screen and (max-width: $phone) {
+    margin: 0
+  }
+}
+
+.togglePlayersBtn {
+  position: absolute;
+  z-index: 1;
+  right: -6px;
+  top: -6px;
+  height: 28px;
+  width: 28px;
+}
+
+.containerPlayers {
+  @media screen and (max-width: $phone) {
+    background: #69f0ae;
+    position: absolute;
+    z-index: 1;
+    width: 50%;
+  }
 }
 
 mat-card-content {
   display: flex;
   flex-direction: column;
-  max-height: 40vh;
   overflow: auto;
   &::-webkit-scrollbar {
     width: 8px;

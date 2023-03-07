@@ -11,10 +11,8 @@
 </div>
 
 <app-join-session
-  *ngIf="
-    actionType === actionTypeEnum.JOIN && (session$ | async) === null
-  "></app-join-session>
-
+  *ngIf="actionType === actionTypeEnum.JOIN && (session$ | async) === null">
+</app-join-session>
 <ng-container *ngIf="actionType === actionTypeEnum.ACTIVE">
   <ng-container *ngIf="user$ | async as user">
     <ng-container *ngIf="session$ | async as session">

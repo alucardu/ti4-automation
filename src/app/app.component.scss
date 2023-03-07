@@ -4,11 +4,7 @@ $phone: 600px;
   display: flex;
   flex-direction: row;
   flex: 1;
-  app-current-users {
-    @media screen and (max-width: $phone) {
-      display: none;
-    }
-  }
+  position: relative;
 }
 
 .messageContainer {
