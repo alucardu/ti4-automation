@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { environment } from './../environments/environment';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { ApolloClientOptions, InMemoryCache, split } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
@@ -8,12 +9,12 @@ import { createClient } from 'graphql-ws';
 
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
   const http = httpLink.create({
-    uri: 'http://ti4companion.com:9000/graphql',
+    uri: `http://${environment.serverUri}:9000/graphql`,
   });
 
   const ws = new GraphQLWsLink(
     createClient({
-      url: 'ws://ti4companion.com:9000/graphql',
+      url: `ws://${environment.serverUri}:9000/graphql`,
     })
   );
 
