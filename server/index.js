@@ -72,9 +72,11 @@ app.use(
   '/graphql',
   cors({
     origin: [
+      'http://ti4companion.com',
+      'ws://ti4companion.com',
       'http://localhost:4200',
-      'https://studio.apollographql.com',
       'ws://localhost:9000',
+      'https://studio.apollographql.com',
     ],
   }),
   bodyParser.json()
