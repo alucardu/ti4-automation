@@ -40,8 +40,6 @@ if (config.ssl) {
 
 }
 
-const PORT = 9000
-
 const schema = makeExecutableSchema({
   typeDefs: [sessionTypeDefs, userTypeDefs, messageTypeDefs],
   resolvers: [sessionResolvers, userResolvers, messageResolvers],
@@ -104,8 +102,8 @@ app.use(
   bodyParser.json()
 )
 
-httpServer.listen(PORT, () => {
+httpServer.listen(9000, () => {
   console.log('🚀 Server ready at', `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}/graphql`);
-  console.log(`🚀 Subscription endpoint ready at ws://localhost:${PORT}/graphql`)
+  console.log(`🚀 Subscription endpoint ready at ws://${config.hostname}:${config.port}/graphql`)
 })
 
