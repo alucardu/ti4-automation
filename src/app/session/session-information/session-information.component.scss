@@ -6,6 +6,12 @@ $phone: 600px;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
+  .code {
+    background: #666464;
+    padding: 0.25rem;
+    border-radius: 4px;
+    cursor: grab;
+  }
 
   @media screen and (max-width: $phone) {
     span:first-child {

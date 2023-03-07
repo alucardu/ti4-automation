@@ -61,6 +61,10 @@ body {
   &.success {
     --mdc-snackbar-container-color: #43a446;
   }
+
+  &.info {
+    --mdc-snackbar-container-color: #1f9bb9;
+  }
 }
 
 .inputContainerWithButton {

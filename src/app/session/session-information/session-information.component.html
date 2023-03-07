@@ -1,7 +1,10 @@
 <mat-card>
   <mat-card-content class="containerInfo">
     <span>Session: {{ session.name }}</span>
-    <span>Code: {{ session.code }}</span>
+    <span>
+      Code:
+      <span class="code" (click)="copyCode()">{{ session.code }}</span>
+    </span>
     <span>Host: {{ session.host?.name }}</span>
     <app-delete-session
       *ngIf="session.host?.id === user.id"

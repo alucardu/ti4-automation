@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export enum notificationType {
   WARNING = 'warning',
   SUCCESS = 'success',
+  INFO = 'info'
 }
 
 @Injectable({
