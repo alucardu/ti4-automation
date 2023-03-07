@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  serverUri: 'localhost'
+  graphQLserverUri: 'http://localhost',
+  websocketServerUri: 'ws://localhost'
 };

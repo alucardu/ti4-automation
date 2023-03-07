@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  serverUri: 'ti4companion.com'
+  graphQLserverUri: 'http://ti4companion.com',
+  websocketServerUri: 'wss://ti4companion.com'
 };

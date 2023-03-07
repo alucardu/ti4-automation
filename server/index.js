@@ -73,9 +73,9 @@ app.use(
   cors({
     origin: [
       'http://ti4companion.com',
-      'ws://ti4companion.com',
+      'wss://ti4companion.com',
       'http://localhost:4200',
-      'ws://localhost:9000',
+      'wss://localhost:9000',
       'https://studio.apollographql.com',
     ],
   }),
