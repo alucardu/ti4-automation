@@ -22,14 +22,14 @@ import { messageResolvers } from './resolvers/message.js'
 const app = express()
 let httpServer;
 
-if (process.env.ENVIRONMENT === 'development') {
-  httpServer = createServer(app)
-} else {
-  httpServer = https.createServer({
-    key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
-  })
-}
+httpServer = createServer(app)
+// if (process.env.ENVIRONMENT === 'development') {
+// } else {
+//   httpServer = https.createServer({
+//     key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
+//     cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
+//   })
+// }
 
 const PORT = 9000
 
@@ -83,11 +83,12 @@ app.use(
   '/graphql',
   cors({
     origin: [
-      'http://ti4companion.com',
       'https://ti4companion.com',
       'wss://ti4companion.com',
+
       'http://localhost:4200',
-      'wss://localhost:9000',
+      'ws://localhost:9000',
+
       'https://studio.apollographql.com',
     ],
   }),
