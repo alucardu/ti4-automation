@@ -23,13 +23,21 @@ import { messageResolvers } from './resolvers/message.js'
 const app = express()
 let httpServer;
 
-if (process.env.ENVIRONMENT === 'development') {
-  httpServer = createServer(app)
-} else {
+const configurations = {
+  production: { ssl: true, port: 9000, hostname: 'ti4companion.com' },
+  development: { ssl: false, port: 9000, hostname: 'localhost' },
+};
+
+const config = configurations[process.env.ENVIRONMENT];
+
+if (config.ssl) {
   httpServer = https.createServer({
     key: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/privkey.pem'),
     cert: fs.readFileSync('/etc/letsencrypt/live/ti4companion.com/fullchain.pem'),
   })
+} else {
+  httpServer = createServer(app)
+
 }
 
 const PORT = 9000
@@ -97,8 +105,7 @@ app.use(
 )
 
 httpServer.listen(PORT, () => {
-  console.log(`🚀 Query endpoint ready at http://localhost:${PORT}/graphql`)
-  console.log(
-    `🚀 Subscription endpoint ready at ws://localhost:${PORT}/graphql`
-  )
+  console.log('🚀 Server ready at', `http${config.ssl ? 's' : ''}://${config.hostname}:${config.port}/graphql`);
+  console.log(`🚀 Subscription endpoint ready at ws://localhost:${PORT}/graphql`)
 })
+
