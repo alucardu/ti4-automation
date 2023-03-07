@@ -14,7 +14,7 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<unknown> {
 
   const ws = new GraphQLWsLink(
     createClient({
-      url: `ws://${environment.serverUri}:9000/graphql`,
+      url: `wss://${environment.serverUri}:9000/graphql`,
     })
   );
 
