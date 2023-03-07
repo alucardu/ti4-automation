@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server-express'
 import { createServer } from 'http'
 import https from 'https';
+import fs from 'fs';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { WebSocketServer } from 'ws'
