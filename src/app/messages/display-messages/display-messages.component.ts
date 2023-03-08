@@ -12,7 +12,7 @@ import { GetMessages } from 'src/types/messageTypes';
 })
 export class DisplayMessagesComponent implements OnInit, AfterViewInit {
   @Input() session!: Session;
-  @ViewChild('messagesContainer', {read: ElementRef}) messagesContainer!: ElementRef;
+  @ViewChild('messagesContainer', {static: false, read: ElementRef}) messagesContainer!: ElementRef;
 
   protected messages$ = this.messageService.messages$;
 
@@ -29,8 +29,16 @@ export class DisplayMessagesComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
-      this.renderer.setStyle(this.el.nativeElement, "max-height", `${this.messagesContainer.nativeElement.offsetHeight}px`);
+      this.renderer.setStyle(this.el.nativeElement, "max-height", `${this.messagesContainer.nativeElement.offsetHeight+16}px`);
     });
+    this.messageService.messages$.pipe(
+    ).subscribe(({
+      next: () => {
+        if (this.isUserNearBottom()) {
+          this.scrollToBottomOfChat();
+        }
+      }
+    }));
   }
 
   public getMessages(session: Session): void {
@@ -44,5 +52,23 @@ export class DisplayMessagesComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: ({ data }) => this.messageService.setMessages(data.getMessages),
       });
+  }
+
+  private scrollToBottomOfChat(): void {
+    setTimeout(() => {
+      this.messagesContainer.nativeElement.scroll({
+        top: this.messagesContainer.nativeElement.scrollHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  private isUserNearBottom(): boolean {
+    const threshold = 150;
+    const position = this.messagesContainer.nativeElement.scrollTop + this.messagesContainer.nativeElement.offsetHeight;
+    const height = this.messagesContainer.nativeElement.scrollHeight;
+
+    return position > (height - threshold);
   }
 }
