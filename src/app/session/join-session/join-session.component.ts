@@ -39,7 +39,7 @@ export class JoinSessionComponent {
           this.sessionService.connectUserToSession(
             user!,
             session!,
-            UserType.HOST
+            UserType.USER
           );
         },
       });
@@ -65,7 +65,7 @@ export class JoinSessionComponent {
     this.getSession(this.form.get('sessionCode')!.value);
   }
 
-  private getSession(sessionCode: string, user?: User): void {
+  private getSession(sessionCode: string): void {
     this.apollo
       .query<GetSession>({
         query: GET_SESSION,
