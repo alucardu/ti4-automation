@@ -24,6 +24,8 @@ export class CreateMessageComponent {
   constructor(private apollo: Apollo, private messageService: MessageService) {}
 
   public sendMessage(): void {
+    if (this.message.invalid) return;
+
     this.apollo
       .mutate<CreateMessage>({
         mutation: CREATE_MESSAGE,

@@ -6,7 +6,6 @@ import { filter, take, zip } from 'rxjs';
 import { GetSession } from 'src/types/sessionTypes';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { Apollo } from 'apollo-angular';
-import { User } from 'src/types/userTypes';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
 
 @Component({
@@ -62,6 +61,8 @@ export class JoinSessionComponent {
   }
 
   public createUserJoinSession(): void {
+    if (this.form.invalid) return;
+
     this.getSession(this.form.get('sessionCode')!.value);
   }
 
