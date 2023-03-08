@@ -58,6 +58,8 @@ export class CreateSessionComponent {
   }
 
   public createUserAndSession(): void {
+    if (this.form.invalid) return;
+
     this.userService.createUser(this.form);
     this.sessionService.createSession(this.form);
   }
