@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { GET_MESSAGES } from 'src/operations/messageOperations/queries';
 import { Session } from 'src/types/sessionTypes';
@@ -12,6 +12,7 @@ import { GetMessages } from 'src/types/messageTypes';
 })
 export class DisplayMessagesComponent implements OnInit, AfterViewInit {
   @Input() session!: Session;
+  @ViewChild('messagesContainer', {read: ElementRef}) messagesContainer!: ElementRef;
 
   protected messages$ = this.messageService.messages$;
 
@@ -28,7 +29,7 @@ export class DisplayMessagesComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     setTimeout(() => {
-      this.renderer.setStyle(this.el.nativeElement, "max-height", `${this.el.nativeElement.offsetHeight}px`);
+      this.renderer.setStyle(this.el.nativeElement, "max-height", `${this.messagesContainer.nativeElement.offsetHeight}px`);
     });
   }
 

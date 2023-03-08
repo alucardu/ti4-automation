@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-content class="messagesContainer">
+  <mat-card-content class="messagesContainer" #messagesContainer>
     <div *ngFor="let message of messages$ | async as messages">
       <span class="userName">{{ message.user.name }}:</span>
       {{ message.message }}
