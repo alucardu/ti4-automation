@@ -35,7 +35,7 @@ Run: `npm run prismaStudio` to see the data in the database.
 
 ## Prisma production
 
-Run `npx prisma migrate deploy` to deploy migration on the production server
+Run `npx prisma migrate deploy` to run migration on the production server
 
 ## How to run .ts files on NodeJS
 

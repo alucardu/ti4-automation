@@ -144,7 +144,11 @@ export class SessionService {
       }
     }).subscribe({
       next: ({ data }) => {
-        console.log(data);
+        const session = this.sessionSubject.getValue()!;
+        session.players = session?.players.filter((player) => player.id == data?.userDeleted.id);
+
+        this.updateSessionUsers(session!);
+
         this.notificationService.openSnackBar(
           `${data?.userDeleted.name} has left the session`,
           notificationType.SUCCESS
