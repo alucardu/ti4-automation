@@ -1,9 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import {
-  NotificationService,
-  notificationType,
-} from 'src/app/material/notification.service';
+import { NotificationService,  notificationType } from 'src/app/material/notification.service';
 import { DELETE_SESSION } from 'src/operations/sessionOperations/mutations';
 import { DeleteSession, Session } from 'src/types/sessionTypes';
 import { SessionService } from '../session.service';
@@ -23,22 +20,20 @@ export class DeleteSessionComponent {
   ) {}
 
   public deleteSession(index: number): void {
-    this.apollo
-      .mutate<DeleteSession>({
-        mutation: DELETE_SESSION,
-        variables: {
-          id: index,
-        },
-      })
-      .subscribe({
-        next: ({ data }) => {
-          this.notificationService.openSnackBar(
-            `Removed session: ${data?.deleteSession.session.name}`,
-            notificationType.SUCCESS
-          );
-          this.sessionService.setSessions(data!.deleteSession.sessions);
-          this.sessionService.setSession(null);
-        },
-      });
+    this.apollo.mutate<DeleteSession>({
+      mutation: DELETE_SESSION,
+      variables: {
+        id: index,
+      },
+    }).subscribe({
+      next: ({ data }) => {
+        this.notificationService.openSnackBar(
+          `Removed session: ${data?.deleteSession.session.name}`,
+          notificationType.SUCCESS
+        );
+        this.sessionService.setSessions(data!.deleteSession.sessions);
+        this.sessionService.setSession(null);
+      },
+    });
   }
 }

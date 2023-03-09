@@ -28,7 +28,7 @@ model Session {
   code     String    @unique
   players  User[]
   messages Message[]
-  host     User?     @relation(name: "sessionHost", fields: [userId], references: [id], onDelete: Cascade)
+  host     User?     @relation(name: "sessionHost", fields: [userId], references: [id])
   userId   Int?      @unique
 }
 

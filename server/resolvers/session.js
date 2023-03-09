@@ -98,9 +98,7 @@ export const sessionResolvers = {
 
       const sessions = await prisma.session.findMany()
 
-      pubsub.publish('SESSION_DELETED', {
-        sessionDeleted: { session, sessions },
-      })
+      pubsub.publish('SESSION_DELETED', { sessionDeleted: { session, sessions } })
 
       return { session, sessions }
     },

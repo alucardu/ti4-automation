@@ -49,3 +49,7 @@ export type UserJoinedSession = {
     session: Session
   }
 }
+
+export type UserLeftSession = {
+  userDeleted: User
+}

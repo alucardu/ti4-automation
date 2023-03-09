@@ -52,12 +52,19 @@ const wsServer = new WebSocketServer({
 const serverCleanup = useServer(
   {
     schema,
-    onConnect: async () => {
-      console.log('User connected')
+    onClose(ctx) {
+      if (ctx.extra.userId === undefined) return;
+
+      userResolvers.Mutation.deleteUser({
+        id: ctx.extra.userId,
+      })
     },
-    onDisconnect() {
-      console.log('User disconnected')
-    },
+    context(ctx, msg) {
+      if (msg?.payload?.operationName === 'userCreated') {
+
+        ctx.extra.userId = msg.payload.variables.id
+      }
+    }
   },
   wsServer
 )

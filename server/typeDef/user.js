@@ -9,5 +9,11 @@ export const userTypeDefs = gql`
 
   type Mutation {
     createUser(name: String!, sessionId: ID): User
+    deleteUser(id: ID): User
+  }
+
+  type Subscription {
+    userCreated(id: ID, name: String): Session
+    userDeleted(id: ID): User
   }
 `
