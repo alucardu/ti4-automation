@@ -14,7 +14,7 @@ Source for icons: https://fonts.google.com/icons?icon.set=Material+Icons
 
 The mySQL database is running in a docker container.
 1. Run `docker compose up -d` to build the docker container.
-2. Run `npx migrate prisma deploy` to apply the migrations. (production)
+2. Run `npx migrate prisma deploy` to apply the migrations. (development)
 3. Also create a `.env` file for the database configuration.
 
 ## ApolloGraphQL.Studio
@@ -33,6 +33,10 @@ Run `npm run startServer` to start the graphQL server.
 
 Run: `npm run prismaStudio` to see the data in the database.
 
+## Prisma production
+
+Run `npx prisma migrate deploy` to deploy migration on the production server
+
 ## How to run .ts files on NodeJS
 
 Run `ts-node --esm ./my-script.ts` to run a TypeScript file on a NodeJS environment.
@@ -45,7 +49,7 @@ Run `ts-node --esm ./my-script.ts` to run a TypeScript file on a NodeJS environm
 ## Server commands
 
  - `sudo nano /etc/nginx/sites-available/ti4companion.com`
- - `sudo systemctl restart nginx`
  - `pm2 restart all` 
+ - `sudo systemctl restart nginx`
  - `sudo nginx -t`
  - `nano /var/log/nginx/error.log`
