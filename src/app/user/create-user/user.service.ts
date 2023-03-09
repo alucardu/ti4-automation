@@ -5,6 +5,7 @@ import { GraphQLError } from 'graphql';
 import { BehaviorSubject } from 'rxjs';
 import { NotificationService, notificationType } from 'src/app/material/notification.service';
 import { CREATE_USER } from 'src/operations/userOperations/mutations';
+import { USER_CREATED_SUBSCRIPTION } from 'src/operations/userOperations/subscriptions';
 import { CreateUser, User } from 'src/types/userTypes';
 
 @Injectable({
@@ -20,24 +21,34 @@ export class UserService {
   ) {}
 
   public createUser(form: FormGroup): void {
-    this.apollo
-      .mutate<CreateUser>({
-        mutation: CREATE_USER,
-        variables: {
-          name: form.controls['user'].get('userName')?.value,
-        },
-      })
-      .subscribe({
-        next: ({ data }) => this.setUser(data!.createUser),
-        error: (e: GraphQLError) =>
-          this.notificationService.openSnackBar(
-            { ...e }.message,
-            notificationType.WARNING
-          ),
-      });
+    this.apollo.mutate<CreateUser>({
+      mutation: CREATE_USER,
+      variables: {
+        name: form.controls['user'].get('userName')?.value,
+      },
+    }).subscribe({
+      next: ({ data }) => {
+        this.setUser(data!.createUser);
+        this.subscribeToUsers(data!.createUser);
+      },
+      error: (e: GraphQLError) =>
+        this.notificationService.openSnackBar(
+          { ...e }.message,
+          notificationType.WARNING
+        ),
+    });
   }
 
   public setUser(user: User | null): void {
     this.userSubject.next(user);
+  }
+
+  private subscribeToUsers(user: User): void {
+    this.apollo.subscribe({
+      query: USER_CREATED_SUBSCRIPTION,
+      variables: {
+        ...user
+      }
+    });
   }
 }
