@@ -145,7 +145,7 @@ export class SessionService {
     }).subscribe({
       next: ({ data }) => {
         const session = this.sessionSubject.getValue()!;
-        session.players = session?.players.filter((player) => player.id == data?.userDeleted.id);
+        session.players = session?.players.filter((player) => player.id !== data?.userDeleted.id);
 
         this.updateSessionUsers(session!);
 
