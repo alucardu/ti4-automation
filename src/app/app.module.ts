@@ -10,7 +10,7 @@ import { MaterialModule } from './material/material/material.module';
 import { CreateMessageComponent } from './messages/create-message/create-message.component';
 import { DisplayMessagesComponent } from './messages/display-messages/display-messages.component';
 import { CreateSessionComponent } from './session/create-session/create-session.component';
-import { DeleteSessionComponent } from './session/delete-session/delete-session.component';
+import { DeleteSessionComponent, DialogDeleteSessionComponent } from './session/delete-session/delete-session.component';
 import { JoinSessionComponent } from './session/join-session/join-session.component';
 import { SessionInformationComponent } from './session/session-information/session-information.component';
 import { CreateUserComponent } from './user/create-user/create-user.component';
@@ -27,6 +27,7 @@ import { CurrentusersComponent } from './user/current-users/current-users.compon
     DisplayMessagesComponent,
     DeleteSessionComponent,
     SessionInformationComponent,
+    DialogDeleteSessionComponent
   ],
   imports: [
     BrowserModule,
