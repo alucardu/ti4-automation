@@ -50,6 +50,10 @@ body {
   }
 }
 
+.cdk-global-scrollblock {
+  overflow: hidden;
+}
+
 .mat-mdc-snack-bar-container {
   --mat-mdc-snack-bar-button-color: #ffffff;
   --mdc-snackbar-supporting-text-color: #ffffff;
