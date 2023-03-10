@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Apollo } from 'apollo-angular';
 import { NotificationService,  notificationType } from 'src/app/material/notification.service';
 import { DELETE_SESSION } from 'src/operations/sessionOperations/mutations';
@@ -16,10 +17,21 @@ export class DeleteSessionComponent {
   constructor(
     private apollo: Apollo,
     private notificationService: NotificationService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private dialog: MatDialog
   ) {}
 
-  public deleteSession(index: number): void {
+  public openDeleteDialog(session: Session): void {
+    const dialogRef = this.dialog.open(DialogDeleteSessionComponent, {
+      data: {...session},
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if(result) this.deleteSession(session.id);
+    });
+  }
+
+  private deleteSession(index: number): void {
     this.apollo.mutate<DeleteSession>({
       mutation: DELETE_SESSION,
       variables: {
@@ -36,4 +48,15 @@ export class DeleteSessionComponent {
       },
     });
   }
+}
+
+@Component({
+  selector: 'app-dialog-delete-session',
+  templateUrl: 'dialog-delete-session.html',
+})
+export class DialogDeleteSessionComponent {
+  constructor(
+    public dialogRef: MatDialogRef<DialogDeleteSessionComponent>,
+    @Inject(MAT_DIALOG_DATA) public session: Session,
+  ) {}
 }
