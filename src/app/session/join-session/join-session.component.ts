@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SessionService, UserType } from '../session.service';
 import { UserService } from 'src/app/user/create-user/user.service';
-import { filter, take, zip } from 'rxjs';
+import { filter, Subscription, take, zip } from 'rxjs';
 import { GetSession } from 'src/types/sessionTypes';
 import { GET_SESSION } from 'src/operations/sessionOperations/queries';
 import { Apollo } from 'apollo-angular';
@@ -13,7 +13,7 @@ import { NotificationService, notificationType } from 'src/app/material/notifica
   templateUrl: './join-session.component.html',
   styleUrls: ['./join-session.component.scss'],
 })
-export class JoinSessionComponent {
+export class JoinSessionComponent implements OnDestroy {
   public form: FormGroup = new FormGroup({
     sessionCode: new FormControl('', [
       Validators.required,
@@ -22,25 +22,25 @@ export class JoinSessionComponent {
     ]),
   });
 
+  private zip$!: Subscription;
+
   constructor(
     private apollo: Apollo,
     private sessionService: SessionService,
     private userService: UserService,
     private notificationService: NotificationService,
   ) {
-    zip(this.userService.user$, this.sessionService.session$)
+    this.zip$ = zip(this.userService.user$, this.sessionService.session$)
       .pipe(
         filter(([user, session]) => !!user && !!session),
         take(1)
       )
       .subscribe({
         next: ([user, session]) => {
-          this.sessionService.connectUserToSession(
-            user!,
-            session!,
-            UserType.USER
-          );
+          this.sessionService.connectUserToSession(user!, session!, UserType.USER);
         },
+        error: (err) => console.log(err),
+        complete: () => console.log('complete')
       });
   }
 
@@ -77,7 +77,8 @@ export class JoinSessionComponent {
       .subscribe({
         next: ({ data }) => {
           if(data.getSession !== null) {
-            this.userService.createUser(this.form);
+            console.log('connect to user');
+            this.userService.createUser(this.form, data.getSession);
             this.sessionService.sessionSubject.next(data.getSession);
           } else {
             this.notificationService.openSnackBar(
@@ -87,5 +88,11 @@ export class JoinSessionComponent {
           }
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    setTimeout(() => {
+      this.zip$?.unsubscribe();
+    }, 100);
   }
 }
