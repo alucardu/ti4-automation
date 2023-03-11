@@ -53,3 +53,8 @@ Run `ts-node --esm ./my-script.ts` to run a TypeScript file on a NodeJS environm
  - `sudo systemctl restart nginx`
  - `sudo nginx -t`
  - `nano /var/log/nginx/error.log`
+
+## Docker commands
+
+ - `docker exec -it ti4-automation-mysql-1 bash`
+ - `mysql -u root -p ti4-automation`

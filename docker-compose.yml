@@ -1,13 +1,13 @@
-version: '3.9'
-services:
-  mysql:
-    image: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${DOCKER_PASSWORD}
-    volumes:
-      - ./mysql-data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+  version: '3.9'
+  services:
+    mysql:
+      image: mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${DOCKER_PASSWORD}
+      volumes:
+        - ./mysql-data:/var/lib/mysql
+      ports:
+        - "3306:3306"

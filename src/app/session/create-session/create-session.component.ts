@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter, take, zip } from 'rxjs';
+import { filter, Subscription, take, zip } from 'rxjs';
 import { UserService } from 'src/app/user/create-user/user.service';
 import { SessionService, UserType } from '../session.service';
 
@@ -9,7 +9,7 @@ import { SessionService, UserType } from '../session.service';
   templateUrl: './create-session.component.html',
   styleUrls: ['./create-session.component.scss'],
 })
-export class CreateSessionComponent {
+export class CreateSessionComponent implements OnDestroy {
   public form: FormGroup = new FormGroup({
     sessionName: new FormControl('', [
       Validators.required,
@@ -18,6 +18,8 @@ export class CreateSessionComponent {
     ]),
   });
 
+  private zip$: Subscription;
+
   constructor(
     private userService: UserService,
     private sessionService: SessionService
@@ -25,7 +27,7 @@ export class CreateSessionComponent {
     this.sessionService.setSession(null);
     this.userService.setUser(null);
 
-    zip(this.userService.user$, this.sessionService.session$)
+    this.zip$ = zip(this.userService.user$, this.sessionService.session$)
       .pipe(
         filter(([user, session]) => !!user && !!session),
         take(1)
@@ -62,5 +64,9 @@ export class CreateSessionComponent {
 
     this.userService.createUser(this.form);
     this.sessionService.createSession(this.form);
+  }
+
+  ngOnDestroy(): void {
+    this.zip$.unsubscribe();
   }
 }

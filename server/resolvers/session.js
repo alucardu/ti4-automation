@@ -84,8 +84,9 @@ export const sessionResolvers = {
           },
         })
         return session
-      } catch {
-        throw new Error(`Username ${args.name} already exists`)
+      } catch(e) {
+        console.log(e)
+        throw new Error(e)
       }
     },
 

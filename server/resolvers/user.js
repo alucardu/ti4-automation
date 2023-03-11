@@ -19,11 +19,30 @@ export const userResolvers = {
 
         return user
       } catch(e) {
-        console.log('user record not found')
+        console.log(e)
+        throw new Error (e)
       }
     },
 
     createUser: async (_, args) => {
+      if (args.sessionId)  {
+        const session = await prisma.session.findUnique({
+          where: {
+            id: +args.sessionId
+          },
+          include: {
+            players: true
+          }
+        })
+
+        const nameIsDuplicate = session.players.some((player) => player.name === args.name)
+
+        if (nameIsDuplicate) {
+          throw new Error(`Username ${args.name} already exists`)
+        }
+
+      }
+
       const user = prisma.user.create({
         data: {
           name: args.name,

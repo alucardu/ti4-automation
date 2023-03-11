@@ -69,9 +69,9 @@ export class SessionService {
         this.subscribeToSession();
         this.messageService.subscribeToMessages(session!);
       },
-      error: () => {
+      error: (e) => {
         this.notificationService.openSnackBar(
-          `Username ${user.name} is already in use`,
+          { ...e }.message,
           notificationType.WARNING
         );
       },
