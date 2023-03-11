@@ -40,7 +40,6 @@ export class JoinSessionComponent implements OnDestroy {
           this.sessionService.connectUserToSession(user!, session!, UserType.USER);
         },
         error: (err) => console.log(err),
-        complete: () => console.log('complete')
       });
   }
 
@@ -77,7 +76,6 @@ export class JoinSessionComponent implements OnDestroy {
       .subscribe({
         next: ({ data }) => {
           if(data.getSession !== null) {
-            console.log('connect to user');
             this.userService.createUser(this.form, data.getSession);
             this.sessionService.sessionSubject.next(data.getSession);
           } else {
